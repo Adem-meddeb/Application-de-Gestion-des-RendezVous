@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
+import { ContactService } from '../Services/contact.service';
 
 interface Message {
   id: number;
@@ -22,33 +23,25 @@ export class ContactComponent {
   displayedColumns: string[] = ['senderName', 'senderEmail', 'subject', 'date'];
   dataSource: MatTableDataSource<Message>;
 
-  messages: Message[] = [
-    {
-      id: 1,
-      senderName: 'Jean Dupont',
-      senderEmail: 'jean.dupont@example.com',
-      content: 'Bonjour, je souhaite prendre rendez-vous...',
-      date: new Date('2024-03-15'),
-      subject: 'Demande de rendez-vous'
-    },
-    {
-      id: 2,
-      senderName: 'Marie Curie',
-      senderEmail: 'marie.curie@example.com',
-      content: 'Question concernant les résultats...',
-      date: new Date('2024-03-16'),
-      subject: 'Question médicale'
-    }
-  ];
-
-  constructor(private dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(this.messages);
+  constructor(
+    private dialog: MatDialog,
+    private contactService: ContactService
+  ) {
+    this.dataSource = new MatTableDataSource(this.contactService.getMessages());
   }
 
   openMessageDetail(message: Message): void {
-    this.dialog.open(ContactDetailsComponent, {
-      width: '600px',
-      data: { message }
-    });
+    const fullMessage = this.contactService.getMessageById(message.id);
+    if (fullMessage) {
+      this.dialog.open(ContactDetailsComponent, {
+        width: '600px',
+        data: { message: fullMessage }
+      });
+    }
+  }
+
+  deleteMessage(id: number): void {
+    this.contactService.deleteMessage(id);
+    this.dataSource.data = this.contactService.getMessages();
   }
 }

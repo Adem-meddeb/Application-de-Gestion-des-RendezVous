@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
 import { NotificationDetailsComponent } from '../notification-details/notification-details.component';
 import { MatDialog } from '@angular/material/dialog';
-
-
-interface Notification {
-  id: number;
-  title: string;
-  message: string;
-  date: Date;
-  read: boolean;
-}
+import { NotificationService } from '../Services/notification.service';
+import { Notification } from '../notification.model';
 
 @Component({
   selector: 'app-notification',
@@ -18,26 +11,14 @@ interface Notification {
   styleUrl: './notification.component.css'
 })
 export class NotificationComponent {
-  notifications: Notification[] = [
-    {
-      id: 1,
-      title: 'Nouveau message',
-      message: 'Vous avez reçu un nouveau message de la part de Jean Dupont',
-      date: new Date('2024-03-15'),
-      read: false
-    },
-    {
-      id: 2,
-      title: 'Mise à jour système',
-      message: 'Une mise à jour critique est disponible pour votre application',
-      date: new Date('2024-03-14'),
-      read: true
-    }
-  ];
+  notifications: Notification[];
 
-  constructor(private dialog: MatDialog) { }
-
-  ngOnInit(): void { }
+  constructor(
+    private dialog: MatDialog,
+    private notificationService: NotificationService
+  ) {
+    this.notifications = this.notificationService.getNotifications();
+  }
 
   openNotification(notification: Notification): void {
     this.dialog.open(NotificationDetailsComponent, {
@@ -45,11 +26,10 @@ export class NotificationComponent {
       data: notification
     });
 
-    // Marquer comme lu (optionnel)
-    notification.read = true;
+    this.notificationService.markAsRead(notification.id);
   }
 
-  public unreadCount(): number {
-    return this.notifications.filter(notification => !notification.read).length;
+  unreadCount(): number {
+    return this.notificationService.getUnreadCount();
   }
 }

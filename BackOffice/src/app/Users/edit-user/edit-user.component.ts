@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, ViewChild } fr
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import L from 'leaflet';
-import { User } from '../user-list/user-list.component';
+import { User } from '../User.model';
 
 @Component({
   selector: 'app-edit-user',
