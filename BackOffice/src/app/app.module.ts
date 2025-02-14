@@ -12,7 +12,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { NotificationComponent } from './Notifications/notification/notification.component';
 import { NotificationDetailsComponent } from './Notifications/notification-details/notification-details.component';
 import { ImageDialogComponent } from './Users/image-dialog/image-dialog.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from './Setting/settings/settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -52,6 +52,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SpecialiteComponent } from './Spécialite/specialite/specialite.component';
+import { AddSpecialityComponent } from './Spécialite/add-speciality/add-speciality.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +71,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NotificationComponent,
     NotificationDetailsComponent,
     ImageDialogComponent,
-    SettingsComponent
+    SettingsComponent,
+    SpecialiteComponent,
+    AddSpecialityComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -110,6 +120,16 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     MatRadioModule, // Ajoute cette ligne
 
     FullCalendarModule,
+
+    MatTabsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    // Ajouter aussi BrowserAnimationsModule si pas déjà fait
+    BrowserAnimationsModule,
+
+    MatSnackBarModule,
 
   ],
   providers: [],

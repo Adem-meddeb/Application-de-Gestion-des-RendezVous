@@ -14,6 +14,12 @@
           <mat-icon class="menu-icon">people_alt</mat-icon>
           <span class="menu-label">Utilisateurs</span>
         </a>
+
+        <!-- Specialites -->
+        <a mat-list-item routerLink="/specialites" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon class="menu-icon">Specialite</mat-icon>
+          <span class="menu-label">Specialite</span>
+        </a>
   
         <!-- Notifications with Badge -->
         <a mat-list-item routerLink="/notification" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -33,6 +39,8 @@
           <mat-icon class="menu-icon">settings</mat-icon>
           <span class="menu-label">Paramètres</span>
         </a>
+
+        
   
         <!-- Logout fixed en bas -->
         <div class="sidebar-footer">

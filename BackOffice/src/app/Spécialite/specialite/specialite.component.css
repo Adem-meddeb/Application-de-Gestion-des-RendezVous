@@ -1,0 +1,32 @@
+.container {
+    padding: 24px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .search-bar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  mat-table {
+    width: 100%;
+  }
+  
+  mat-icon {
+    vertical-align: middle;
+  }
+  
+  .success-snackbar {
+    background-color: #4CAF50 !important;
+    color: white !important;
+  }
