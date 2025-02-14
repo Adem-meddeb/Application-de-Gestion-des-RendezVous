@@ -1,0 +1,43 @@
+/* patient-details.component.css */
+.patient-profile {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #2196F3;
+  }
+  
+  .patient-name {
+    color: #2c3e50;
+    margin-bottom: 25px;
+  }
+  
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    text-align: left;
+  }
+  
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+  
+  .detail-item mat-icon {
+    color: #2196F3;
+  }
+  
+  .close-btn {
+    margin-top: 20px;
+  }

@@ -1,0 +1,55 @@
+<!-- patient-details.component.html -->
+<h2 mat-dialog-title class="dialog-title">Détails du patient</h2>
+<mat-divider></mat-divider>
+
+<mat-dialog-content>
+  <div class="patient-profile">
+    <div class="profile-section">
+      <img [src]="patient.profilePhoto || 'assets/placeholder-patient.png'" 
+           class="profile-image"
+           alt="Photo du patient">
+      <h3 class="patient-name">{{ patient.firstName }} {{ patient.lastName }}</h3>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <mat-icon>person</mat-icon>
+        <span>Nom complet:</span>
+        <strong>{{ patient.firstName }} {{ patient.lastName }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <mat-icon>phone</mat-icon>
+        <span>Téléphone:</span>
+        <strong>{{ patient.phone }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <mat-icon>email</mat-icon>
+        <span>Email:</span>
+        <strong>{{ patient.email || 'Non renseigné' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <mat-icon>home</mat-icon>
+        <span>Adresse:</span>
+        <strong>{{ patient.address }}</strong>
+      </div>
+
+      <div class="detail-item" *ngIf="patient.age">
+        <mat-icon>cake</mat-icon>
+        <span>Âge:</span>
+        <strong>{{ patient.age }} ans</strong>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+    Fermer
+  </button>
+</mat-dialog-actions>

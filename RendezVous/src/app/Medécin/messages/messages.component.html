@@ -1,0 +1,42 @@
+<!-- doctor.component.html -->
+<div class="dashboard-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <h2 class="logo">
+        <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
+        TabibNet
+      </h2>
+      <ul class="nav-menu">
+        <li routerLink="/RendezVous" routerLinkActive="active">
+          <i class="fas fa-calendar-check"></i>
+          Mes RendezVous
+        </li>
+        <li routerLink="/Calendrier" routerLinkActive="active">
+          <i class="fas fa-calendar-alt"></i>
+          Calendrier
+        </li>
+        <li routerLink="/Messages" routerLinkActive="active">
+          <i class="fas fa-envelope"></i>
+          Messages
+        </li>
+        <li routerLink="/Profile" routerLinkActive="active">
+          <i class="fas fa-user-circle"></i>
+          Profile
+        </li>
+      </ul>
+    </nav>
+  
+    <!-- Main Content -->
+    <div class="main-content">
+      <router-outlet></router-outlet>
+      
+      <!-- Consultation Planning Section -->
+      <div *ngIf="currentRoute === '/RendezVous'" class="planning-section">
+        <h2>Planifier un Rendez-vous</h2>
+        <p>
+          Lorsqu'un patient prend rendez-vous pour une consultation,
+          celui-ci apparaîtra ici avec les détails de la prise en charge.
+        </p>
+      </div>
+    </div>
+  </div>

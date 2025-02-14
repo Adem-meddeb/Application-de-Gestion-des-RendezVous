@@ -1,0 +1,658 @@
+<div class="registration-container">
+  <div class="header">
+    <div class="header-content">
+      <h1 class="app-name">TabibNet</h1>
+    </div>
+    <br>
+    <br>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-form">
+      <h2>Inscription Médecin</h2>
+      <mat-stepper linear #stepper>
+        <!-- Étape 1: Informations Personnelles -->
+        <mat-step [stepControl]="personalInfo" label="Informations personnelles">
+          <div formGroupName="personalInfo" class="form-section">
+            <h3>Informations Personnelles</h3>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Prénom</mat-label>
+                <input matInput formControlName="firstName">
+                <mat-error *ngIf="personalInfo.get('firstName')?.errors?.['required']">
+                  Champ requis
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Nom</mat-label>
+                <input matInput formControlName="lastName">
+                <mat-error *ngIf="personalInfo.get('lastName')?.errors?.['required']">
+                  Champ requis
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>CIN</mat-label>
+                <input matInput formControlName="cin" placeholder="8 Chiffres">
+                <mat-error *ngIf="personalInfo.get('cin')?.errors?.['pattern']">
+                  Format CIN invalide (8 Chiffres)
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Genre</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option value="male">Masculin</mat-option>
+                  <mat-option value="female">Féminin</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Âge</mat-label>
+                <input matInput formControlName="age" type="number">
+                <mat-error *ngIf="personalInfo.get('age')?.errors?.['min']">
+                  Âge minimum 25 ans
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Téléphone</mat-label>
+                <input matInput formControlName="phone" placeholder="06123456">
+                <mat-error *ngIf="personalInfo.get('phone')?.errors?.['pattern']">
+                  Format invalide (8 chiffres)
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Adresse</mat-label>
+              <textarea matInput formControlName="address" rows="2"></textarea>
+            </mat-form-field>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email">
+                <mat-error *ngIf="personalInfo.get('email')?.errors?.['email']">
+                  Email invalide
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Mot de passe</mat-label>
+                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
+                <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility('password')">
+                  <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="personalInfo.get('password')?.errors?.['minlength']">
+                  Minimum 8 caractères
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Confirmer le mot de passe</mat-label>
+                <input matInput [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword">
+                <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility('confirm')">
+                  <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="registrationForm.errors?.['mismatch']">
+                  Les mots de passe ne correspondent pas
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </div>
+          <div>
+            <button mat-button matStepperNext [disabled]="personalInfo.invalid">Suivant</button>
+          </div>
+        </mat-step>
+
+        <!-- Étape 2: PDF -->
+        <mat-step [stepControl]="profilePhoto" label="Photo de profil">
+          <div formGroupName="profilePhoto" class="form-section">
+            <h3>Photo de Profil</h3>
+
+            <mat-card class="photo-upload-card">
+              <div class="photo-preview">
+                <img [src]="profilePhotoPreview || 'assets/placeholder-profile.jpg'" alt="Aperçu photo de profil"
+                  class="profile-image">
+              </div>
+
+              <input type="file" hidden (change)="onFileSelected($event)" #fileInput accept="image/*">
+
+              <div class="upload-controls">
+                <button mat-raised-button color="primary" (click)="fileInput.click()" type="button">
+                  <mat-icon>cloud_upload</mat-icon>
+                  Choisir une photo
+                </button>
+
+                <span class="file-info" *ngIf="profilePhoto.get('file')?.value">
+                  {{ profilePhoto.get('fileName')?.value }}
+                  ({{ profilePhoto.get('fileSize')?.value | filesize }})
+                </span>
+              </div>
+
+              <mat-error *ngIf="profilePhoto.get('file')?.errors?.['required']">
+                La photo de profil est obligatoire
+              </mat-error>
+              <mat-error *ngIf="profilePhoto.get('file')?.errors?.['fileType']">
+                Format invalide (JPEG, PNG uniquement)
+              </mat-error>
+              <mat-error *ngIf="profilePhoto.get('file')?.errors?.['fileSize']">
+                Taille maximale dépassée (2MB max)
+              </mat-error>
+            </mat-card>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-button matStepperNext [disabled]="profilePhoto.invalid">Suivant</button>
+          </div>
+        </mat-step>
+
+        <!-- Étape 3: Formation -->
+        <mat-step [stepControl]="education" label="Formation">
+          <div formGroupName="education" class="form-section">
+            <h3>Formation académique</h3>
+            <div formArrayName="degrees">
+              <div *ngFor="let degree of degrees.controls; let i = index" [formGroupName]="i">
+                <mat-form-field appearance="outline">
+                  <mat-label>Diplôme</mat-label>
+                  <input matInput formControlName="degreeName">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Établissement</mat-label>
+                  <input matInput formControlName="institution">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Année d'obtention</mat-label>
+                  <input matInput formControlName="year" type="number">
+                </mat-form-field>
+                <button mat-icon-button (click)="removeDegree(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button mat-button (click)="addDegree()">Ajouter une formation</button>
+            <br><br>
+            <!-- Section Spécialités -->
+            <h3>Spécialités</h3>
+            <div formArrayName="specialties">
+              <div *ngFor="let specialty of specialties.controls; let i = index">
+                <mat-form-field appearance="outline">
+                  <mat-label>Spécialité {{i + 1}}</mat-label>
+                  <mat-select [formControl]="asFormControl(specialty)">
+                    <mat-option *ngFor="let spec of specializations" [value]="spec">
+                      {{ spec }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-icon-button (click)="removeSpecialty(i)" *ngIf="specialties.controls.length > 1">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button mat-button (click)="addSpecialty()">Ajouter une spécialité</button>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-button matStepperNext [disabled]="education.invalid || degrees.length === 0">Suivant</button>
+          </div>
+        </mat-step>
+
+        <!-- Étape 4: Expérience Professionnelle -->
+        <mat-step [stepControl]="experience" label="Expérience">
+          <div formGroupName="experience" class="form-section">
+            <h3>Expérience professionnelle</h3>
+            <div formArrayName="positions">
+              <div *ngFor="let position of positions.controls; let i = index" [formGroupName]="i">
+                <mat-form-field appearance="outline">
+                  <mat-label>Poste</mat-label>
+                  <input matInput formControlName="position">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Établissement</mat-label>
+                  <input matInput formControlName="hospital">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Durée (années)</mat-label>
+                  <input matInput formControlName="duration" type="number">
+                </mat-form-field>
+                <button mat-icon-button (click)="removePosition(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button mat-button (click)="addPosition()">Ajouter une expérience</button>
+
+            <!-- Nouvelle section Certification -->
+            <mat-card class="certification-upload-card">
+              <h4>Aptitude Professionnelle</h4>
+
+              <div class="certification-instructions">
+                <p>Pour des raisons de sécurité et afin de nous assurer de la pertinence des données sur notre
+                  plateforme,
+                  nous vous prions de nous envoyer une photo de votre carte de visite tamponnée ou bien votre permis
+                  d'exercice.</p>
+                <p class="note">NB: Le document doit être sous forme de photo claire et lisible</p>
+              </div>
+
+              <div class="certification-preview">
+                <img [src]="certificationPreview || 'assets/document-placeholder.png'" alt="Aperçu du document"
+                  class="document-preview">
+              </div>
+
+              <input type="file" hidden (change)="onCertificationSelected($event)" #certificationInput accept="image/*">
+
+              <div class="upload-controls">
+                <button mat-raised-button color="primary" (click)="certificationInput.click()" type="button">
+                  <mat-icon>cloud_upload</mat-icon>
+                  Télécharger le document
+                </button>
+
+                <span class="file-info" *ngIf="experience.get('certification.file')?.value">
+                  {{ experience.get('certification.fileName')?.value }}
+                  ({{ experience.get('certification.fileSize')?.value | filesize }})
+                </span>
+              </div>
+
+              <mat-error *ngIf="experience.get('certification.file')?.errors?.['required']">
+                Ce document est obligatoire
+              </mat-error>
+              <mat-error *ngIf="experience.get('certification.file')?.errors?.['fileType']">
+                Format invalide (JPEG, PNG uniquement)
+              </mat-error>
+              <mat-error *ngIf="experience.get('certification.file')?.errors?.['fileSize']">
+                Taille maximale dépassée (2MB max)
+              </mat-error>
+            </mat-card>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-button matStepperNext
+              [disabled]="experience.invalid || positions.length === 0 || experience.get('certification.file')?.invalid">
+              Suivant
+            </button>
+          </div>
+        </mat-step>
+
+        <!-- Étape 5: Cabinet Médical -->
+        <mat-step [stepControl]="cabinet" label="Cabinet">
+          <div formGroupName="cabinet" class="form-section">
+            <h3>Informations du Cabinet</h3>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Adresse du Cabinet</mat-label>
+              <textarea matInput formControlName="address" rows="2" required></textarea>
+              <mat-error *ngIf="cabinet.get('address')?.invalid">
+                Ce champ est obligatoire
+              </mat-error>
+            </mat-form-field>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Gouvernorat</mat-label>
+                <mat-select formControlName="governorate" required>
+                  <mat-option *ngFor="let gov of governorates" [value]="gov">
+                    {{ gov }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="cabinet.get('governorate')?.invalid">
+                  Sélection obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="geo-section">
+              <h4>Géolocalisation</h4>
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Latitude</mat-label>
+                  <input matInput formControlName="latitude" type="number">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Longitude</mat-label>
+                  <input matInput formControlName="longitude" type="number">
+                </mat-form-field>
+              </div>
+              <div id="map" class="map-container"></div>
+              <button mat-raised-button color="primary" type="button" (click)="getCurrentLocation()">
+                <mat-icon>location_on</mat-icon>
+                Utiliser ma position actuelle
+              </button>
+
+              <mat-error *ngIf="geolocationError" class="geo-error">
+                {{ geolocationError }}
+              </mat-error>
+            </div>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-button matStepperNext [disabled]="cabinet.invalid">Suivant</button>
+          </div>
+        </mat-step>
+
+        <!-- Étape 6: Pratique -->
+        <mat-step [stepControl]="schedule" label="Pratique">
+          <div formGroupName="schedule" class="form-section">
+            <h3>Pratique</h3>
+
+            <!-- Langues parlées -->
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Langues parlées</mat-label>
+                <mat-select formControlName="languages" multiple required>
+                  <mat-option *ngFor="let lang of languages" [value]="lang">
+                    {{ lang }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="schedule.get('languages')?.invalid">
+                  Sélection obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Modes de règlement -->
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Modes de règlement acceptés</mat-label>
+                <mat-select formControlName="paymentMethods" multiple required>
+                  <mat-option *ngFor="let method of paymentMethods" [value]="method">
+                    {{ method }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="schedule.get('paymentMethods')?.invalid">
+                  Sélection obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Durée de consultation -->
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Durée de consultation</mat-label>
+                <mat-select formControlName="consultationDuration" required>
+                  <mat-option *ngFor="let duration of consultationDurations" [value]="duration">
+                    {{ duration }} minutes
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="schedule.get('consultationDuration')?.invalid">
+                  Sélection obligatoire
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="availability-section">
+              <h4>Horaires d'ouverture</h4>
+
+              <div *ngFor="let day of days" formGroupName="{{ day.toLowerCase() }}" class="day-section">
+                <div class="day-header">
+                  <span class="day-name">{{ day }}</span>
+
+                  <mat-radio-group formControlName="sessionType" class="session-type-group"
+                    (change)="updateTimeValidation(day.toLowerCase())">
+                    <mat-radio-button *ngFor="let type of sessionTypes" [value]="type" class="session-radio">
+                      {{ type }}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+
+                <!-- Séance unique -->
+                <div *ngIf="schedule.get(day.toLowerCase())?.get('sessionType')?.value === 'Séance unique'"
+                  class="time-group">
+                  <div class="session-group">
+                    <h5>Séance unique</h5>
+                    <div class="time-fields">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Début</mat-label>
+                        <input matInput type="time" formControlName="times.singleStart">
+                        <mat-error *ngIf="getDayTimeGroup(day.toLowerCase()).get('singleStart')?.invalid">
+                          Champ obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Fin</mat-label>
+                        <input matInput type="time" formControlName="times.singleEnd">
+                        <mat-error *ngIf="getDayTimeGroup(day.toLowerCase()).get('singleEnd')?.invalid">
+                          Champ obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Double séance -->
+                <div *ngIf="schedule.get(day.toLowerCase())?.get('sessionType')?.value === 'Double séance'"
+                  class="time-group">
+                  <div class="session-group">
+                    <h5>Première séance</h5>
+                    <div class="time-fields">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Début</mat-label>
+                        <input matInput type="time" formControlName="times.firstStart">
+                        <mat-error *ngIf="getDayTimeGroup(day.toLowerCase()).get('firstStart')?.invalid">
+                          Champ obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Fin</mat-label>
+                        <input matInput type="time" formControlName="times.firstEnd">
+                        <mat-error *ngIf="getDayTimeGroup(day.toLowerCase()).get('firstEnd')?.invalid">
+                          Champ obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="session-group">
+                    <h5>Deuxième séance</h5>
+                    <div class="time-fields">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Début</mat-label>
+                        <input matInput type="time" formControlName="times.secondStart">
+                        <mat-error *ngIf="getDayTimeGroup(day.toLowerCase()).get('secondStart')?.invalid">
+                          Champ obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Fin</mat-label>
+                        <input matInput type="time" formControlName="times.secondEnd">
+                        <mat-error *ngIf="getDayTimeGroup(day.toLowerCase()).get('secondEnd')?.invalid">
+                          Champ obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Boutons de navigation -->
+            <div class="stepper-buttons">
+              <button mat-button matStepperPrevious>Précédent</button>
+              <button mat-button matStepperNext [disabled]="schedule.invalid || !isScheduleStepValid()">
+                Suivant
+              </button>
+            </div>
+          </div>
+        </mat-step>
+
+        <!-- Étape 7 : Validation -->
+        <mat-step label="Confirmation">
+          <div class="terms-section">
+            <h3>Accord et Conditions d'Utilisation</h3>
+
+            <div class="terms-content">
+              <div class="terms-group">
+                <h4>1. Acceptation des Conditions</h4>
+                <p>En utilisant l'application de gestion des rendez-vous, vous acceptez pleinement et sans réserve les
+                  présentes conditions d'utilisation. Ces conditions définissent les droits et obligations des
+                  utilisateurs, qu'ils soient patients ou professionnels de santé, ainsi que les engagements de
+                  l'application en matière de protection des données, de sécurité et de bon fonctionnement des services
+                  proposés. En accédant à l'application, que ce soit via l'application mobile ou la plateforme web, vous
+                  reconnaissez avoir lu, compris et accepté ces conditions dans leur intégralité.</p>
+              </div>
+
+              <div class="terms-group">
+                <h4>2. Description du Service</h4>
+                <p>L'application de gestion des rendez-vous permet aux patients de consulter la liste des professionnels
+                  de santé, de prendre des rendez-vous en ligne, d'annuler ou de modifier leurs réservations si
+                  nécessaire, et de recevoir des rappels par notification, e-mail ou SMS. De leur côté, les
+                  professionnels
+                  de santé peuvent gérer leur emploi du temps, organiser leurs disponibilités, suivre les rendez-vous
+                  programmés et accéder aux dossiers de leurs patients via une interface web dédiée. Une interface
+                  administrateur permet également de superviser et de valider les comptes des professionnels de santé
+                  avant leur activation sur la plateforme.</p>
+              </div>
+
+              <div class="terms-group">
+                <h4>3. Création et Gestion des Comptes</h4>
+                <p>Pour utiliser les services de l'application, chaque utilisateur doit créer un compte en fournissant
+                  des
+                  informations exactes, complètes et à jour. Toute fausse déclaration ou omission volontaire pourra
+                  entraîner la suspension ou la suppression du compte concerné. L'utilisateur est responsable de la
+                  confidentialité de ses identifiants et s'engage à ne pas les divulguer à des tiers. En cas de perte ou
+                  de suspicion d'utilisation frauduleuse de son compte, il est tenu d'en informer immédiatement
+                  l'administration de l'application.
+                  <br>
+                  L’accès des professionnels de santé à la plateforme est soumis à une vérification préalable et à une
+                  validation de leur identité par l’équipe de l’application. Les administrateurs se réservent le droit
+                  de
+                  refuser ou de suspendre un compte si les informations fournies sont incomplètes, inexactes ou
+                  frauduleuses.
+                </p>
+              </div>
+
+              <div class="terms-group">
+                <h4>4. Responsabilités et Obligations</h4>
+                <p>Chaque utilisateur, qu’il soit patient ou professionnel de santé, s'engage à utiliser l’application
+                  de
+                  manière conforme aux lois et réglementations en vigueur. Il est strictement interdit de :
+                  <br>
+                  *Fournir des informations mensongères ou usurper l’identité d’un tiers.
+                  <br>
+                  *Utiliser l’application pour nuire à autrui, harceler un professionnel ou un patient, ou perturber le
+                  bon fonctionnement du service.
+                  <br>
+                  *Accéder ou tenter d’accéder à des données qui ne lui sont pas destinées.
+                  <br>
+                  *Utiliser l’application à des fins commerciales non autorisées, notamment la publicité non sollicitée.
+                  <br>
+                  *Les professionnels de santé sont tenus de respecter leurs engagements envers les patients en mettant
+                  à
+                  jour leurs disponibilités et en honorant les rendez-vous pris via l’application. L’application ne peut
+                  être tenue responsable en cas d’annulation tardive, de non-présentation ou de tout différend entre un
+                  patient et un professionnel.
+                </p>
+              </div>
+
+              <div class="terms-group">
+                <h4>5. Sécurité des Données</h4>
+                <p>L’application s’engage à assurer la sécurité et la confidentialité des données personnelles de ses
+                  utilisateurs. Toutes les informations collectées sont stockées sur des serveurs sécurisés et ne sont
+                  accessibles qu’aux utilisateurs autorisés. Les données de connexion et les mots de passe sont chiffrés
+                  afin d’empêcher tout accès non autorisé.
+                  <br>
+                  Conformément au Règlement Général sur la Protection des Données (RGPD), les utilisateurs disposent
+                  d’un
+                  droit d’accès, de rectification, de suppression et de portabilité de leurs données personnelles. Toute
+                  demande relative à la gestion des données doit être adressée à l’équipe responsable via les
+                  coordonnées
+                  fournies dans l’application.
+                  <br>
+                  L’application utilise des protocoles de communication sécurisés (HTTPS, chiffrement des données) pour
+                  éviter toute interception ou altération des informations transmises. Cependant, l’utilisateur
+                  reconnaît
+                  que malgré ces précautions, aucun système de sécurité n’est infaillible et qu’en cas de faille,
+                  l’application ne pourra être tenue responsable des dommages éventuels.
+                </p>
+              </div>
+
+              <div class="terms-group">
+                <h4>6. Limitations de Responsabilité</h4>
+                <p>L’application est un outil facilitant la prise de rendez-vous et la gestion des consultations, mais
+                  elle n’intervient pas dans la relation entre les patients et les professionnels de santé. En
+                  conséquence
+                  :
+                  <br>
+                  Elle ne peut être tenue responsable des retards, annulations, erreurs de disponibilité ou de tout
+                  autre
+                  problème découlant directement de l’utilisation du service.
+                  <br>
+                  Elle ne garantit pas la véracité des informations fournies par les professionnels de santé sur leur
+                  profil.
+                  <br>
+                  Elle ne peut être impliquée dans d’éventuels litiges entre utilisateurs.
+                  <br>
+                  L’application se réserve également le droit d’interrompre temporairement ou définitivement le service
+                  pour des raisons de maintenance, de mise à jour ou en cas de force majeure. Elle mettra tout en œuvre
+                  pour informer les utilisateurs dans les meilleurs délais en cas d’interruption prolongée.
+                </p>
+              </div>
+
+              <div class="terms-group">
+                <h4>7. Modification des Conditions</h4>
+                <p>L’éditeur de l’application se réserve le droit de modifier ou d’actualiser ces conditions
+                  d'utilisation
+                  à tout moment afin de les adapter aux évolutions légales, techniques ou fonctionnelles du service. Les
+                  utilisateurs seront informés des modifications par le biais d’une notification ou d’un e-mail.
+                  L’utilisation continue de l’application après publication des modifications vaut acceptation des
+                  nouvelles conditions.</p>
+              </div>
+
+              <div class="terms-group">
+                <h4>8. Résiliation de Compte</h4>
+                <p>Chaque utilisateur a la possibilité de supprimer son compte à tout moment via les paramètres de
+                  l’application. En cas de non-respect des présentes conditions d’utilisation, l’équipe de l’application
+                  pourra suspendre ou supprimer un compte sans préavis. Les données associées seront conservées pendant
+                  une durée légale avant leur suppression définitive.</p>
+              </div>
+
+              <div class="terms-group">
+                <h4>9. Droit Applicable</h4>
+                <p>En cas de litige, seules les lois en vigueur dans le pays d’hébergement de l’application seront
+                  applicables. Tout différend relatif à l’utilisation du service devra faire l’objet d’une tentative de
+                  résolution amiable avant d’être porté devant les tribunaux compétents.</p>
+              </div>
+
+              <div class="terms-group">
+                <h4>10. Contact</h4>
+                <p>Pour toute question, réclamation ou demande d’assistance, les utilisateurs peuvent contacter l’équipe
+                  de l’application via l’adresse e-mail fournie dans les paramètres ou via le formulaire de support
+                  disponible dans l’application.</p>
+              </div>
+            </div>
+
+            <mat-checkbox formControlName="termsAccepted" color="primary">
+              J'accepte les conditions générales d'utilisation
+            </mat-checkbox>
+            <mat-error
+              *ngIf="registrationForm.get('termsAccepted')?.invalid && registrationForm.get('termsAccepted')?.touched">
+              Vous devez accepter les conditions pour continuer
+            </mat-error>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">
+              S'inscrire
+            </button>
+          </div>
+        </mat-step>
+
+      </mat-stepper>
+      <div class="login-link">
+        Déjà inscrit? <a routerLink="/login">Se connecter</a>
+      </div>
+    </form>
+    <app-footer></app-footer>
+  </div>

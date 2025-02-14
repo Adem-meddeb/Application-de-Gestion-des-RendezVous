@@ -1,0 +1,34 @@
+<!-- doctor.component.html -->
+<div class="dashboard-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <h2 class="logo">
+        <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
+        TabibNet
+      </h2>
+      <ul class="nav-menu">
+        <li routerLink="/RendezVous" routerLinkActive="active">
+          <i class="fas fa-calendar-check"></i>
+          Mes RendezVous
+        </li>
+        <li routerLink="/Calendrier" routerLinkActive="active">
+          <i class="fas fa-calendar-alt"></i>
+          Calendrier
+        </li>
+        <li routerLink="/Messages" routerLinkActive="active">
+          <i class="fas fa-envelope"></i>
+          Messages
+        </li>
+        <li routerLink="/Profile" routerLinkActive="active">
+          <i class="fas fa-user-circle"></i>
+          Profile
+        </li>
+      </ul>
+    </nav>
+
+    <div class="main-content">
+      <div class="calendar-container">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,19 @@
+<footer class="footer">
+    <div class="footer-content">
+      <p>&copy; {{ year }} Online Events™</p>
+      <div class="accounts">
+        <div *ngFor="let account of accounts" class="account">
+          <div class="icons">
+            <a [href]="account.github" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i>
+            </a>
+            <a [href]="account.linkedin" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+          <p class="name">{{ account.name }}</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  

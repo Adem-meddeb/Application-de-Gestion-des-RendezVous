@@ -1,0 +1,50 @@
+.footer {
+    background-color: #374151; /* bg-gray-700 */
+    color: #e5e7eb; /* text-gray-300 */
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+    border-top-left-radius: 8px;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .accounts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .icons a {
+    color: #9ca3af; /* text-gray-400 */
+    font-size: 24px;
+    transition: color 0.3s;
+  }
+  
+  .icons a:hover {
+    color: #ffffff;
+  }
+  
+  .name {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  

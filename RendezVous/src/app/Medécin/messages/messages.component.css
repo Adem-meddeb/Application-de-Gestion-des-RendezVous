@@ -1,0 +1,89 @@
+/* doctor.component.scss */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .navbar {
+    background: #e8f4f8;
+    padding: 15px 30px;
+    border-bottom: 1px solid #cfe0e8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+      margin: 0; /* Supprime les marges par défaut */
+      display: flex;
+      align-items: center; /* Alignement vertical */
+      gap: 10px; /* Espace entre le logo et le texte */
+      font-size: 24px; /* Taille du texte */
+      color: #2a627c; /* Couleur du texte */
+    }
+    
+    .app-logo {
+      width: 40px; /* Ajustez la largeur selon vos besoins */
+      height: auto; /* Maintient le ratio d'aspect */
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 25px;
+
+      li {
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: #3a7b95;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #d3e7f0;
+        }
+
+        &.active {
+          background: #2a627c;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 30px;
+    background: #f9fbfd;
+
+    .planning-section {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      text-align: center; /* Centre tout le contenu */
+
+      h2 {
+        color: #2a627c;
+        margin-bottom: 15px;
+      }
+
+      .planning-image {
+        width: 100%; /* Ajuste la largeur de l'image */
+        max-width: 300px; /* Limite la taille maximale de l'image */
+        height: auto; /* Maintient le ratio d'aspect */
+        margin: 20px auto; /* Centre l'image avec un espace autour */
+        border-radius: 10px; /* Coins arrondis pour l'image */
+      }
+
+      p {
+        color: #5a7a8c;
+        line-height: 1.6;
+        font-size: 16px;
+        margin-top: 10px; /* Espace entre l'image et le texte */
+      }
+    }
+  }
+}

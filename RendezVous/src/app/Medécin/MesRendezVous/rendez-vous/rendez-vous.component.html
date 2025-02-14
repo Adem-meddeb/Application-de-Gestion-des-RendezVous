@@ -1,0 +1,169 @@
+<!-- doctor.component.html -->
+<div class="dashboard-container">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h2 class="logo">
+      <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
+      TabibNet
+    </h2>
+    <ul class="nav-menu">
+      <li routerLink="/RendezVous" routerLinkActive="active">
+        <i class="fas fa-calendar-check"></i>
+        Mes RendezVous
+      </li>
+      <li routerLink="/Calendrier" routerLinkActive="active">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+      </li>
+      <li routerLink="/Messages" routerLinkActive="active">
+        <i class="fas fa-envelope"></i>
+        Messages
+      </li>
+      <li routerLink="/Profile" routerLinkActive="active">
+        <i class="fas fa-user-circle"></i>
+        Profile
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+
+    <div *ngIf="currentRoute === '/RendezVous'" class="appointments-section">
+      <div class="tabs">
+        <button [class.active]="selectedTab === 'upcoming'" (click)="selectedTab = 'upcoming'">
+          Rendez-vous à venir
+        </button>
+        <button [class.active]="selectedTab === 'past'" (click)="selectedTab = 'past'">
+          Historique des consultations
+        </button>
+      </div>
+
+      <!-- Section rendez-vous à venir -->
+      <div *ngIf="selectedTab === 'upcoming'">
+        <div class="filters">
+          <input type="text" placeholder="Rechercher par patient..." [(ngModel)]="upcomingFilters.searchTerm"
+            class="search-input">
+
+          <select [(ngModel)]="upcomingFilters.status" class="status-select">
+            <option value="all">Tous les statuts</option>
+            <option value="Confirmé">Confirmé</option>
+            <option value="En attente">En attente</option>
+          </select>
+
+          <input type="date" [(ngModel)]="upcomingFilters.date" class="date-filter">
+
+          <div class="sort-container">
+            <select [(ngModel)]="upcomingSort.by" class="sort-by">
+              <option value="date">Trier par date</option>
+              <option value="patient">Trier par patient</option>
+            </select>
+
+            <select [(ngModel)]="upcomingSort.direction" class="sort-direction">
+              <option value="asc">Croissant</option>
+              <option value="desc">Décroissant</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="filteredUpcomingAppointments.length > 0; else noUpcoming" class="appointments-list">
+          <h2>Mes Prochains Rendez-vous</h2>
+          <div class="appointment-card" *ngFor="let appointment of filteredUpcomingAppointments">
+            <div class="card-header">
+              <span class="date-badge">
+                {{ appointment.date | date: 'dd/MM/yyyy' }}
+                <span class="time">{{ appointment.time }}</span>
+              </span>
+              <span class="status" [ngClass]="appointment.status.toLowerCase()">
+                {{ appointment.status }}
+              </span>
+            </div>
+            <div class="card-body">
+              <h3>{{ appointment.patient.firstName }} {{ appointment.patient.lastName }}</h3>
+              <p>{{ appointment.type }}</p>
+              <div class="patient-info">
+                <p><i class="fas fa-map-marker-alt"></i> {{ appointment.patient.address }}</p>
+                <p><i class="fas fa-phone"></i> {{ appointment.patient.phone }}</p>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="btn-details" (click)="openPatientDetails(appointment.patient)">
+                <i class="fas fa-info-circle"></i>
+                Détails complet
+              </button>
+              <button class="btn-cancel"
+                *ngIf="appointment.status === 'En attente' || appointment.status === 'Confirmé'"
+                (click)="cancelAppointment(appointment)">
+                <i class="fas fa-times"></i>
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section historique -->
+      <div *ngIf="selectedTab === 'past'">
+        <div class="filters">
+          <input type="text" placeholder="Rechercher par patient..." [(ngModel)]="pastFilters.searchTerm"
+            class="search-input">
+
+          <input type="date" [(ngModel)]="pastFilters.date" class="date-filter">
+
+          <div class="sort-container">
+            <select [(ngModel)]="pastSort.by" class="sort-by">
+              <option value="date">Trier par date</option>
+              <option value="patient">Trier par patient</option>
+            </select>
+
+            <select [(ngModel)]="pastSort.direction" class="sort-direction">
+              <option value="asc">Croissant</option>
+              <option value="desc">Décroissant</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="filteredPastAppointments.length > 0; else noHistory" class="appointments-list">
+          <h2>Historique des Consultations</h2>
+          <div class="appointment-card past" *ngFor="let appointment of filteredPastAppointments">
+            <div class="card-header">
+              <span class="date-badge">
+                {{ appointment.date | date: 'dd/MM/yyyy' }}
+                <span class="time">{{ appointment.time }}</span>
+              </span>
+              <span class="status terminé">Terminé</span>
+            </div>
+            <div class="card-body">
+              <h3>{{ appointment.patient.firstName }} {{ appointment.patient.lastName }}</h3>
+              <p>{{ appointment.type }}</p>
+            </div>
+            <div class="card-actions">
+              <button class="btn-details" (click)="openPatientDetails(appointment.patient)">
+                <i class="fas fa-file-medical"></i>
+                Dossier Médical
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages vides -->
+      <ng-template #noUpcoming>
+        <div class="planning-section">
+          <h2>Aucun rendez-vous prévu</h2>
+          <img src="assets/CalendrierLogo.avif" alt="Aucun rendez-vous" class="planning-image">
+          <p>Vous n'avez aucun rendez-vous programmé pour le moment.</p>
+        </div>
+      </ng-template>
+
+      <ng-template #noHistory>
+        <div class="planning-section">
+          <h2>Aucune consultation passée</h2>
+          <img src="assets/CalendrierLogo.avif" alt="Historique vide" class="planning-image">
+          <p>Votre historique de consultations apparaîtra ici.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

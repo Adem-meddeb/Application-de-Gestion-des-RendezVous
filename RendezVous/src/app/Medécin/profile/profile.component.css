@@ -1,0 +1,309 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dashboard-container .navbar {
+  background: #e8f4f8;
+  padding: 15px 30px;
+  border-bottom: 1px solid #cfe0e8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-container .navbar .logo {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  color: #2a627c;
+}
+
+.dashboard-container .navbar .logo .app-logo {
+  width: 40px;
+  height: auto;
+}
+
+.dashboard-container .navbar .nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 25px;
+}
+
+.dashboard-container .navbar .nav-menu li {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #3a7b95;
+  transition: all 0.3s ease;
+}
+
+.dashboard-container .navbar .nav-menu li:hover {
+  background: #d3e7f0;
+}
+
+.dashboard-container .navbar .nav-menu li.active {
+  background: #2a627c;
+  color: white;
+}
+
+.dashboard-container .main-content {
+  flex: 1;
+  padding: 30px;
+  background: #f9fbfd;
+}
+
+.dashboard-container .main-content .profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-container .main-content .profile-container .profile-header {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container .main-content .profile-container .profile-header .header-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.dashboard-container .main-content .profile-container .profile-header .header-content .profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2a627c;
+}
+
+.dashboard-container .main-content .profile-container .profile-header .header-info h1 {
+  color: #2a627c;
+  margin: 0;
+}
+
+.dashboard-container .main-content .profile-container .profile-header .header-info .specialties {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-container .main-content .profile-container .profile-header .header-info .specialties .specialty-chip {
+  background: #e8f4f8;
+  color: #2a627c;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 0.9em;
+}
+
+.dashboard-container .main-content .profile-section {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container .main-content .profile-section h2 {
+  color: #2a627c;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-container .main-content .profile-section h2 mat-icon {
+  color: #3a7b95;
+}
+
+.dashboard-container .main-content .profile-section .info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-container .main-content .profile-section .info-grid .info-item {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dashboard-container .main-content .profile-section .info-grid .info-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.dashboard-container .main-content .profile-section .info-grid .info-item .label {
+  font-weight: 500;
+  color: #2a627c;
+  margin-right: 0.5rem;
+}
+
+.dashboard-container .main-content .profile-section .certification {
+  margin-top: 2rem;
+}
+
+.dashboard-container .main-content .profile-section .certification .certification-doc {
+  max-width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container .main-content .profile-section .availability {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard-container .main-content .profile-section .availability .day-schedule {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.dashboard-container .main-content .profile-section .availability .day-schedule h3 {
+  color: #2a627c;
+  margin: 0 0 1rem 0;
+}
+
+.dashboard-container .main-content .profile-section .availability .day-schedule .closed {
+  color: #c62828;
+  font-style: italic;
+}
+
+.dashboard-container .main-content .planning-section {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.dashboard-container .main-content .planning-section h2 {
+  color: #2a627c;
+  margin-bottom: 15px;
+}
+
+.dashboard-container .main-content .planning-section .planning-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 10px;
+}
+
+.dashboard-container .main-content .planning-section p {
+  color: #5a7a8c;
+  line-height: 1.6;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Styles pour la carte */
+.map-container {
+  height: 400px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Correction pour le mode édition */
+.map-editor #editMap {
+  height: 400px;
+  margin: 10px 0;
+}
+
+
+.edit-controls {
+  padding: 10px;
+  background: #f5f5f5;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.coordinates-editor {
+  padding: 10px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.map-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  color: #666;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-container .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .dashboard-container .navbar .nav-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .dashboard-container .main-content {
+    padding: 15px;
+  }
+  
+  .dashboard-container .main-content .profile-container .profile-header {
+    padding: 1rem;
+  }
+  
+  .dashboard-container .main-content .profile-container .profile-header .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .dashboard-container .main-content .profile-container .profile-header .header-content .profile-photo {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .dashboard-container .main-content .profile-container .profile-section {
+    padding: 1rem;
+  }
+
+  .map-container {
+    height: 300px;
+  }
+}
+
+.editable-map, .static-map {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+}
+.map-view #viewMap {
+  height: 400px;
+  margin-top: 15px;
+}

@@ -1,0 +1,212 @@
+<!-- profile.component.html -->
+<div class="dashboard-container">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h2 class="logo">
+      <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
+      TabibNet
+    </h2>
+    <ul class="nav-menu">
+      <li routerLink="/RendezVous" routerLinkActive="active">
+        <i class="fas fa-calendar-check"></i>
+        Mes RendezVous
+      </li>
+      <li routerLink="/Calendrier" routerLinkActive="active">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+      </li>
+      <li routerLink="/Messages" routerLinkActive="active">
+        <i class="fas fa-envelope"></i>
+        Messages
+      </li>
+      <li routerLink="/Profile" routerLinkActive="active">
+        <i class="fas fa-user-circle"></i>
+        Profile
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="profile-container">
+      <!-- En-tête du profil -->
+      <mat-card class="profile-header">
+        <div class="header-content">
+          <img [src]="doctor?.personalInfo?.profilePhoto || 'assets/doc1.jpg'" class="profile-photo">
+          <div class="header-info">
+            <!-- Profile Header -->
+            <h1>Dr. {{ doctor?.personalInfo?.firstName }} {{ doctor?.personalInfo?.lastName }}</h1>
+            <div class="specialties">
+              <mat-chip *ngFor="let specialty of doctor?.education?.specialties">
+                {{ specialty }}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- Sections d'information -->
+      <mat-card class="profile-section">
+        <h2><mat-icon>person</mat-icon> Informations Personnelles</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">CIN:</span>
+            <span>{{ doctor?.personalInfo?.cin }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Genre:</span>
+            <span>{{ getGenderDisplay(doctor?.personalInfo?.gender) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Âge:</span>
+            <span>{{ doctor?.personalInfo?.age }} ans</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Téléphone:</span>
+            <span>{{ doctor?.personalInfo?.phone }}</span>
+          </div>
+          <div class="info-item full-width">
+            <span class="label">Adresse:</span>
+            <span>{{ doctor?.personalInfo?.address }}</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- Formation -->
+      <mat-card class="profile-section">
+        <h2><mat-icon>school</mat-icon> Formation Académique</h2>
+        <mat-list>
+          <mat-list-item *ngFor="let degree of doctor?.education?.degrees">
+            <mat-icon matListIcon>library_books</mat-icon>
+            <h3 matLine>{{ degree.degreeName }}</h3>
+            <p matLine>{{ degree.institution }} - {{ degree.year }}</p>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+
+      <!-- Expérience Professionnelle -->
+      <mat-card class="profile-section">
+        <h2><mat-icon>work</mat-icon> Expérience Professionnelle</h2>
+        <mat-list>
+          <mat-list-item *ngFor="let position of doctor?.experience?.positions">
+            <mat-icon matListIcon>business</mat-icon>
+            <h3 matLine>{{ position.position }}</h3>
+            <p matLine>{{ position.hospital }} ({{ position.duration }} ans)</p>
+          </mat-list-item>
+        </mat-list>
+        <div class="certification" *ngIf="doctor?.experience?.certification">
+          <h3>Aptitude Professionnelle</h3>
+          <img [src]="doctor?.experience?.certification?.file">
+        </div>
+      </mat-card>
+
+      <mat-card class="profile-section">
+        <h2><mat-icon>local_hospital</mat-icon> Cabinet Médical</h2>
+        
+        <!-- Informations du cabinet -->
+        <div class="info-grid">
+          <div class="info-item full-width">
+            <span class="label">Adresse:</span>
+            <span>{{ doctor?.cabinet?.address }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Gouvernorat:</span>
+            <span>{{ doctor?.cabinet?.governorate }}</span>
+          </div>
+          <div class="info-item full-width">
+            <span class="label">Coordonnées GPS:</span>
+            <span *ngIf="doctor?.cabinet?.latitude && doctor?.cabinet?.longitude">
+              {{ doctor?.cabinet?.latitude | number:'1.4-4' }}, 
+              {{ doctor?.cabinet?.longitude | number:'1.4-4' }}
+            </span>
+            <span *ngIf="!doctor?.cabinet?.latitude">Non définies</span>
+          </div>
+        </div>
+      
+        <!-- Interface d'édition de la localisation -->
+        <div *ngIf="editMode" class="map-editor">
+          <div class="edit-controls">
+            <button mat-button (click)="cancelEdit()">
+              <mat-icon>cancel</mat-icon>
+              Annuler
+            </button>
+            <button mat-raised-button color="primary" (click)="saveLocation()">
+              <mat-icon>save</mat-icon>
+              Enregistrer
+            </button>
+          </div>
+      
+          <div id="editMap" class="editable-map"></div>
+      
+          <div class="coordinates-editor">
+            <mat-form-field appearance="outline">
+              <mat-label>Latitude</mat-label>
+              <input matInput type="number" step="0.0001" 
+                     [(ngModel)]="tempLatitude"
+                     name="latitude">
+            </mat-form-field>
+      
+            <mat-form-field appearance="outline">
+              <mat-label>Longitude</mat-label>
+              <input matInput type="number" step="0.0001" 
+                     [(ngModel)]="tempLongitude"
+                     name="longitude">
+            </mat-form-field>
+          </div>
+        </div>
+      
+        <!-- Mode visualisation -->
+        <div *ngIf="!editMode" class="map-view">
+          <div class="map-header">
+            <h3>Localisation du cabinet</h3>
+            <button mat-icon-button color="primary" (click)="enableEditMode()">
+              <mat-icon>edit_location</mat-icon>
+            </button>
+          </div>
+      
+          <div *ngIf="doctor?.cabinet?.latitude && doctor?.cabinet?.longitude; else noLocation" 
+               id="viewMap" class="static-map"></div>
+          
+          <ng-template #noLocation>
+            <div class="map-placeholder">
+              <mat-icon>location_off</mat-icon>
+              <p>Aucune localisation définie</p>
+              <button mat-raised-button color="primary" (click)="enableEditMode()">
+                <mat-icon>add_location</mat-icon>
+                Définir la localisation
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </mat-card>
+
+      <!-- Disponibilités -->
+      <mat-card class="profile-section">
+        <h2><mat-icon>schedule</mat-icon> Disponibilités</h2>
+        <div class="availability">
+          <!-- Disponibilités Section -->
+          <div *ngFor="let day of days" class="day-schedule">
+            <h3>{{ day }}</h3>
+            <ng-container *ngIf="getDaySchedule(day.toLowerCase()) as schedule">
+              <div *ngIf="schedule">
+                <div *ngIf="schedule.sessionType === 'Fermé'" class="closed">
+                  Fermé
+                </div>
+                <div *ngIf="schedule.sessionType === 'Séance unique'">
+                  {{ schedule.times.singleStart || '--:--' }} - {{ schedule.times.singleEnd || '--:--' }}
+                </div>
+                <div *ngIf="schedule.sessionType === 'Double séance'">
+                  Matin: {{ schedule.times.firstStart || '--:--' }} - {{ schedule.times.firstEnd || '--:--' }}<br>
+                  Après-midi: {{ schedule.times.secondStart || '--:--' }} - {{ schedule.times.secondEnd || '--:--' }}
+                </div>
+              </div>
+              <div *ngIf="!schedule" class="no-schedule">
+                Non défini
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
