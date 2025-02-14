@@ -1,11 +1,14 @@
+// Import des modules Angular nécessaires
 import { Injectable } from '@angular/core';
 import { User } from '../User.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' // Service disponible globalement
 })
 export class UserService {
+  // Données mockées d'utilisateurs (simulation de base de données)
   private users: User[] = [
+    // Exemple d'utilisateur 1
     {
       id: 1,
       firstName: 'Adem',
@@ -93,6 +96,7 @@ export class UserService {
         }
       }
     },
+    // Exemple d'utilisateur 2
     {
       id: 2,
       firstName: 'Yassin',
@@ -177,37 +181,66 @@ export class UserService {
     }
   ];
 
-  constructor() { }
+  constructor() { } // Aucune dépendance injectée
 
+  /**
+   * Récupère tous les utilisateurs (copie pour éviter les modifications directes)
+   * @returns Copie du tableau d'utilisateurs
+   */
   getUsers(): User[] {
     return this.users.map(user => ({ ...user }));
   }
 
+  /**
+   * Trouve un utilisateur par son ID
+   * @param id - ID de l'utilisateur recherché
+   * @returns Copie de l'utilisateur ou undefined
+   */
   getUserById(id: number): User | undefined {
     const user = this.users.find(u => u.id === id);
     return user ? { ...user } : undefined;
   }
 
+  /**
+   * Met à jour un utilisateur existant
+   * @param updatedUser - Utilisateur avec nouvelles données
+   */
   updateUser(updatedUser: User): void {
     const index = this.users.findIndex(u => u.id === updatedUser.id);
     if (index > -1) {
-      this.users[index] = { ...updatedUser };
+      this.users[index] = { ...updatedUser }; // Mise à jour immuable
     }
   }
 
+  /**
+   * Supprime un utilisateur par son ID
+   * @param userId - ID de l'utilisateur à supprimer
+   */
   deleteUser(userId: number): void {
     this.users = this.users.filter(user => user.id !== userId);
   }
 
+  /**
+   * Crée un nouvel utilisateur
+   * @param newUser - Nouvel utilisateur à ajouter
+   */
   createUser(newUser: User): void {
-    newUser.id = this.generateNewId();
-    this.users.push({ ...newUser });
+    newUser.id = this.generateNewId(); // Génération d'ID unique
+    this.users.push({ ...newUser }); // Ajout immuable
   }
 
+  /**
+   * Génère un nouvel ID unique incrémentiel
+   * @returns Nouvel ID disponible
+   */
   private generateNewId(): number {
     return Math.max(...this.users.map(u => u.id)) + 1;
   }
 
+  /**
+   * Fournit un utilisateur vide prêt à être rempli
+   * @returns Objet User avec valeurs par défaut
+   */
   getEmptyUser(): User {
     return {
       id: 0,
@@ -246,18 +279,23 @@ export class UserService {
         latitude: 0,
         longitude: 0
       },
-      schedule: this.getEmptySchedule()
+      schedule: this.getEmptySchedule() // Structure vide pour l'emploi du temps
     };
   }
 
+  /**
+  * Crée un emploi du temps vide
+  * @returns Structure vide d'emploi du temps
+  */
   private getEmptySchedule(): User['schedule'] {
     return {
       config: {
         languages: [],
         paymentMethods: [],
-        consultationDuration: 30
+        consultationDuration: 30 // Durée par défaut
       },
       days: {
+        // Initialisation de tous les jours comme fermés
         lundi: { sessionType: 'Fermé', times: {} },
         mardi: { sessionType: 'Fermé', times: {} },
         mercredi: { sessionType: 'Fermé', times: {} },
