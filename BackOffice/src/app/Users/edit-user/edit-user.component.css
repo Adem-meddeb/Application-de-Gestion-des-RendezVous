@@ -1,0 +1,505 @@
+/* Styles globaux */
+.dialog-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    padding: 1rem 1.5rem;
+  }
+  
+  .edit-form {
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Profil utilisateur */
+  .profile-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .image-upload-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-upload-container:hover {
+    transform: scale(1.03);
+  }
+  
+  .image-upload-container:hover .image-overlay {
+    opacity: 0.9;
+  }
+  
+  .profile-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid #fff;
+  }
+  
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .upload-icon {
+    color: white;
+    font-size: 2rem;
+  }
+  
+  .user-name {
+    font-size: 1.4rem;
+    margin: 1rem 0 0.5rem;
+    color: #34495e;
+  }
+  
+  .user-id {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  /* Formulaire */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .form-section, .status-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+    color: #3498db;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+  }
+  
+  /* Statut et rôles */
+  .role-content {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  
+  .current-status {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .current-status .approved {
+    color: #27ae60;
+  }
+  
+  .current-status .rejected {
+    color: #e74c3c;
+  }
+  
+  .current-status mat-icon {
+    font-size: 1.4rem;
+  }
+  
+  @keyframes statusPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .status-section mat-chip-option {
+    transition: all 0.3s ease;
+  }
+  
+  .status-section mat-chip-option:hover {
+    transform: translateY(-2px);
+  }
+  
+  .status-section mat-chip-option.mat-mdc-chip-selected {
+    animation: statusPulse 0.6s ease;
+  }
+  
+  /* Actions */
+  .cancel-btn {
+    margin-right: 1rem;
+    border-color: #bdc3c7;
+  }
+  
+  .save-btn {
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+  }
+  
+  /* Champs supplémentaires */
+  .row-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .row-group mat-form-field {
+    flex: 1;
+  }
+  
+  .password-toggle {
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .password-toggle:hover {
+    color: #3498db;
+  }
+  
+  /* Éducation */
+  .education-entry {
+    border: 1px solid #eee;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  /* Vérification */
+  .verification-section {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
+  
+  .verification-status {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+  }
+  
+  .verified {
+    color: #4CAF50;
+    margin-right: 0.5rem;
+  }
+  
+  .unverified {
+    color: #f44336;
+    margin-right: 0.5rem;
+  }
+  
+  .admin-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .admin-actions button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Upload et prévisualisation */
+  .upload-section {
+    border: 2px dashed #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .preview-container {
+    position: relative;
+    margin-top: 1rem;
+    max-width: 400px;
+  }
+  
+  .preview-container img {
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .preview-container button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Vue Admin */
+  .admin-view {
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  .admin-view img {
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+  
+  /* Carte de géolocalisation */
+  #map-container {
+    height: 200px;
+    width: 100%;
+    z-index: 0;
+  }
+  
+  /* Styles pour la section Aptitude */
+  .aptitude-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section-subtitle {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+  }
+  
+  .aptitude-preview {
+    position: relative;
+    margin: 1rem 0;
+    text-align: center;
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .aptitude-image {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 6px;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .aptitude-image:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .verification-details {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+  }
+  
+  .verification-status {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .verification-status mat-icon {
+    font-size: 1.8rem;
+  }
+  
+  .verified {
+    color: #27ae60;
+  }
+  
+  .unverified {
+    color: #f39c12;
+  }
+  
+  .no-aptitude {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    justify-content: center;
+    color: #e74c3c;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 2px dashed #e74c3c66;
+    border-radius: 8px;
+    background: #fef2f2;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .aptitude-image {
+        max-height: 300px;
+    }
+    
+    .verification-status {
+        flex-direction: column;
+        text-align: center;
+    }
+  }
+  
+  .image-dialog-container {
+    .mat-dialog-container {
+      padding: 0;
+      background: none;
+      box-shadow: none;
+    }
+  }
+  /* Conteneur principal */
+  .availability-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 1rem 0;
+  }
+  
+  /* Carte pour chaque jour */
+  .day-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .day-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  /* En-tête du jour */
+  .day-card h5 {
+    margin: 0 0 1.2rem 0;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+  }
+  
+  /* Style pour les jours fermés */
+  .closed-day {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #e74c3c;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+  }
+  
+  .closed-day mat-icon {
+    color: #e74c3c;
+  }
+  
+  /* Séance unique */
+  .single-session {
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    border-left: 4px solid #3498db;
+  }
+  
+  /* Double séance */
+  .double-session {
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+  }
+  
+  /* Groupe de séances */
+  .session-group {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+  }
+  
+  /* Plage horaire */
+  .time-range {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    margin-bottom: 0.3rem;
+  }
+  
+  .time-range mat-icon {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+  }
+  
+  /* Séparateur entre séances */
+  .session-separator {
+    text-align: center;
+    color: #95a5a6;
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .session-separator mat-icon {
+    font-size: 1.2rem;
+  }
+  
+  /* Étiquette de type de séance */
+  .session-label {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+  
+  /* Responsive pour mobiles */
+  @media (max-width: 768px) {
+    .availability-display {
+      grid-template-columns: 1fr;
+      padding: 0.5rem;
+    }
+    
+    .day-card {
+      padding: 1rem;
+    }
+    
+    .time-range {
+      font-size: 0.9rem;
+    }
+  }

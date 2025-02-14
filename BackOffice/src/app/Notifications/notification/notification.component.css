@@ -1,0 +1,42 @@
+.unread-badge {
+    background: #ff4757;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+  }
+  
+  .notification-item {
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .notification-item:hover {
+    background: #f5f6fa !important;
+  }
+  
+  .notification-item.unread {
+    background: rgba(255, 71, 87, 0.05);
+    font-weight: 500;
+  }
+  
+  .notification-item.unread h3 {
+    color: #ff4757;
+  }
+  
+  /* Style pour le dialog */
+  .notification-dialog {
+    padding: 20px;
+  }
+  
+  .notification-dialog .date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .notification-dialog .message {
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }

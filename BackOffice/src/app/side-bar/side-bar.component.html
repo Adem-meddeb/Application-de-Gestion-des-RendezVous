@@ -1,0 +1,53 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar -->
+    <mat-sidenav #sidenav mode="side" opened class="app-sidebar" [fixedInViewport]="isMobile"
+      [fixedTopGap]="mobileTopGap">
+      <!-- Menu Items with Submenu Support -->
+      <mat-nav-list class="menu-items">
+        <div class="logo-section">
+          <img src="assets/Logo.png" alt="Logo" class="logo">
+          <span class="app-name">BackOffice</span>
+        </div>
+  
+        <!-- Users-->
+        <a mat-list-item routerLink="/utilisateurs" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon class="menu-icon">people_alt</mat-icon>
+          <span class="menu-label">Utilisateurs</span>
+        </a>
+  
+        <!-- Notifications with Badge -->
+        <a mat-list-item routerLink="/notification" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon class="menu-icon">notifications</mat-icon>
+          <span class="menu-label">Notifications</span>
+          <span class="notification-badge">{{ unreadNotifications }}</span>
+        </a>
+  
+        <!-- contact -->
+        <a mat-list-item routerLink="/contacts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon class="menu-icon">Contact</mat-icon>
+          <span class="menu-label">Contact</span>
+        </a>
+  
+        <!-- Settings -->
+        <a mat-list-item routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon class="menu-icon">settings</mat-icon>
+          <span class="menu-label">Paramètres</span>
+        </a>
+  
+        <!-- Logout fixed en bas -->
+        <div class="sidebar-footer">
+          <a mat-list-item (click)="logout()" class="logout-item">
+            <mat-icon class="menu-icon">logout</mat-icon>
+            <span class="menu-label">Déconnexion</span>
+          </a>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <!-- Main Content -->
+    <mat-sidenav-content>
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

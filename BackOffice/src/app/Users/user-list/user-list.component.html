@@ -1,0 +1,93 @@
+<div class="container">
+    <h2>Liste des utilisateurs</h2>
+  
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="filter-header">
+                    <span>ID</span>
+                    <input 
+    class="filter-input" 
+    placeholder="Filtrer" 
+    (input)="applyFilter($any($event.target).value, 'id')"
+  >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+        </ng-container>
+  
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="filter-header">
+                    <span>Nom</span>
+                    <input 
+    class="filter-input" 
+    placeholder="Filtrer" 
+    (input)="applyFilter($any($event.target).value, 'firstName')"
+  >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let user">{{ user.firstName +' '+ user.lastName }}</td>
+        </ng-container>
+  
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="filter-header">
+                    <span>Email</span>
+                    <input 
+    class="filter-input" 
+    placeholder="Filtrer" 
+    (input)="applyFilter($any($event.target).value, 'email')"
+  >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
+  
+        <!-- Role Column -->
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="filter-header">
+                    <span>Rôle</span>
+                    <input 
+                    class="filter-input" 
+                    placeholder="Filtrer" 
+                    (input)="applyFilter($any($event.target).value, 'role')"
+                  >              </div>
+            </th>
+            <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+        </ng-container>
+  
+        <!-- Status Column -->
+        <ng-container matColumnDef="Status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="filter-header">
+                    <span>Status</span>
+                    <input 
+                    class="filter-input" 
+                    placeholder="Filtrer" 
+                    (input)="applyFilter($any($event.target).value, 'Status')"
+                  >              </div>
+            </th>
+            <td mat-cell *matCellDef="let user">{{ user.Status }}</td>
+        </ng-container>
+  
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let user">
+              <button mat-icon-button color="primary" (click)="openEditDialog(user)">
+                  <mat-icon>edit</mat-icon>
+              </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>

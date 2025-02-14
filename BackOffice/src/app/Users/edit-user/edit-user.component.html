@@ -1,0 +1,365 @@
+<h2 mat-dialog-title class="dialog-title">Modification du profil médical</h2>
+<mat-divider></mat-divider>
+
+<mat-dialog-content>
+    <div class="edit-form">
+        <div class="profile-section">
+            <div class="image-upload-container">
+                <img [src]="data.user.profilePhoto || 'assets/placeholder.png'" class="profile-image"
+                    alt="Photo de profil">
+                <div class="image-overlay">
+                    <mat-icon class="upload-icon">photo_camera</mat-icon>
+                </div>
+
+            </div>
+            <h3 class="user-name">{{ data.user.firstName }} {{ data.user.lastName }}</h3>
+            <p class="user-id">ID Médécin: #{{ data.user.id }}</p>
+        </div>
+
+        <div class="form-grid">
+            <!-- Informations personnelles -->
+            <div class="form-section">
+                <h4 class="section-title">Informations personnelles</h4>
+
+                <div class="row-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nom</mat-label>
+                        <input matInput [(ngModel)]="data.user.lastName" readonly>
+                        <mat-icon matSuffix>person</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Prénom</mat-label>
+                        <input matInput [(ngModel)]="data.user.firstName" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div class="row-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>CIN</mat-label>
+                        <input matInput [(ngModel)]="data.user.cin" maxlength="8" readonly>
+                        <mat-icon matSuffix>badge</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Genre</mat-label>
+                        <mat-select [(ngModel)]="data.user.gender">
+                            <mat-option value="male">Masculin</mat-option>
+                            <mat-option value="female">Féminin</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="row-group">
+                    <!-- Nouveau champ Email -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput [(ngModel)]="data.user.email" type="email" readonly>
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error *ngIf="false"> <!-- Ajouter une condition de validation ici -->
+                            Veuillez entrer une adresse email valide
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Téléphone</mat-label>
+                        <input matInput [(ngModel)]="data.user.phone" type="tel" readonly>
+                        <mat-icon matSuffix>phone</mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="row-group">
+                    <!-- Nouveau champ Âge -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Âge</mat-label>
+                        <input matInput [(ngModel)]="data.user.age" type="number" min="18" max="100" readonly>
+                        <mat-icon matSuffix>cake</mat-icon>
+                        <mat-error *ngIf="false"> <!-- Ajouter une condition de validation ici -->
+                            L'âge doit être entre 18 et 100 ans
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Adresse</mat-label>
+                        <input matInput [(ngModel)]="data.user.address" rows="2" readonly>
+                        <mat-icon matSuffix>location_on</mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput [(ngModel)]="data.user.password" [type]="showPassword ? 'text' : 'password'"
+                        readonly>
+                    <mat-icon matSuffix (click)="showPassword = !showPassword" class="password-toggle">
+                        {{ showPassword ? 'visibility_off' : 'visibility' }}
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+
+            <!-- Informations professionnelles -->
+            <div class="form-section">
+                <h4 class="section-title">Formation & Qualifications</h4>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Spécialité médicale</mat-label>
+                    <input matInput [(ngModel)]="data.user.specialty" readonly>
+                    <mat-icon matSuffix>medical_services</mat-icon>
+                </mat-form-field>
+
+                <div class="row-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nom du diplôme</mat-label>
+                        <input matInput [(ngModel)]="data.user.education.diplomaName"
+                            placeholder="Ex: Doctorat en Médecine Générale" readonly>
+                        <mat-icon matSuffix>description</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Établissement</mat-label>
+                        <input matInput [(ngModel)]="data.user.education.institution"
+                            placeholder="Ex: Université Paris Descartes" readonly>
+                        <mat-icon matSuffix>account_balance</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Année d'obtention</mat-label>
+                        <input matInput type="number" [(ngModel)]="data.user.education.year" min="1970"
+                            [max]="currentYear + 1" placeholder="Ex: 2018" readonly>
+                        <mat-icon matSuffix>calendar_today</mat-icon>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+
+            <!-- Expérience -->
+            <div class="form-section">
+                <h4 class="section-title">Expérience</h4>
+
+                <div class="row-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Poste</mat-label>
+                        <input matInput [(ngModel)]="data.user.experience.Poste" placeholder="Ex: Directeur Générale"
+                            readonly>
+                        <mat-icon matSuffix>description</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Établissement</mat-label>
+                        <input matInput [(ngModel)]="data.user.experience.institution" placeholder="Ex: Clinique Amen"
+                            readonly>
+                        <mat-icon matSuffix>account_balance</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Durée</mat-label>
+                        <input matInput type="number" [(ngModel)]="data.user.experience.year" min="1970"
+                            [max]="currentYear + 1" placeholder="Ex: 2018" readonly>
+                        <mat-icon matSuffix>calendar_today</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="row-group">
+                    <!-- Section Aptitude Professionnelle -->
+                    <mat-card class="aptitude-section">
+                        <h4 class="section-subtitle">Aptitude Professionnelle</h4>
+
+                        <div class="aptitude-preview">
+                            <img [src]="data.user.aptitude.photoUrl || 'assets/document-placeholder.png'"
+                                alt="Document d'aptitude professionnelle" class="aptitude-image"
+                                (click)="openImageDialog(data.user.aptitude.photoUrl)">
+                        </div>
+
+                        <div class="verification-details" *ngIf="data.user.aptitude">
+                            <div class="verification-status">
+                                <mat-icon [class.verified]="data.user.aptitude.verified"
+                                    [class.unverified]="!data.user.aptitude.verified">
+                                    {{ data.user.aptitude.verified ? 'verified' : 'warning' }}
+                                </mat-icon>
+                                <span>{{ data.user.aptitude.verified ? 'Validé le ' +
+                                    (data.user.aptitude.verificationDate | date: 'dd/MM/yyyy') : 'Non vérifié' }}</span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!data.user.aptitude" class="no-aptitude">
+                            <mat-icon>error_outline</mat-icon>
+                            Aucun document d'aptitude fourni
+                        </div>
+                    </mat-card>
+                </div>
+
+
+
+
+            </div>
+
+            <!-- Cabinet -->
+            <div class="form-section">
+                <h4 class="section-title">Cabinet</h4>
+
+                <div class="row-group">
+                    <!-- Section dans le template admin -->
+                    <mat-card class="verification-section">
+
+
+                        <mat-card-content>
+                            <!-- Remplacer toutes les occurrences de doctor par data.user -->
+                            <div *ngIf="data.user?.cabinet">
+                                <!-- Adresse -->
+                                <div class="info-row">
+                                    <label>Adresse:</label>
+                                    <p>{{ data.user.cabinet.address }}</p>
+                                </div>
+
+                                <!-- Gouvernorat -->
+                                <div class="info-row">
+                                    <label>Gouvernorat:</label>
+                                    <p>{{ data.user.cabinet.governorate }}</p>
+                                </div>
+
+                                <!-- Géolocalisation -->
+                                <div class="geo-verification">
+                                    <h4>Coordonnées GPS</h4>
+                                    <div class="coordinates">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Latitude</mat-label>
+                                            <input matInput [value]="data.user.cabinet.latitude" readonly>
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Longitude</mat-label>
+                                            <input matInput [value]="data.user.cabinet.longitude" readonly>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Carte de prévisualisation -->
+                                    <div *ngIf="data.user.cabinet.latitude && data.user.cabinet.longitude"
+                                        class="map-preview">
+                                        <div id="map-container"></div>
+                                        <div class="map-actions">
+                                            <button mat-icon-button (click)="openGoogleMaps()">
+                                                <mat-icon>open_in_new</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!data.user?.cabinet" class="no-data">
+                                Aucune information sur le cabinet disponible
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+
+
+                </div>
+            </div>
+
+            <!-- Disponibilité -->
+            <div class="form-section">
+                <h4 class="section-title">Disponibilités</h4>
+
+                <div class="availability-grid">
+                    <div *ngFor="let day of ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']"
+                        class="day-card">
+                        <h5>{{ day | titlecase }}</h5>
+
+                        <div [ngSwitch]="data.user.schedule.days[day].sessionType">
+
+                            <!-- Jour fermé -->
+                            <div *ngSwitchCase="'Fermé'" class="closed-day">
+                                <mat-icon>block</mat-icon>
+                                <span>Fermé</span>
+                            </div>
+
+                            <!-- Séance unique -->
+                            <div *ngSwitchCase="'Séance unique'" class="single-session">
+                                <div class="time-range">
+                                    <mat-icon>access_time</mat-icon>
+                                    <span>
+                                        {{ data.user.schedule.days[day].times.singleStart }} -
+                                        {{ data.user.schedule.days[day].times.singleEnd }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Double séance -->
+                            <div *ngSwitchCase="'Double séance'" class="double-session">
+                                <div class="session">
+                                    <div class="time-range">
+                                        <mat-icon>schedule</mat-icon>
+                                        <span>
+                                            {{ data.user.schedule.days[day].times.firstStart }} -
+                                            {{ data.user.schedule.days[day].times.firstEnd }}
+                                        </span>
+                                    </div>
+                                    <span class="session-label">Première séance</span>
+                                </div>
+
+                                <div class="session-separator">
+                                    <mat-icon>arrow_downward</mat-icon>
+                                </div>
+
+                                <div class="session">
+                                    <div class="time-range">
+                                        <mat-icon>schedule</mat-icon>
+                                        <span>
+                                            {{ data.user.schedule.days[day].times.secondStart }} -
+                                            {{ data.user.schedule.days[day].times.secondEnd }}
+                                        </span>
+                                    </div>
+                                    <span class="session-label">Deuxième séance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statut du compte -->
+            <div class="status-section">
+                <h4 class="section-title">Status</h4>
+                <mat-chip-listbox aria-label="Status selection">
+                    <mat-chip-option color="primary" selected (click)="updateStatus('approved')">
+                        <mat-icon>check_circle</mat-icon>
+                        Approuver le compte
+                    </mat-chip-option>
+
+                    <mat-chip-option color="warn" (click)="updateStatus('rejected')">
+                        <mat-icon>cancel</mat-icon>
+                        Rejeter la demande
+                    </mat-chip-option>
+                </mat-chip-listbox>
+
+                <div class="current-status">
+                    <span>Statut actuel :</span>
+                    <mat-icon [class.approved]="data.user.Status === 'approved'"
+                        [class.rejected]="data.user.Status === 'rejected'">
+                        {{ data.user.Status === 'approved' ? 'verified' : 'warning' }}
+                    </mat-icon>
+                    <span [class.approved]="data.user.Status === 'approved'"
+                        [class.rejected]="data.user.Status === 'rejected'">
+                        {{ data.user.Status === 'approved' ? 'Compte validé' : 'En attente de validation' }}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button mat-dialog-close class="cancel-btn">
+        <mat-icon>close</mat-icon>
+        Annuler
+    </button>
+    <button mat-raised-button color="primary" (click)="saveChanges()" class="save-btn">
+        <mat-icon>save</mat-icon>
+        Enregistrer les modifications
+    </button>
+</mat-dialog-actions>

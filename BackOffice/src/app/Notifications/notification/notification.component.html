@@ -1,0 +1,24 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Notifications ({{ notifications.length }})
+        <span *ngIf="unreadCount() > 0" class="unread-badge">
+          {{ unreadCount() }} non lues
+        </span>
+      </mat-card-title>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item 
+          *ngFor="let notification of notifications" 
+          (click)="openNotification(notification)"
+          [class.unread]="!notification.read"
+          class="notification-item">
+          <mat-icon matListIcon>notifications</mat-icon>
+          <h3 matLine>{{ notification.title }}</h3>
+          <p matLine>{{ notification.date | date:'dd/MM/yyyy HH:mm' }}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>

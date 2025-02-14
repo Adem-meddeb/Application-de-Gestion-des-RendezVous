@@ -1,0 +1,36 @@
+<div class="container">
+    <h2>Messages reçus</h2>
+    
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Colonne Nom -->
+      <ng-container matColumnDef="senderName">
+        <mat-header-cell *matHeaderCellDef> Nom </mat-header-cell>
+        <mat-cell *matCellDef="let message"> {{message.senderName}} </mat-cell>
+      </ng-container>
+  
+      <!-- Colonne Email -->
+      <ng-container matColumnDef="senderEmail">
+        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+        <mat-cell *matCellDef="let message"> {{message.senderEmail}} </mat-cell>
+      </ng-container>
+  
+      <!-- Colonne Sujet -->
+      <ng-container matColumnDef="subject">
+        <mat-header-cell *matHeaderCellDef> Sujet </mat-header-cell>
+        <mat-cell *matCellDef="let message"> {{message.subject}} </mat-cell>
+      </ng-container>
+  
+      <!-- Colonne Date -->
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+        <mat-cell *matCellDef="let message"> {{message.date | date:'dd/MM/yyyy HH:mm'}} </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row 
+        *matRowDef="let row; columns: displayedColumns;"
+        (click)="openMessageDetail(row)"
+        class="clickable-row"
+      ></mat-row>
+    </mat-table>
+  </div>

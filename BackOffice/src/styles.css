@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'leaflet/dist/leaflet.css';
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Ajoutez ceci à votre fichier CSS global (styles.css) ou dans le composant */
+/* Style général pour tous les éléments avec défilement */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* Track (arrière-plan) */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+  }
+  
+  /* Handle (curseur) */
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.3s ease;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  
+  /* Style spécifique pour le conteneur de login */
+  .login-card {
+    scrollbar-width: thin; /* Pour Firefox */
+    scrollbar-color: #c1c1c1 #f1f1f1; /* Pour Firefox */
+  }
+  
+  /* Pour les navigateurs WebKit (Chrome, Edge, Safari) */
+  .login-card::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .login-card::-webkit-scrollbar-track {
+    background: rgba(241, 241, 241, 0.5);
+  }
+  
+  .login-card::-webkit-scrollbar-thumb {
+    background: rgba(193, 193, 193, 0.7);
+  }
+  
+  .login-card::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 168, 168, 0.9);
+  }
+  
+  /* Optionnel : Animation de défilement fluide */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    --scrollbar-track: #f8f9fa;
+    --scrollbar-thumb: #4299e1;
+    --scrollbar-thumb-hover: #3182ce;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
+    border: 3px solid var(--scrollbar-track);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+  
+  /* Pour Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  .image-dialog-container .mat-dialog-container {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }

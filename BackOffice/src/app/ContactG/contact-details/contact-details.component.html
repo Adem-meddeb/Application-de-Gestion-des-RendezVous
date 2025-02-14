@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Détails du message</h2>
+<mat-dialog-content>
+  <div class="message-detail">
+    <div class="detail-item">
+      <label>Expéditeur :</label>
+      <span>{{data.message.senderName}}</span>
+    </div>
+    
+    <div class="detail-item">
+      <label>Email :</label>
+      <span>{{data.message.senderEmail}}</span>
+    </div>
+    
+    <div class="detail-item">
+      <label>Date :</label>
+      <span>{{data.message.date | date:'dd/MM/yyyy HH:mm'}}</span>
+    </div>
+    
+    <div class="detail-item">
+      <label>Sujet :</label>
+      <span>{{data.message.subject}}</span>
+    </div>
+    
+    <div class="content">
+      <h3>Contenu du message :</h3>
+      <p>{{data.message.content}}</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fermer</button>
+</mat-dialog-actions>

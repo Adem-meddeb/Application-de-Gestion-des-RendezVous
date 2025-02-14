@@ -1,0 +1,26 @@
+.message-detail {
+    padding: 20px;
+  }
+  
+  .detail-item {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  label {
+    font-weight: 500;
+    min-width: 100px;
+    color: #2A5C8B;
+  }
+  
+  .content {
+    margin-top: 25px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
+  
+  h3 {
+    color: #2A5C8B;
+    margin-bottom: 10px;
+  }
