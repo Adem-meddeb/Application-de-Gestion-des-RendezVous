@@ -333,6 +333,17 @@
                         Rejeter la demande
                     </mat-chip-option>
                 </mat-chip-listbox>
+                <!-- Champ de raison du rejet -->
+                <div *ngIf="data.user.Status === 'rejected'" class="rejection-reason-section">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Cause du rejet</mat-label>
+                        <textarea matInput [(ngModel)]="rejectionReason" required rows="3"
+                            placeholder="Veuillez spécifier la raison du rejet..."></textarea>
+                        <mat-error *ngIf="!rejectionReason">
+                            La raison du rejet est obligatoire
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
                 <div class="current-status">
                     <span>Statut actuel :</span>

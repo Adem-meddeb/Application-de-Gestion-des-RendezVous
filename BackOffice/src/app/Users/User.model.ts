@@ -81,4 +81,5 @@ export interface Education {
     aptitude: Aptitude;
     cabinet: Cabinet;
     schedule: Schedule;
+    rejectionReason?: string;
   }

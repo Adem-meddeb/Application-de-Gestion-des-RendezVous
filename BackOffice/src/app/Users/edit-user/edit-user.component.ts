@@ -11,6 +11,7 @@ import { User } from '../User.model';
   styleUrl: './edit-user.component.css'
 })
 export class EditUserComponent implements AfterViewInit, OnDestroy {
+  rejectionReason: string = '';
   currentYear = new Date().getFullYear();
   private map!: L.Map;
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -52,9 +53,18 @@ export class EditUserComponent implements AfterViewInit, OnDestroy {
 
   updateStatus(newStatus: string): void {
     this.data.user.Status = newStatus;
+    if (newStatus !== 'rejected') {
+      this.rejectionReason = ''; // Réinitialiser la raison si le statut change
+    }
   }
 
   saveChanges(): void {
+    if (this.data.user.Status === 'rejected' && !this.rejectionReason) {
+      alert('Veuillez saisir la raison du rejet');
+      return;
+    }
+    
+    this.data.user.rejectionReason = this.rejectionReason;
     this.dialogRef.close(this.data.user);
   }
 

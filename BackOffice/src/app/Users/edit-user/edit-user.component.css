@@ -503,3 +503,27 @@
       font-size: 0.9rem;
     }
   }
+  .rejection-reason-section {
+    margin-top: 1.5rem;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Adaptation pour les mobiles */
+  @media (max-width: 768px) {
+    .rejection-reason-section {
+      margin-top: 1rem;
+    }
+    
+    textarea {
+      font-size: 0.9rem;
+    }
+  }
