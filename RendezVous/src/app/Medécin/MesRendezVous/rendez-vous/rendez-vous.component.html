@@ -90,14 +90,27 @@
             <div class="card-actions">
               <button class="btn-details" (click)="openPatientDetails(appointment.patient)">
                 <i class="fas fa-info-circle"></i>
-                Détails complet
+                Détails complet du patient
               </button>
-              <button class="btn-cancel"
-                *ngIf="appointment.status === 'En attente' || appointment.status === 'Confirmé'"
-                (click)="cancelAppointment(appointment)">
-                <i class="fas fa-times"></i>
-                Annuler
-              </button>
+              
+              <div class="action-menu" *ngIf="appointment.status === 'En attente' || appointment.status === 'Confirmé'">
+                <button mat-button [matMenuTriggerFor]="menu" class="btn-actions">
+                  <i class="fas fa-ellipsis-v"></i>
+                  Actions
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item 
+                          (click)="confirmAppointment(appointment)"
+                          *ngIf="appointment.status === 'En attente'">
+                    <i class="fas fa-check-circle"></i>
+                    Confirmer
+                  </button>
+                  <button mat-menu-item (click)="openCancelDialog(appointment)">
+                    <i class="fas fa-times-circle"></i>
+                    Annuler
+                  </button>
+                </mat-menu>
+              </div>
             </div>
           </div>
         </div>
@@ -139,7 +152,7 @@
               <p>{{ appointment.type }}</p>
             </div>
             <div class="card-actions">
-              <button class="btn-details" (click)="openPatientDetails(appointment.patient)">
+              <button class="btn-details" (click)="openMedicalRecord(appointment)">
                 <i class="fas fa-file-medical"></i>
                 Dossier Médical
               </button>

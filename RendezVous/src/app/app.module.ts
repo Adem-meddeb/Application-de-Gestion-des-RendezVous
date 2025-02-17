@@ -22,7 +22,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { MatCardModule } from '@angular/material/card';
 import { NgxFilesizeModule } from 'ngx-filesize';
-import { FooterComponent } from './Oth/footer/footer.component';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -51,13 +50,18 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RendezVousComponent } from './Medécin/MesRendezVous/rendez-vous/rendez-vous.component';
 import { CalendrierComponent } from './Medécin/calendrier/calendrier.component';
-import { ProfileComponent } from './Medécin/profile/profile.component';
+import { ProfileComponent } from './Medécin/Profiles/profile/profile.component';
 import { MessagesComponent } from './Medécin/messages/messages.component';
 
 import { MatRadioModule } from '@angular/material/radio';
 import { PatientDetailsComponent } from './Medécin/MesRendezVous/patient-details/patient-details.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { CancelReasonDialogComponent } from './Medécin/MesRendezVous/cancel-reason-dialog/cancel-reason-dialog.component';
+import { MedicalRecordComponent } from './Medécin/medical-record/medical-record.component';
+import { DatePipe } from '@angular/common';
+
+
 
 
 
@@ -66,12 +70,13 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     AppComponent,
     RegisterComponent,
     Login1Component,
-    FooterComponent,
     RendezVousComponent,
     CalendrierComponent,
     ProfileComponent,
     MessagesComponent,
     PatientDetailsComponent,
+    CancelReasonDialogComponent,
+    MedicalRecordComponent,
     
   ],
   imports: [
@@ -119,8 +124,21 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 
     FullCalendarModule,
 
+    MatDialogModule,
+    MatCardModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatListModule,
+
+    MatDividerModule,
+    MatExpansionModule,
+    MatListModule,
+    
+
   ],
-  providers: [],
+  providers: [
+    DatePipe // Ajoutez cette ligne
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

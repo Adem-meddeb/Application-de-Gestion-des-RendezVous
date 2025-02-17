@@ -4,6 +4,8 @@ import { PatientDetailsComponent } from '../patient-details/patient-details.comp
 import { MatDialog } from '@angular/material/dialog';
 import { Appointment , Patient } from '../../Models/appointment.model';
 import { SharedService } from '../../Services/SharedService/shared.service';
+import { CancelReasonDialogComponent } from '../cancel-reason-dialog/cancel-reason-dialog.component';
+import { MedicalRecordComponent } from '../../medical-record/medical-record.component';
 
 @Component({
   selector: 'app-rendez-vous',
@@ -133,20 +135,45 @@ export class RendezVousComponent {
     });
   }
 
-  cancelAppointment(appointment: Appointment): void {
-    const confirmation = confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?');
-    
-    if (confirmation) {
-      const index = this.appointments.findIndex(a => a.id === appointment.id);
-      
-      if (index > -1) {
-        this.appointments[index].status = 'Annulé';
-        // Mise à jour du service
-        this.sharedService.setAppointments(this.appointments);
-        // Rechargement des données
-        this.loadAppointments();
-        alert('Rendez-vous annulé avec succès');
-      }
+  cancelAppointment(appointment: Appointment, reason: string): void {
+    const index = this.appointments.findIndex(a => a.id === appointment.id);
+    if (index > -1) {
+      this.appointments[index].status = 'Annulé';
+      this.appointments[index].cancellationReason = reason;
+      this.sharedService.setAppointments(this.appointments);
+      this.loadAppointments();
+      alert('Rendez-vous annulé avec succès');
     }
   }
+
+  // Ajoutez ces méthodes
+confirmAppointment(appointment: Appointment): void {
+  const index = this.appointments.findIndex(a => a.id === appointment.id);
+  if (index > -1) {
+    this.appointments[index].status = 'Confirmé';
+    this.sharedService.setAppointments(this.appointments);
+    this.loadAppointments();
+    alert('Rendez-vous confirmé avec succès');
+  }
 }
+
+openCancelDialog(appointment: Appointment): void {
+  const dialogRef = this.dialog.open(CancelReasonDialogComponent, {
+    width: '500px',
+    data: { reason: appointment.cancellationReason || '' }
+  });
+
+  dialogRef.afterClosed().subscribe(reason => {
+    if (reason) {
+      this.cancelAppointment(appointment, reason);
+    }
+  });
+}
+
+openMedicalRecord(appointment: Appointment): void {
+  this.dialog.open(MedicalRecordComponent, {
+    data: appointment,
+    width: '1000px',
+  });
+}
+} 

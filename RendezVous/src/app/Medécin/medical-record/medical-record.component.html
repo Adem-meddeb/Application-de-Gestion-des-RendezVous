@@ -1,0 +1,124 @@
+<mat-dialog-content>
+  <mat-card class="medical-card mat-elevation-z8">
+    <!-- En-tête amélioré avec effet de profondeur -->
+    <mat-card-header class="header">
+      <div class="patient-avatar" mat-card-avatar>
+        <div class="avatar-container">
+          <img *ngIf="data.patient.profilePhoto" [src]="data.patient.profilePhoto" alt="Photo profil"
+            class="profile-photo">
+          <div *ngIf="!data.patient.profilePhoto" class="avatar-fallback">
+            <mat-icon>person</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="patient-header-content">
+        <mat-card-title class="patient-name">
+          <span class="name">{{ data.patient.firstName }} {{ data.patient.lastName }}</span>
+          <span class="patient-id">ID: {{ data.patient.id }}</span>
+        </mat-card-title>
+        <mat-card-subtitle class="patient-subtitle">
+          <div class="patient-info">
+            <div class="info-item" matRipple>
+              <mat-icon class="icon">cake</mat-icon>
+              <div class="info-text">
+                <div class="label">Date de naissance</div>
+                <div class="value">{{ getFormattedBirthDate() }} ({{ calculateAge() }} ans)</div>
+              </div>
+            </div>
+            <div class="info-item" matRipple>
+              <mat-icon class="icon">location_on</mat-icon>
+              <div class="info-text">
+                <div class="label">Adresse</div>
+                <div class="value">{{ data.patient.address || 'Non renseignée' }}</div>
+              </div>
+            </div>
+          </div>
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
+    <mat-divider class="header-divider"></mat-divider>
+    <mat-card-content class="content-container">
+      <div class="medical-section consultation-info">
+        <h3 class="section-title">
+          <mat-icon class="section-icon">event_note</mat-icon>
+          Détails de la consultation
+        </h3>
+
+        <mat-list dense>
+          <mat-list-item>
+            <mat-icon mat-list-icon>date_range</mat-icon>
+            <div mat-line>{{ getFormattedConsultationDate() }}</div>
+            <div mat-line class="time-detail">Heure: {{ data.time }}</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>medical_services</mat-icon>
+            <div mat-line>Type: {{ data.type }}</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
+            <div mat-line>
+              Statut:
+              <span class="status-badge" [ngClass]="getStatusClass()">
+                {{ data.status }}
+              </span>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <mat-expansion-panel [expanded]="hasMedicalHistory()" class="medical-history">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="section-icon">history</mat-icon>
+            Historique Médical
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ hasMedicalHistory() ? 'Cliquez pour réduire' : 'Aucun historique' }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list *ngIf="hasMedicalHistory()" dense>
+          <mat-list-item class="medical-list-item">
+            <mat-icon mat-list-icon class="list-icon">healing</mat-icon>
+            <div class="list-content">
+              <div mat-line class="list-title">Diagnostic</div>
+              <div mat-line class="medical-value">{{ getMedicalField('diagnosis') }}</div>
+            </div>
+          </mat-list-item>
+          
+
+          <mat-divider></mat-divider>
+
+          <mat-list-item class="medical-list-item">
+            <mat-icon mat-list-icon class="list-icon">medication</mat-icon>
+            <div class="list-content">
+              <div mat-line class="list-title">Traitement</div>
+              <div mat-line class="medical-value">{{ getMedicalField('treatment') }}</div>
+            </div>
+          </mat-list-item>
+          
+
+          <mat-divider></mat-divider>
+
+    
+          <mat-list-item class="medical-list-item">
+            <mat-icon mat-list-icon class="list-icon">notes</mat-icon>
+            <div class="list-content">
+              <div mat-line class="list-title">Observations</div>
+              <div mat-line class="medical-value">{{ getMedicalField('notes') }}</div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-card-content> </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="downloadPdf()" class="pdf-button">
+    <mat-icon>picture_as_pdf</mat-icon>
+    Télécharger PDF
+  </button>
+  <button mat-button mat-dialog-close class="close-button">
+    Fermer
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-dialog-actions>

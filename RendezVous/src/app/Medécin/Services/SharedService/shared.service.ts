@@ -20,12 +20,20 @@ export class SharedService {
         address: '12 Rue de la République, Tunis',
         phone: '12345678',
         profilePhoto: 'assets/doc1.jpg',
-        age: 35
+        age: 35,
+        birthDate: '1990-05-15' // Ajouté dans patient
+
       },
       date: '2024-03-20',
       time: '10:00',
       type: 'Consultation générale',
-      status: 'Confirmé'
+      status: 'Confirmé',
+      cancellationReason: '', // Ajouté
+      medicalHistory: {
+        diagnosis: 'Fracture du fémur droit',
+        treatment: 'Ostéosynthèse et rééducation',
+        notes: 'Patient à surveiller pour mobilité réduite'
+      }
     },
     {
       id: 2,
@@ -36,12 +44,20 @@ export class SharedService {
         address: '45 Avenue Habib Bourguiba',
         phone: '98765432',
         profilePhoto: 'assets/doc1.jpg',
-        age: 28
+        age: 28,
+        birthDate: '1990-05-15' // Ajouté dans patient
+
       },
       date: '2023-12-15',
       time: '14:30',
       type: 'Suivi post-opératoire',
-      status: 'Terminé'
+      status: 'Terminé',
+      cancellationReason: '' ,// Ajouté
+      medicalHistory: {
+        diagnosis: 'Fracture du fémur droit',
+        treatment: 'Ostéosynthèse et rééducation',
+        notes: 'Patient à surveiller pour mobilité réduite'
+      }
     },
     {
       id: 3,
@@ -52,12 +68,20 @@ export class SharedService {
         address: 'Rue du Commerce',
         phone: '55667788',
         profilePhoto: 'assets/doc1.jpg',
-        age: 42
+        age: 42,
+        birthDate: '1990-05-15' // Ajouté dans patient
+
       },
       date: '2025-02-10',
       time: '11:15',
       type: 'Vaccination',
-      status: 'En attente'
+      status: 'En attente',
+      cancellationReason: '', // Ajouté
+      medicalHistory: {
+        diagnosis: 'Fracture du fémur droit',
+        treatment: 'Ostéosynthèse et rééducation',
+        notes: 'Patient à surveiller pour mobilité réduite'
+      }
     },
     {
       id: 4,
@@ -68,12 +92,21 @@ export class SharedService {
         address: 'Avenue Mohamed V',
         phone: '11223344',
         profilePhoto: 'assets/doc1.jpg',
-        age: 31
+        age: 31,
+        birthDate: '1990-05-15' // Ajouté dans patient
+
       },
       date: '2026-04-05',
       time: '09:00',
       type: 'Consultation cardiologie',
-      status: 'En attente'
+      status: 'En attente',
+      cancellationReason: '', // Ajouté
+      
+      medicalHistory: {
+        diagnosis: 'Fracture du fémur droit',
+        treatment: 'Ostéosynthèse et rééducation',
+        notes: 'Patient à surveiller pour mobilité réduite'
+      }
     }
 
   ];
@@ -95,4 +128,13 @@ export class SharedService {
       data: patient
     });
   }
+  
+  getAppointmentById(id: number): Appointment {
+    const appointment = this.appointments.find(a => a.id === id);
+    if (!appointment) {
+      throw new Error('Rendez-vous non trouvé');
+    }
+    return appointment;
+  }
+
 }

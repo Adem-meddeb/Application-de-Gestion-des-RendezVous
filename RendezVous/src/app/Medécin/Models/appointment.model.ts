@@ -7,6 +7,8 @@ export interface Patient {
     phone: string;
     profilePhoto?: string;
     age: number;
+    birthDate?: string; // Déjà correct avec le '?'
+
   }
   
   export interface Appointment {
@@ -16,4 +18,10 @@ export interface Patient {
     time: string;
     type: string;
     status: string;
+    cancellationReason?: string; // Rendue optionnelle avec '?'
+    medicalHistory?: Partial<{
+      diagnosis: string;
+      treatment: string;
+      notes: string;
+    }>;
   }

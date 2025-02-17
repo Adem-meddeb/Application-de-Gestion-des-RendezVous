@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './Auth/register/register.component';
 import { Login1Component } from './Auth/login1/login1.component';
 
-import { ProfileComponent } from './Medécin/profile/profile.component';
+import { ProfileComponent } from './Medécin/Profiles/profile/profile.component';
 import { MessagesComponent } from './Medécin/messages/messages.component';
 import { CalendrierComponent } from './Medécin/calendrier/calendrier.component';
 import { RendezVousComponent } from './Medécin/MesRendezVous/rendez-vous/rendez-vous.component';
+import { MedicalRecordComponent } from './Medécin/medical-record/medical-record.component';
 
 const routes: Routes = [
   // Redirection de la racine vers /login
@@ -21,6 +22,11 @@ const routes: Routes = [
   { path: 'Profile', component:ProfileComponent},
   { path: 'Messages', component:MessagesComponent},
   { path: 'Calendrier', component:CalendrierComponent},
+
+  { 
+    path: 'dossier-medical/:id', 
+    component: MedicalRecordComponent 
+  }
 ];
 
 @NgModule({
