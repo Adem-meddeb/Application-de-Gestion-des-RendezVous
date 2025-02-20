@@ -1,7 +1,7 @@
 // doctor.model.ts
 export interface Doctor {
     id?: string;
-    personalInfo?: {
+    personalInfo: {
       firstName: string;
       lastName: string;
       cin: string;
@@ -14,7 +14,7 @@ export interface Doctor {
     };
     education?: {
       degrees: Education[];
-      specialties: string[];
+      specialties: { name: string; aptitude: string }[];
     };
     experience?: {
       positions: Experience[];
@@ -24,12 +24,24 @@ export interface Doctor {
         fileSize: number;
       };
     };
-    cabinet?: Cabinet;
-    schedule?: Schedule;
-    practiceInfo?: {
+    cabinet: Cabinet;
+    practiceInfo: {
       languages: string[];
       paymentMethods: string[];
       consultationDuration: number;
+      schedule: {
+        [day: string]: {
+          sessionType: string;
+          times: {
+            singleStart?: string;
+            singleEnd?: string;
+            firstStart?: string;
+            firstEnd?: string;
+            secondStart?: string;
+            secondEnd?: string;
+          };
+        };
+      };
     };
   }
   
@@ -51,18 +63,3 @@ export interface Doctor {
     latitude?: number;
     longitude?: number;
   }
-  
-  export interface ScheduleEntry {
-    sessionType: 'Séance unique' | 'Double séance' | 'Fermé';
-    times: {
-      singleStart?: string;
-      singleEnd?: string;
-      firstStart?: string;
-      firstEnd?: string;
-      secondStart?: string;
-      secondEnd?: string;
-    };
-  }
-  export interface Schedule {
-    [key: string]: ScheduleEntry;
-    };

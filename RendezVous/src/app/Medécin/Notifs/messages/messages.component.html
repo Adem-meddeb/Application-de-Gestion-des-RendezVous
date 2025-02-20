@@ -1,0 +1,87 @@
+<!-- doctor.component.html -->
+<div class="dashboard-container">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h2 class="logo">
+      <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
+      TabibNet
+    </h2>
+    <ul class="nav-menu">
+      <li routerLink="/RendezVous" routerLinkActive="active">
+        <i class="fas fa-calendar-check"></i>
+        Mes RendezVous
+      </li>
+      <li routerLink="/Calendrier" routerLinkActive="active">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+      </li>
+      <li routerLink="/Messages" routerLinkActive="active">
+        <i class="fas fa-envelope"></i>
+        Messages
+      </li>
+      <li routerLink="/Profile" routerLinkActive="active">
+        <i class="fas fa-user-circle"></i>
+        Profile
+      </li>
+    </ul>
+  </nav>
+  <!-- Contenu principal des messages -->
+  <div class="messages-container">
+    <mat-card class="messages-card">
+      <div class="header">
+        <h2>
+          <mat-icon>mail</mat-icon>
+          Boîte de réception
+          <span class="unread-count">{{ unreadCount }}</span>
+        </h2>
+        <button mat-raised-button color="primary" (click)="markAllAsRead()">
+          <mat-icon>mark_email_read</mat-icon>
+          Tout marquer comme lu
+        </button>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <mat-list class="message-list">
+        <!-- Ligne corrigée -->
+        <mat-list-item *ngFor="let message of messages" (click)="openMessage(message.id)" [class.unread]="!message.read"
+          class="message-item" style="height: auto;"><!-- Ajouter height:auto -->
+          <div class="message-content">
+            <div class="message-info">
+              <div class="sender-info">
+                <mat-icon class="sender-icon">account_circle</mat-icon>
+                <div class="sender-details">
+                  <span class="sender-name">{{ message.sender }}</span>
+                  <span class="message-subject">{{ message.subject }}</span>
+                </div>
+              </div>
+              <div class="message-preview">
+                {{ message.content | truncate:100 }}
+                <span *ngIf="message.attachments" class="attachments">
+                  <mat-icon>attach_file</mat-icon>
+                  {{ message.attachments.length }} pièce(s) jointe(s)
+                </span>
+              </div>
+            </div>
+
+            <div class="message-actions">
+              <span class="message-time">{{ message.timestamp | date:'dd/MM/yy HH:mm' }}</span>
+              <button mat-icon-button (click)="toggleRead(message)" matTooltip="Marquer comme lu/non lu">
+                <mat-icon>{{ message.read ? 'mark_email_unread' : 'mark_email_read' }}</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteMessage(message.id)" matTooltip="Supprimer">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+
+      <div *ngIf="messages.length === 0" class="empty-state">
+        <mat-icon class="empty-icon">inbox</mat-icon>
+        <h3>Aucun message</h3>
+        <p>Votre boîte de réception est vide</p>
+      </div>
+    </mat-card>
+  </div>
+</div>
