@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Auth/login/login.component';
 import { UserListComponent } from './Users/user-list/user-list.component';
 import { EditUserComponent } from './Users/edit-user/edit-user.component';
 import { ContactComponent } from './ContactG/contact/contact.component';
@@ -57,6 +57,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SpecialiteComponent } from './Spécialite/specialite/specialite.component';
 import { AddSpecialityComponent } from './Spécialite/add-speciality/add-speciality.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthInterceptor } from './Interceptors/interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FormatNotificationTypePipe } from './Notifications/Pipe/FormatNotifPipe/format-notification-type-pipe.pipe';
+import { TimeAgoPipe } from './Notifications/Pipe/TimeAgoPipe/time-ago.pipe';
+
 
 
 @NgModule({
@@ -74,9 +80,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SettingsComponent,
     SpecialiteComponent,
     AddSpecialityComponent,
+    FormatNotificationTypePipe,
+    TimeAgoPipe,
+    
     
   ],
   imports: [
+    
+
+    HttpClientModule,
+
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -130,9 +143,20 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserAnimationsModule,
 
     MatSnackBarModule,
+    
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
+  exports: [
+    TimeAgoPipe
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

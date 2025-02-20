@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Specialty } from '../specialty.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { SpecialtyService } from '../Services/specialty.service';
+import { SpecialtyService } from '../../Services/SpecService/specialty.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSpecialityComponent } from '../add-speciality/add-speciality.component';
 import { MatSnackBar } from '@angular/material/snack-bar';

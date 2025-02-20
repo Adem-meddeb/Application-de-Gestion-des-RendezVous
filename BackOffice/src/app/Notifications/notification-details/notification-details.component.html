@@ -1,12 +1,13 @@
+<!-- notification-details.component.html -->
 <div class="notification-dialog">
-    <h2 mat-dialog-title>{{ notification.title }}</h2>
-    
-    <mat-dialog-content>
-      <p class="date">{{ notification.date | date:'dd/MM/yyyy HH:mm' }}</p>
-      <p class="message">{{ notification.message }}</p>
-    </mat-dialog-content>
+  <h2 mat-dialog-title>{{ data.title | titlecase }}</h2>
   
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Fermer</button>
-    </mat-dialog-actions>
-  </div>
+  <mat-dialog-content>
+    <p class="date">{{ data.date | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p class="message">{{ data.message }}</p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fermer</button>
+  </mat-dialog-actions>
+</div>

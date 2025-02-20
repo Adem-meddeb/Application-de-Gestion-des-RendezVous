@@ -6,8 +6,9 @@ import { EditUserComponent } from './Users/edit-user/edit-user.component';
 import { NotificationComponent } from './Notifications/notification/notification.component';
 import { ContactComponent } from './ContactG/contact/contact.component';
 import { SettingsComponent } from './Setting/settings/settings.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Auth/login/login.component';
 import { SpecialiteComponent } from './Spécialite/specialite/specialite.component';
+import { authGuard } from './Guard/auth.guard';
 
 const routes: Routes = [
 
@@ -20,15 +21,15 @@ const routes: Routes = [
   // Routes protégées avec layout (avec sidebar)
   { 
     path: '',
-    component: SideBarComponent,
+    component: SideBarComponent, canActivate: [authGuard],
     children: [
       //Admin
-      { path: 'utilisateurs', component: UserListComponent },
-      { path: 'edit', component:EditUserComponent},
-      { path: 'notification', component:NotificationComponent},
-      { path: 'contacts', component:ContactComponent},
-      { path: 'settings', component:SettingsComponent},
-      { path: 'specialites', component:SpecialiteComponent},
+      { path: 'utilisateurs', component: UserListComponent, canActivate: [authGuard] },
+      { path: 'edit', component:EditUserComponent , canActivate: [authGuard]},
+      { path: 'notification', component:NotificationComponent , canActivate: [authGuard]},
+      { path: 'contacts', component:ContactComponent , canActivate: [authGuard]},
+      { path: 'settings', component:SettingsComponent , canActivate: [authGuard]},
+      { path: 'specialites', component:SpecialiteComponent , canActivate: [authGuard]},
 
       
       

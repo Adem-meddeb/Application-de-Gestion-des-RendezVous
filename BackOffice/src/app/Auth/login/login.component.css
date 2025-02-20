@@ -1,0 +1,351 @@
+/* login.component.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+  
+  
+  /* Section Login (droite) */
+  .login-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+  
+.login-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    text-align: center; /* Centre le texte à l'intérieur */
+}
+  
+  /* Animations */
+  @keyframes cardEntrance {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation de glissement */
+  .slide-enter {
+    transform: translateX(100%);
+  }
+  
+  .slide-enter-active {
+    transform: translateX(0);
+    transition: transform 800ms ease-in-out;
+  }
+  
+  .slide-leave {
+    transform: translateX(0);
+  }
+  
+  .slide-leave-active {
+    transform: translateX(-100%);
+    transition: transform 800ms ease-in-out;
+  }
+  
+  /* Styles de formulaire */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    text-align: left; /* Garde les labels alignés à gauche */
+}
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.9rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: 
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #4299e1;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+  }
+  
+  .error-input {
+    border-color: #fc8181 !important;
+    animation: shake 0.4s ease-in-out;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+  
+  .error-message {
+    color: #fc8181;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    animation: fadeInUp 0.3s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Bouton de connexion */
+  .login-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 
+      background-color 0.3s ease,
+      transform 0.2s ease;
+    margin-top: 1rem;
+
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  
+  .login-button:hover {
+    background-color: #3182ce;
+    transform: translateY(-1px);
+  }
+  
+  .login-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Connexions sociales */
+  .social-login {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .social-divider {
+    color: #718096;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  
+  .social-divider::before,
+  .social-divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 
+      all 0.2s ease,
+      transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    border: 1px solid #e2e8f0;
+    background: white;
+  }
+  
+  .social-icon:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .social-icon svg {
+    transition: fill 0.2s ease;
+  }
+  
+  /* Couleurs des icônes */
+  .social-icon.facebook:hover {
+    background: #1877f2;
+    border-color: #1877f2;
+  }
+  
+  .social-icon.google:hover {
+    background: #db4437;
+    border-color: #db4437;
+  }
+  
+  .social-icon.apple:hover {
+    background: #000;
+    border-color: #000;
+  }
+  
+  /* Liens utiles */
+  .links-section {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .link {
+    color: #4299e1;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 
+      opacity 0.3s ease,
+      transform 0.2s ease;
+    display: inline-block;
+  }
+  
+  .link:hover {
+    opacity: 0.8;
+    transform: translateX(2px);
+    text-decoration: underline;
+  }
+  
+  .signup-text {
+    margin-top: 1.5rem;
+    color: #718096;
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .login-container {
+      grid-template-columns: 1fr;
+      
+      
+      
+      .login-content {
+        order: 1;
+        padding: 1.5rem;
+        min-height: auto;
+        justify-content: center;
+      }
+      
+      .login-card {
+        padding: 2rem;
+        box-shadow: none;
+        animation: mobileSlideIn 0.6s ease-out;
+      }
+  
+      
+    }
+  
+    @keyframes mobileSlideIn {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  
+    @keyframes mobileSlide {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  }
+  
+  /* Styles pour le titre principal */
+  .login-title {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .main-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3182ce; /* Couleur bleu professionnelle */
+    display: block;
+    letter-spacing: 0.05em;
+    position: relative;
+  }
+  
+  .main-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 4px;
+    background: #3182ce;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .main-title:hover::after {
+    transform: scaleX(1);
+  }
+  
+  .sub-title {
+    font-size: 1.2rem;
+    color: #718096;
+    display: block;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .main-title {
+      font-size: 2rem;
+    }
+  
+    .sub-title {
+      font-size: 1rem;
+    }
+  }
+  .footer-text {
+    margin-top: 20px; /* Ajoute un espace entre le bouton et le texte /
+    font-size: 14px; / Taille de police plus petite pour le texte de crédit /
+    color: #666; / Couleur grise pour un aspect discret /
+    text-align: center; / Centre le texte horizontalement */
+    }
+
+    /* Ajouter ces styles */
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #4299e1;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
