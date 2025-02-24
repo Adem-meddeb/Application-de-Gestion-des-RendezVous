@@ -397,77 +397,82 @@
           <div *ngFor="let day of days" class="day-section">
             <h3>{{ day | titlecase }}</h3>
 
-          <!-- Mode visualisation -->
-          <div *ngIf="!editMode">
-            <!-- Ajouter le point d'interrogation pour la navigation sécurisée -->
-            <p>Type de séance : {{ doctor.practiceInfo.schedule[day].sessionType || 'Non défini' }}</p>
+            <!-- Mode visualisation -->
+            <div *ngIf="!editMode">
+              <!-- Ajouter le point d'interrogation pour la navigation sécurisée -->
+              <p>Type de séance : {{ doctor.practiceInfo.schedule[day].sessionType || 'Non défini' }}</p>
 
-            <div *ngIf="doctor.practiceInfo.schedule[day]?.sessionType === 'Séance unique'">
-              {{ doctor.practiceInfo.schedule[day].times.singleStart || '--:--' }} -
-              {{ doctor.practiceInfo.schedule[day].times.singleEnd || '--:--' }}
+              <div *ngIf="doctor.practiceInfo.schedule[day]?.sessionType === 'Séance unique'">
+                {{ doctor.practiceInfo.schedule[day].times.singleStart || '--:--' }} -
+                {{ doctor.practiceInfo.schedule[day].times.singleEnd || '--:--' }}
+              </div>
+
+              <div *ngIf="doctor.practiceInfo.schedule[day]?.sessionType === 'Double séance'">
+                Séance 1: {{ doctor.practiceInfo.schedule[day].times.firstStart || '--:--' }}-{{
+                doctor.practiceInfo.schedule[day].times.firstEnd || '--:--' }}<br>
+                Séance 2: {{ doctor.practiceInfo.schedule[day].times.secondStart || '--:--' }}-{{
+                doctor.practiceInfo.schedule[day].times.secondEnd || '--:--' }}
+              </div>
             </div>
 
-            <div *ngIf="doctor.practiceInfo.schedule[day]?.sessionType === 'Double séance'">
-              Séance 1: {{ doctor.practiceInfo.schedule[day].times.firstStart || '--:--' }}-{{
-              doctor.practiceInfo.schedule[day].times.firstEnd || '--:--' }}<br>
-              Séance 2: {{ doctor.practiceInfo.schedule[day].times.secondStart || '--:--' }}-{{
-              doctor.practiceInfo.schedule[day].times.secondEnd || '--:--' }}
-            </div>
-          </div>
+            <!-- Mode édition -->
+            <div *ngIf="editMode">
+              <mat-radio-group [(ngModel)]="editedDoctor.practiceInfo.schedule[day].sessionType">
+                <mat-radio-button *ngFor="let type of sessionTypes" [value]="type">
+                  {{ type }}
+                </mat-radio-button>
+              </mat-radio-group>
 
-          <!-- Mode édition -->
-          <div *ngIf="editMode">
-            <mat-radio-group [(ngModel)]="editedDoctor.practiceInfo.schedule[day].sessionType">
-              <mat-radio-button *ngFor="let type of sessionTypes" [value]="type">
-                {{ type }}
-              </mat-radio-button>
-            </mat-radio-group>
-
-            <!-- Séance unique -->
-            <div *ngIf="editedDoctor.practiceInfo.schedule[day].sessionType === 'Séance unique'" class="time-inputs">
-              <mat-form-field>
-                <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.singleStart"
-                  required>
-              </mat-form-field>
-              <span>à</span>
-              <mat-form-field>
-                <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.singleEnd"
-                  required>
-              </mat-form-field>
-            </div>
-
-            <!-- Double séance -->
-            <div *ngIf="editedDoctor.practiceInfo.schedule[day].sessionType === 'Double séance'" class="time-inputs">
-              <div class="session">
-                <h4>Première séance</h4>
+              <!-- Séance unique -->
+              <div *ngIf="editedDoctor.practiceInfo.schedule[day].sessionType === 'Séance unique'" class="time-inputs">
                 <mat-form-field>
-                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.firstStart"
+                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.singleStart"
                     required>
                 </mat-form-field>
                 <span>à</span>
                 <mat-form-field>
-                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.firstEnd"
+                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.singleEnd"
                     required>
                 </mat-form-field>
               </div>
-              <div class="session">
-                <h4>Deuxième séance</h4>
-                <mat-form-field>
-                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.secondStart"
-                    required>
-                </mat-form-field>
-                <span>à</span>
-                <mat-form-field>
-                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.secondEnd"
-                    required>
-                </mat-form-field>
+
+              <!-- Double séance -->
+              <div *ngIf="editedDoctor.practiceInfo.schedule[day].sessionType === 'Double séance'" class="time-inputs">
+                <div class="session">
+                  <h4>Première séance</h4>
+                  <mat-form-field>
+                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.firstStart"
+                      required>
+                  </mat-form-field>
+                  <span>à</span>
+                  <mat-form-field>
+                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.firstEnd"
+                      required>
+                  </mat-form-field>
+                </div>
+                <div class="session">
+                  <h4>Deuxième séance</h4>
+                  <mat-form-field>
+                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.secondStart"
+                      required>
+                  </mat-form-field>
+                  <span>à</span>
+                  <mat-form-field>
+                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.secondEnd"
+                      required>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </mat-card>
 
     </div>
   </div>
+  <!-- Bouton Scroll to Top -->
+  <button *ngIf="showScrollButton" mat-fab class="scroll-top-button" (click)="scrollToTop()"
+    aria-label="Retour en haut">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
 </div>

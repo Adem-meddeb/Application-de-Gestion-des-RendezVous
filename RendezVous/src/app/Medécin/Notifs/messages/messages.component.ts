@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessagesService } from '../../Services/NotifServices/messages.service';
 
@@ -20,7 +20,8 @@ export interface Message {
   styleUrl: './messages.component.css'
 })
 export class MessagesComponent {
- 
+  showScrollButton = false;
+
 
   constructor(
     private router: Router,
@@ -52,5 +53,18 @@ export class MessagesComponent {
     if (message && !message.read) {
       message.read = true;
     }
+  }
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
+  // Gestion de l'affichage du bouton
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.showScrollButton = window.pageYOffset > 300;
   }
 }

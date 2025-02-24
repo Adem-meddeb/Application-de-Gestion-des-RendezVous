@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { PatientDetailsComponent } from '../patient-details/patient-details.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,9 @@ import { MedicalRecordComponent } from '../../medical-record/medical-record.comp
   styleUrls: ['./rendez-vous.component.css']
 })
 export class RendezVousComponent {
+  showScrollButton = false;
+
+
   currentRoute: string;
   appointments: Appointment[] = [];
   upcomingAppointments: Appointment[] = [];
@@ -175,5 +178,18 @@ openMedicalRecord(appointment: Appointment): void {
     data: appointment,
     width: '1000px',
   });
+}
+
+scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Gestion de l'affichage du bouton
+@HostListener('window:scroll', [])
+onWindowScroll() {
+  this.showScrollButton = window.pageYOffset > 300;
 }
 } 

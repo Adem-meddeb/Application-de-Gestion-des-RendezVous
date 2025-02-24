@@ -62,7 +62,11 @@ import { MedicalRecordComponent } from './Medécin/medical-record/medical-record
 import { DatePipe } from '@angular/common';
 import { TruncatePipe } from './Medécin/Pipes/truncate/truncate.pipe';
 import { MessageDetailComponent } from './Medécin/Notifs/message-detail/message-detail.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FooterComponent } from './Footers/footer/footer.component';
+import { QuiSommesNousComponent } from './Footers/qui-sommes-nous/qui-sommes-nous.component';
+import { MentionLegalesComponent } from './Footers/mention-legales/mention-legales.component';
+import { PolitiqueDeConfidentialiteComponent } from './Footers/politique-de-confidentialite/politique-de-confidentialite.component';
 
 
 
@@ -81,9 +85,15 @@ import { MessageDetailComponent } from './Medécin/Notifs/message-detail/message
     MedicalRecordComponent,
     TruncatePipe,
     MessageDetailComponent,
+    FooterComponent,
+    QuiSommesNousComponent,
+    MentionLegalesComponent,
+    PolitiqueDeConfidentialiteComponent,
+    
     
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

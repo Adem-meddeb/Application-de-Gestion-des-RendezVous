@@ -1,9 +1,16 @@
 /* patient-details.component.css */
-.patient-profile {
+
+/* ====================
+   CONTAINER PRINCIPAL
+   ==================== */
+   .patient-profile {
     padding: 20px;
     text-align: center;
   }
   
+  /* ====================
+     IMAGE DE PROFIL
+     ==================== */
   .profile-image {
     width: 150px;
     height: 150px;
@@ -13,11 +20,17 @@
     border: 3px solid #2196F3;
   }
   
+  /* ====================
+     NOM DU PATIENT
+     ==================== */
   .patient-name {
     color: #2c3e50;
     margin-bottom: 25px;
   }
   
+  /* ====================
+     GRILLE DE DÉTAILS
+     ==================== */
   .details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -25,6 +38,9 @@
     text-align: left;
   }
   
+  /* ====================
+     ÉLÉMENTS DE DÉTAIL
+     ==================== */
   .detail-item {
     display: flex;
     align-items: center;
@@ -38,6 +54,9 @@
     color: #2196F3;
   }
   
+  /* ====================
+     BOUTON DE FERMETURE
+     ==================== */
   .close-btn {
     margin-top: 20px;
   }

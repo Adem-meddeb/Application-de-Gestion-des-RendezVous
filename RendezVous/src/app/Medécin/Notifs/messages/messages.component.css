@@ -1,9 +1,17 @@
 /* doctor.component.scss */
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 
+/* ====================
+   LAYOUT PRINCIPAL
+   ==================== */
+   .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* ====================
+     BARRE DE NAVIGATION
+     ==================== */
   .navbar {
     background: #e8f4f8;
     padding: 15px 30px;
@@ -11,39 +19,39 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+  
     .logo {
-      margin: 0; /* Supprime les marges par défaut */
+      margin: 0;
       display: flex;
-      align-items: center; /* Alignement vertical */
-      gap: 10px; /* Espace entre le logo et le texte */
-      font-size: 24px; /* Taille du texte */
-      color: #2a627c; /* Couleur du texte */
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      color: #2a627c;
+  
+      .app-logo {
+        width: 40px;
+        height: auto;
+      }
     }
-    
-    .app-logo {
-      width: 40px; /* Ajustez la largeur selon vos besoins */
-      height: auto; /* Maintient le ratio d'aspect */
-    }
-
+  
     .nav-menu {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
       gap: 25px;
-
+  
       li {
         padding: 10px 15px;
         cursor: pointer;
         border-radius: 6px;
         color: #3a7b95;
         transition: all 0.3s ease;
-
+  
         &:hover {
           background: #d3e7f0;
         }
-
+  
         &.active {
           background: #2a627c;
           color: white;
@@ -51,143 +59,198 @@
       }
     }
   }
-
+  
+  /* ====================
+     CONTENU PRINCIPAL
+     ==================== */
   .main-content {
     flex: 1;
     padding: 30px;
     background: #f9fbfd;
-
+  
     .planning-section {
       background: white;
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       margin-top: 20px;
-      text-align: center; /* Centre tout le contenu */
-
+      text-align: center;
+  
       h2 {
         color: #2a627c;
         margin-bottom: 15px;
       }
-
+  
       .planning-image {
-        width: 100%; /* Ajuste la largeur de l'image */
-        max-width: 300px; /* Limite la taille maximale de l'image */
-        height: auto; /* Maintient le ratio d'aspect */
-        margin: 20px auto; /* Centre l'image avec un espace autour */
-        border-radius: 10px; /* Coins arrondis pour l'image */
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        margin: 20px auto;
+        border-radius: 10px;
       }
-
+  
       p {
         color: #5a7a8c;
         line-height: 1.6;
         font-size: 16px;
-        margin-top: 10px; /* Espace entre l'image et le texte */
+        margin-top: 10px;
       }
     }
   }
-}
-
-/* messages.component.scss */
-.messages-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.messages-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
   
-  h2 {
+  /* ====================
+     COMPOSANT MESSAGERIE
+     ==================== */
+  .messages-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  
+    .messages-card {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+  }
+  
+  /* En-tête des messages */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+  
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #2a627c;
+      margin: 0;
+  
+      .unread-count {
+        background: #2196f3;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 16px;
+        font-size: 14px;
+      }
+    }
+  }
+  
+  /* Liste des messages */
+  .message-list {
+    padding: 0;
+  }
+  
+  .message-item {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border-bottom: 1px solid #eee;
+    height: auto !important;
+  
+    &:hover {
+      transform: translateX(5px);
+      background-color: #f5f5f5 !important;
+    }
+  
+    &.unread {
+      background-color: #e8f4f8;
+  
+      .sender-name, .message-subject {
+        font-weight: 600;
+      }
+    }
+  }
+  
+  .message-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+  
+  /* Métadonnées des messages */
+  .sender-info {
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: #2a627c;
-    margin: 0;
-    
-    .unread-count {
-      background: #2196f3;
-      color: white;
-      padding: 4px 10px;
-      border-radius: 16px;
-      font-size: 14px;
+    margin-bottom: 0.5rem;
+  
+    .sender-icon {
+      font-size: 36px;
+      color: #5a7a8c;
+      flex-shrink: 0;
     }
   }
-}
-
-.message-list {
-  padding: 0;
-}
-
-
-.message-item {
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.2s ease;
-  height: auto !important;
-  &:hover {
-    transform: translateX(5px);
-    background-color: #f5f5f5 !important;
-  }
   
-  &.unread {
-    background-color: #e8f4f8;
-    
-    .sender-name, .message-subject {
-      font-weight: 600;
-    }
-  }
-}
-
-.message-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  padding: 1rem 0;
-  gap: 1rem;
-}
-
-.sender-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  
-  .sender-icon {
-    font-size: 36px;
+  .message-preview {
+    font-size: 14px;
     color: #5a7a8c;
-    flex-shrink: 0;
+    margin-left: 52px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-}
-
-.message-preview {
-  font-size: 14px;
-  color: #5a7a8c;
-  margin-left: 52px;
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.attachments {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #7a8c9a;
-  font-size: 12px;
-  margin-top: 4px;
   
-  mat-icon {
-    font-size: 16px;
+  .attachments {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #7a8c9a;
+    font-size: 12px;
+    margin-top: 4px;
+  
+    mat-icon {
+      font-size: 16px;
+    }
   }
-}
+  
+  /* ====================
+     BOUTON SCROLL TOP
+     ==================== */
+  .scroll-top-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background-color: #2b6cb0;
+    color: white;
+    transform: scale(1);
+  
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  /* ====================
+     RESPONSIVE DESIGN
+     ==================== */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+  
+      .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  
+    .main-content {
+      padding: 20px;
+    }
+  
+    .message-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .message-preview {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  }

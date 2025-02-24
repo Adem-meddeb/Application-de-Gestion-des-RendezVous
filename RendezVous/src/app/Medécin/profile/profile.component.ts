@@ -1,5 +1,5 @@
 //profile.ts
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DoctorService } from '../Services/DoctorServices/doctor.service';
 import { Doctor } from '../Models/doctor.model';
 import * as L from 'leaflet';
@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
+  showScrollButton = false;
   days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
   sessionTypes = ['Séance unique', 'Double séance', 'Fermé'];
   languages = ['Français', 'Arabe', 'Anglais', 'Allemand', 'Espagnol'];
@@ -469,4 +470,18 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         this.geolocationError = 'Une erreur inconnue est survenue.';
     }
   }
+
+  // Méthode pour le défilement
+scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Gestion de l'affichage du bouton
+@HostListener('window:scroll', [])
+onWindowScroll() {
+  this.showScrollButton = window.pageYOffset > 300;
+}
 }

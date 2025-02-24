@@ -1,0 +1,235 @@
+/* ======================
+   MAIN FOOTER CONTAINER
+   ====================== */
+   .main-footer {
+    background: #e8f4f8;
+    color: #ecf0f1;
+    padding: 2rem 1rem;
+    margin-top: auto;
+  }
+  
+  /* ======================
+     FOOTER GRID LAYOUT
+     ====================== */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* ======================
+     FOOTER SECTIONS
+     ====================== */
+  .footer-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-title {
+    color: #3498db;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+  }
+  
+  .footer-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-list a {
+    color: #2a627c;
+    text-decoration: none;
+    display: block;
+    padding: 0.3rem 0;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-list a:hover {
+    color: #3498db;
+  }
+  
+  /* ======================
+     PAYMENT METHODS
+     ====================== */
+  .payment-methods {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 1rem 0;
+  }
+  
+  .payment-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .payment-item:hover {
+    transform: translateY(-3px);
+  }
+  
+  .payment-icon {
+    font-size: 2.5rem;
+    color: #1a4a63;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .payment-item:hover .payment-icon {
+    color: #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .payment-label {
+    color: #2a627c;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  /* ======================
+     SOCIAL MEDIA
+     ====================== */
+  .social-methods {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1rem 0;
+  }
+  
+  .social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .social-item:hover {
+    transform: translateY(-3px);
+  }
+  
+  .social-icon {
+    font-size: 2.5rem;
+    color: #1a4a63;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .social-item:hover .social-icon {
+    color: #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .social-label {
+    color: #2a627c;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  /* ======================
+     CONTACT INFORMATION
+     ====================== */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    color: #2a627c;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .contact-item mat-icon {
+    color: #2a627c;
+  }
+  
+  /* ======================
+     FOOTER BOTTOM
+     ====================== */
+  .footer-bottom {
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid #34495e;
+    margin-top: 2rem;
+  }
+  
+  .copyright {
+    font-size: 0.9rem;
+    color: #95a5a6;
+  }
+  
+  /* ======================
+     MEDIA QUERIES
+     ====================== */
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .payment-methods,
+    .social-methods {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  
+    .payment-icon,
+    .social-icon {
+      font-size: 2rem;
+      padding: 0.6rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .payment-methods,
+    .social-methods {
+      grid-template-columns: 1fr;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  
+    .payment-item,
+    .social-item {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 1.2rem;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 8px;
+    }
+  
+    .payment-icon,
+    .social-icon {
+      box-shadow: none;
+      background: none;
+      padding: 0;
+    }
+  
+    .payment-label,
+    .social-label {
+      text-align: left;
+    }
+  }

@@ -1,0 +1,31 @@
+<!-- mentions-legales.component.html -->
+<section class="legal-container" @fadeIn>
+    <div class="header-section">
+      <h1 class="main-title">Mentions Légales</h1>
+      <p class="last-update">Dernière mise à jour : 24 Fevrier 2025</p>
+    </div>
+  
+    <div class="content-wrapper">
+      <div class="legal-content">
+        <div *ngFor="let section of legalSections" class="legal-section">
+          <div class="section-header" (click)="toggleSection(section)">
+            <h2>{{ section.title }}</h2>
+            <span class="toggle-icon">{{ section.expanded ? '-' : '+' }}</span>
+          </div>
+          <div class="section-content" [class.expanded]="section.expanded">
+            <p>{{ section.content }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="side-info">
+        <div class="contact-box">
+          <h3>Contact Juridique</h3>
+          <p><mat-icon>email</mat-icon>meddebadem000&#64;gmail.com</p>
+
+          <p><mat-icon>phone</mat-icon> +216 58 270 519</p>
+          <p><mat-icon>location_on</mat-icon> Bouargoub, Nabeul 8040</p>
+        </div>  
+      </div>
+    </div>
+  </section>

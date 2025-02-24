@@ -84,4 +84,10 @@
       </div>
     </mat-card>
   </div>
+
+  <!-- Bouton Scroll to Top -->
+  <button *ngIf="showScrollButton" mat-fab class="scroll-top-button" (click)="scrollToTop()"
+    aria-label="Retour en haut">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
 </div>

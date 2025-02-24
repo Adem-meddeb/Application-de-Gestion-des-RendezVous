@@ -1,11 +1,13 @@
 /* login.component.css */
+
+/* ========== CONTAINER & LAYOUT ========== */
 .login-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
 }
 
-/* Section Image (gauche) */
+/* ========== IMAGE SECTION ========== */
 .image-section {
   position: relative;
   height: 100vh;
@@ -34,7 +36,7 @@
   z-index: 1;
 }
 
-/* Section Login (droite) */
+/* ========== LOGIN CONTENT SECTION ========== */
 .login-content {
   order: 2;
   display: flex;
@@ -54,38 +56,41 @@
   animation: cardEntrance 0.6s ease-out;
 }
 
-/* Animations */
-@keyframes cardEntrance {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.login-title {
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-/* Animation de glissement */
-.slide-enter {
-  transform: translateX(100%);
+.main-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #3182ce;
+  display: block;
+  letter-spacing: 0.05em;
+  position: relative;
 }
 
-.slide-enter-active {
-  transform: translateX(0);
-  transition: transform 800ms ease-in-out;
+.main-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 4px;
+  background: #3182ce;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
-.slide-leave {
-  transform: translateX(0);
+.sub-title {
+  font-size: 1.2rem;
+  color: #718096;
+  display: block;
+  margin-top: 0.5rem;
+  font-style: italic;
 }
 
-.slide-leave-active {
-  transform: translateX(-100%);
-  transition: transform 800ms ease-in-out;
-}
-
-/* Styles de formulaire */
+/* ========== FORM ELEMENTS ========== */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -120,12 +125,6 @@
   animation: shake 0.4s ease-in-out;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-
 .error-message {
   color: #fc8181;
   font-size: 0.85rem;
@@ -133,18 +132,7 @@
   animation: fadeInUp 0.3s ease-out;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Bouton de connexion */
+/* ========== LOGIN BUTTON ========== */
 .login-button {
   width: 100%;
   padding: 1rem;
@@ -170,7 +158,7 @@
   transform: translateY(0);
 }
 
-/* Connexions sociales */
+/* ========== SOCIAL LOGIN ========== */
 .social-login {
   margin-top: 2rem;
   text-align: center;
@@ -217,11 +205,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.social-icon svg {
-  transition: fill 0.2s ease;
-}
-
-/* Couleurs des icônes */
+/* Social Icon Colors */
 .social-icon.facebook:hover {
   background: #1877f2;
   border-color: #1877f2;
@@ -237,7 +221,7 @@
   border-color: #000;
 }
 
-/* Liens utiles */
+/* ========== LINKS & FOOTER ========== */
 .links-section {
   margin-top: 2rem;
   text-align: center;
@@ -253,19 +237,67 @@
   display: inline-block;
 }
 
-.link:hover {
-  opacity: 0.8;
-  transform: translateX(2px);
-  text-decoration: underline;
-}
-
 .signup-text {
   margin-top: 1.5rem;
   color: #718096;
   font-size: 0.9rem;
 }
 
-/* Responsive Design */
+.footer-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+/* ========== SCROLL TO TOP ========== */
+.scroll-top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background-color: #2b6cb0;
+  color: white;
+  transform: scale(1);
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide animations */
+.slide-enter { transform: translateX(100%); }
+.slide-enter-active { transform: translateX(0); transition: transform 800ms ease-in-out; }
+.slide-leave { transform: translateX(0); }
+.slide-leave-active { transform: translateX(-100%); transition: transform 800ms ease-in-out; }
+
+/* ========== MEDIA QUERIES ========== */
 @media (max-width: 768px) {
   .login-container {
     grid-template-columns: 1fr;
@@ -288,20 +320,14 @@
       animation: mobileSlideIn 0.6s ease-out;
     }
 
-    .image-slider {
-      animation: mobileSlide 800ms ease-in-out;
-    }
+    .main-title { font-size: 2rem; }
+    .sub-title { font-size: 1rem; }
+    .scroll-top-button { bottom: 70px; right: 15px; transform: scale(0.9); }
   }
 
   @keyframes mobileSlideIn {
-    from {
-      transform: translateY(30px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 
   @keyframes mobileSlide {
@@ -309,59 +335,3 @@
     to { transform: translateY(0); }
   }
 }
-
-/* Styles pour le titre principal */
-.login-title {
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.main-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #3182ce; /* Couleur bleu professionnelle */
-  display: block;
-  letter-spacing: 0.05em;
-  position: relative;
-}
-
-.main-title::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 100%;
-  height: 4px;
-  background: #3182ce;
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.main-title:hover::after {
-  transform: scaleX(1);
-}
-
-.sub-title {
-  font-size: 1.2rem;
-  color: #718096;
-  display: block;
-  margin-top: 0.5rem;
-  font-style: italic;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .main-title {
-    font-size: 2rem;
-  }
-
-  .sub-title {
-    font-size: 1rem;
-  }
-}
-.footer-text {
-  margin-top: 20px; /* Ajoute un espace entre le bouton et le texte /
-  font-size: 14px; / Taille de police plus petite pour le texte de crédit /
-  color: #666; / Couleur grise pour un aspect discret /
-  text-align: center; / Centre le texte horizontalement */
-  }

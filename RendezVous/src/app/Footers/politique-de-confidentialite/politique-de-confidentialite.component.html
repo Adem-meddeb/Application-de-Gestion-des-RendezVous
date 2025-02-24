@@ -1,0 +1,34 @@
+<!-- confidentiality.component.html -->
+<div class="privacy-policy" [@pageAnimation]>
+    <div class="header">
+      <h1>Politique de Confidentialité</h1>
+      <p class="last-update">Dernière mise à jour : 24 Fevrier 2025</p>
+    </div>
+  
+    <div class="content-container">
+      <div class="intro-section">
+        <p>Chez TabibNet, la protection de vos données personnelles est notre priorité absolue. Cette politique détaille nos pratiques de gestion des informations et notre engagement envers votre vie privée.</p>
+      </div>
+  
+      <div class="section-card" *ngFor="let section of sections">
+        <div class="card-header">
+          <mat-icon class="section-icon">{{section.icon}}</mat-icon>
+          <h2>{{section.title}}</h2>
+        </div>
+        <div class="card-content">
+          <p>{{section.content}}</p>
+        </div>
+      </div>
+  
+      <div class="contact-section">
+        <h3>Contact Responsable Protection des Données</h3>
+        <div class="contact-info">
+          <mat-icon>mail</mat-icon>
+          <span>meddebadem000&#64;gmail.com</span>
+          <mat-icon>phone</mat-icon>
+          <span>+216 58 270 519</span>
+        </div>
+        <p>Délai maximal de réponse : 72 heures ouvrables</p>
+      </div>
+    </div>
+  </div>

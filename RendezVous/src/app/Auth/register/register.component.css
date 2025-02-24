@@ -387,6 +387,12 @@
     .mat-radio-group {
       flex-direction: column;
     }
+
+    .scroll-top-button {
+      bottom: 70px;
+      right: 15px;
+      transform: scale(0.9);
+    }
   }
   
   /* ====================
@@ -452,3 +458,20 @@
   .language-selector {
     width: 150px;
   }
+
+  /* Scroll to Top Button */
+.scroll-top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background-color: #2b6cb0;
+  color: white;
+  transform: scale(1);
+}
+
+.scroll-top-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

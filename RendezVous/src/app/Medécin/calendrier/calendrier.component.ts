@@ -1,5 +1,5 @@
 // calendrier.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../Services/SharedService/shared.service';
 import { CalendarOptions, EventInput, EventContentArg } from '@fullcalendar/core';
@@ -15,6 +15,8 @@ import { Appointment } from '../Models/appointment.model';
   standalone: false,
 })
 export class CalendrierComponent implements OnInit {
+  showScrollButton = false;
+
   currentRoute: string;
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -93,5 +95,17 @@ export class CalendrierComponent implements OnInit {
   handleEventClick(info: any) {
     const patient = info.event.extendedProps.patient;
     this.sharedService.openPatientDetails(patient);
+  }
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
+  // Gestion de l'affichage du bouton
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.showScrollButton = window.pageYOffset > 300;
   }
 }

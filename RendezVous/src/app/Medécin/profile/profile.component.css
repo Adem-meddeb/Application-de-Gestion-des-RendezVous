@@ -2,74 +2,54 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #f8fafc;
-  font-family: 'Roboto', sans-serif;
 }
 
 .navbar {
-  background: #ffffff;
-  padding: 0 2rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  background: #e8f4f8;
+  padding: 15px 30px;
+  border-bottom: 1px solid #cfe0e8;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
 
-.logo {
-  font-weight: 600;
-  color: #1a365d;
-  font-size: 1.5rem;
-  letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  margin: 1rem 0;
-}
+  .logo {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    color: #2a627c;
+  }
+  
+  .app-logo {
+    width: 40px;
+    height: auto;
+  }
 
-.app-logo {
-  width: 36px;
-  height: 36px;
-  margin-right: 12px;
-}
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25px;
 
-.nav-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 2rem;
-}
+    li {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 6px;
+      color: #3a7b95;
+      transition: all 0.3s ease;
 
-.nav-menu li {
-  padding: 1rem 1.5rem;
-  color: #4a5568;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+      &:hover {
+        background: #d3e7f0;
+      }
 
-.nav-menu li:hover {
-  color: #2b6cb0;
-}
-
-.nav-menu li.active {
-  color: #2b6cb0;
-}
-
-.nav-menu li.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #2b6cb0;
+      &.active {
+        background: #2a627c;
+        color: white;
+      }
+    }
+  }
 }
 
 .main-content {
@@ -728,6 +708,23 @@ mat-radio-button {
   color: #718096;
   font-size: 0.9rem;
 }
+
+/* Scroll to Top Button */
+.scroll-top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background-color: #2b6cb0;
+  color: white;
+  transform: scale(1);
+}
+
+.scroll-top-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 /* Responsive */
 @media (max-width: 768px) {
   .certification-details {
@@ -817,5 +814,11 @@ mat-radio-button {
   .experience-header {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .scroll-top-button {
+    bottom: 70px;
+    right: 15px;
+    transform: scale(0.9);
   }
 }

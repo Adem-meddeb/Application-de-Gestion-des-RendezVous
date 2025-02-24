@@ -1,0 +1,275 @@
+/* ========== CONTAINER ========== */
+.about-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+    color: #2c3e50;
+}
+
+/* ========== MATERIAL ICONS ========== */
+mat-icon {
+    font-family: 'Material Icons';
+    font-feature-settings: 'liga';
+}
+
+/* ========== HERO SECTION ========== */
+.hero-section {
+    background: linear-gradient(rgba(26, 74, 99, 0.9), rgba(26, 74, 99, 0.9)),
+        url('/assets/Logo2.jpeg') center/cover;
+    padding: 8rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+/* ========== SECTION HEADER ========== */
+.section-header {
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    color: #1a4a63;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    width: 80px;
+    height: 3px;
+    background: #3498db;
+    margin: 0 auto;
+}
+
+/* ========== MISSION SECTION ========== */
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.mission-card {
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.mission-card:hover {
+    transform: translateY(-5px);
+}
+
+.mission-card mat-icon {
+    font-size: 3rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== STORY SECTION ========== */
+.story-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.story-image {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.story-text .lead {
+    font-size: 1.25rem;
+    color: #1a4a63;
+    margin-bottom: 1.5rem;
+}
+
+.achievements-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+}
+
+.achievements-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    color: #2c3e50;
+}
+
+.achievements-list mat-icon {
+    color: #27ae60;
+}
+
+/* ========== VALUES SECTION ========== */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.value-item {
+    text-align: center;
+    padding: 2rem;
+}
+
+.value-icon {
+    width: 80px;
+    height: 80px;
+    background: #e3f2fd;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.value-icon mat-icon {
+    font-size: 1.7rem;
+    color: #1a4a63;
+}
+
+/* ========== TEAM SECTION ========== */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.team-member {
+    text-align: center;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.member-credentials {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0 0.5rem;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.social-links mat-icon {
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+}
+
+.social-links a[href*="linkedin"] mat-icon {
+    color: #0A66C2;
+}
+
+.social-links a[href*="mailto"] mat-icon {
+    color: #EA4335;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.social-links a:hover mat-icon {
+    transform: scale(1.1);
+}
+
+/* Custom SVG Icons */
+.mat-icon[svgIcon="linkedin"] {
+    color: #0A66C2;
+}
+
+.mat-icon[svgIcon="facebook"] {
+    color: #1877F2;
+}
+
+/* ========== MEDIA QUERIES ========== */
+@media (max-width: 768px) {
+    .story-content {
+        grid-template-columns: 1fr;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .social-links {
+        gap: 1.2rem;
+        margin-top: 1.8rem;
+    }
+
+    .social-links a {
+        width: 36px;
+        height: 36px;
+    }
+
+    .social-links mat-icon {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mission-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .social-links {
+        gap: 1rem;
+    }
+
+    .social-links a {
+        width: 32px;
+        height: 32px;
+    }
+}

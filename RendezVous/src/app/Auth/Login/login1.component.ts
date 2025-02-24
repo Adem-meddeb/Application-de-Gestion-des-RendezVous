@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
@@ -28,6 +28,8 @@ import 'simplebar/dist/simplebar.css';
   ]
 })
 export class Login1Component implements OnInit {
+  showScrollButton = false;
+
   loginForm: FormGroup;
   submitted = false;
   currentImageIndex = 0;
@@ -94,5 +96,16 @@ export class Login1Component implements OnInit {
   ToRegister() {
     this.router.navigate(['/register']);
   }
-
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
+  // Gestion de l'affichage du bouton
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.showScrollButton = window.pageYOffset > 300;
+  }
 }
