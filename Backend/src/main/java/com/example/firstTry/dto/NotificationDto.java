@@ -8,6 +8,6 @@ public record NotificationDto(
 	    Long id,
 	    String message,
 	    NotificationType type,
-	    boolean isRead, // boolean au lieu de Boolean
+	    boolean isRead, // Nom correct du champ
 	    LocalDateTime timestamp
 	) {}
