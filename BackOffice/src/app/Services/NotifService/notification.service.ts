@@ -68,30 +68,36 @@ export class NotificationService {
   }
 
   private parseNotification(raw: any): AppNotification {
+    console.log('Notification brute:', raw);
     return {
       ...raw,
       timestamp: new Date(raw.timestamp),
-      read: Number(raw.read) === 1 // Conversion explicite en number puis comparaison
+      read: Boolean(raw.isRead) // Utilisez raw.isRead au lieu de raw.read
     };
   }
 
-
-  // notification.service.ts
-private loadInitialNotifications(user: any): void {
-  if (!user) return;
-
-  const url = user.role === 'ROLE_ADMIN' 
-    ? `${this.apiUrl}/admin`
-    : `${this.apiUrl}/${user.id}`;
-
-  this.http.get<any[]>(url).pipe(
-    tap(notifications => {
-      console.log('Réponse initiale:', notifications); // Vérifier les valeurs de 'read'
-      const parsed = notifications.map(n => this.parseNotification(n));
-      this.notificationsSubject.next(parsed.reverse());
-    })
-  ).subscribe();
-}
+  private loadInitialNotifications(user: any): void {
+    if (!user) return;
+  
+    const url = user.role === 'ROLE_ADMIN' 
+      ? `${this.apiUrl}/admin`
+      : `${this.apiUrl}/${user.id}`;
+  
+    this.http.get<any[]>(url).pipe(
+      tap(serverNotifications => {
+        const localNotifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+        
+        // Fusion priorisant le localStorage
+        const merged = serverNotifications.map(serverNotif => {
+          const localNotif = localNotifications.find((n: AppNotification) => n.id === serverNotif.id);
+          return localNotif ? { ...serverNotif, ...localNotif } : serverNotif;
+        });
+  
+        const parsed = merged.map(n => this.parseNotification(n));
+        this.notificationsSubject.next(parsed.reverse());
+      })
+    ).subscribe();
+  }
 
   private fetchInitialNotifications(userId: number): Observable<AppNotification[]> {
     return this.http.get<AppNotification[]>(
@@ -131,11 +137,13 @@ private loadInitialNotifications(user: any): void {
           const newNotifications = [...current];
           newNotifications[index] = parsed;
           this.notificationsSubject.next(newNotifications);
+          localStorage.setItem('notifications', JSON.stringify(newNotifications));
+          this.syncReadStatuses(); // Ajout de la synchronisation
         }
       }),
       catchError(error => {
         console.error('Échec de la mise à jour', error);
-        return throwError(() => error); // Utiliser throwError au lieu de of(null)
+        return throwError(() => error);
       })
     );
   }
@@ -145,5 +153,13 @@ private loadInitialNotifications(user: any): void {
       this.stompClient.deactivate();
     }
     this.notificationsSubject.next([]);
+  }
+
+  syncReadStatuses(): void {
+    const readNotifications = this.notificationsSubject.value
+      .filter(n => n.read)
+      .map(n => n.id);
+  
+    this.http.post(`${this.apiUrl}/sync-read-status`, { ids: readNotifications }).subscribe();
   }
 }

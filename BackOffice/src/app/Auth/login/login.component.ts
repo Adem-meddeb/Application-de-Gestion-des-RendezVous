@@ -78,8 +78,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (error.status === 401) {
       return 'Identifiants incorrects';
     }
-    if (error.error?.message === 'Account not approved') {
-      return 'Compte en attente de validation';
+    // Check for the server's specific 403 message
+    if (error.status === 403) {
+      return error.error?.message === 'Account not approved' 
+        ? 'Compte en attente de validation' 
+        : 'Accès refusé. Vous n’avez pas les droits nécessaires.';
     }
     return 'Une erreur est survenue lors de la connexion';
   }

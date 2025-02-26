@@ -1,5 +1,5 @@
 // Import des modules nécessaires
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 //import { NotificationDetailsComponent } from '../notification-details/notification-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService , AppNotification} from '../../Services/NotifService/notification.service';
@@ -25,7 +25,7 @@ import { NotificationDetailsComponent } from '../notification-details/notificati
     ])
   ]
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit , OnDestroy {
 
   notifications$!: Observable<AppNotification[]>; // Definite assignment assertion
   notifications: AppNotification[] = []; // Array to hold notifications
@@ -36,16 +36,25 @@ export class NotificationComponent {
   constructor(private notificationService: NotificationService , private cdr: ChangeDetectorRef , private dialog: MatDialog) {}
 
   ngOnInit(): void {
-  const user = this.getCurrentUser();
-  
-  if (user) {
-    this.notificationService.connect(user);
-    this.subscription = this.notificationService.notifications$
-      .subscribe(notifications => {
-        this.notifications = notifications;
-        this.cdr.detectChanges();
-      });
+    const user = this.getCurrentUser();
+    
+    if (user) {
+      this.notificationService.syncReadStatuses();
+      this.notificationService.connect(user);
+      
+      this.subscription = this.notificationService.notifications$
+        .subscribe(notifications => {
+          this.notifications = notifications;
+          localStorage.setItem('notifications', JSON.stringify(notifications));
+          this.cdr.detectChanges();
+        });
+    }
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.notificationService.disconnect();
+    clearTimeout(this.alertTimeout);
   }
 
   private getCurrentUser(): any {
@@ -76,9 +85,15 @@ export class NotificationComponent {
     });
   }
 
-  markAsRead(id: number): void {
+  private markAsRead(id: number): void {
     this.notificationService.markAsRead(id).subscribe({
-      error: (err) => console.error('Échec de la mise à jour', err)
+      next: () => {
+        this.notifications = this.notifications.map(notif => 
+          notif.id === id ? { ...notif, read: true } : notif
+        );
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Erreur de marquage:', err)
     });
   }
 
@@ -106,20 +121,12 @@ export class NotificationComponent {
     return this.notifications.filter(n => !n.read).length;
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.notificationService.disconnect();
-    clearTimeout(this.alertTimeout);
-  }
-
-  // Modifier la méthode d'ouverture de notification
   openNotificationDetails(notification: AppNotification): void {
+    // Marquer comme lu systématiquement quand on ouvre
     if (!notification.read) {
-      this.notificationService.markAsRead(notification.id).subscribe(() => {
-        this.cdr.detectChanges(); // Forcer la mise à jour
-      });
+      this.markAsRead(notification.id);
     }
-    
+  
     this.dialog.open(NotificationDetailsComponent, {
       width: '500px',
       data: {

@@ -1,5 +1,6 @@
 <!-- notification.component.html -->
 <div class="notification-page-container">
+  
   <!-- Liste principale des notifications -->
   <div class="notification-list-container">
     <div class="notification-header">
@@ -15,7 +16,10 @@
     </div>
 
     <div class="notification-list">
-      <div *ngFor="let notification of notifications" class="notification-item" [class.unread]="!notification.read" (click)="openNotificationDetails(notification)">
+      <div *ngFor="let notification of notifications" 
+     class="notification-item" 
+     [class.unread]="!notification.read"
+     [class.read]="notification.read" (click)="openNotificationDetails(notification)">
         <div class="notification-meta">
           <div class="notification-type-badge" [ngClass]="notification.type">
             <mat-icon>{{ getIcon(notification.type) }}</mat-icon>
@@ -26,9 +30,6 @@
           <h3>{{ notification.type | formatNotificationType }}</h3>
           <p>{{ notification.message }}</p>
         </div>
-        <button class="mark-read-btn" (click)="markAsRead(notification.id)">
-          <mat-icon>check_circle</mat-icon>
-        </button>
       </div>
     </div>
   </div>
