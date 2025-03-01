@@ -75,14 +75,14 @@
   }
   
   .payment-icon {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: #1a4a63;
     padding: 0.8rem;
-    background: rgba(255, 255, 255, 0.9);
+    background: #e8f4f8;
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
+
   
   .payment-item:hover .payment-icon {
     color: #3498db;
@@ -121,12 +121,11 @@
   }
   
   .social-icon {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     color: #1a4a63;
     padding: 0.8rem;
-    background: rgba(255, 255, 255, 0.9);
+    background: #e8f4f8;
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
   

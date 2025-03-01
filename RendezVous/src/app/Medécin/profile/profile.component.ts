@@ -1,24 +1,24 @@
-//profile.ts
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { DoctorService } from '../Services/DoctorServices/doctor.service';
-import { Doctor } from '../Models/doctor.model';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProfileDoctorService } from '../Services/PorfileDoctorService/profile-doctor.service';
+import { Doctor, Office, Education, Experience, Specialization } from '../Models/ProfileDoctor.model';
 import * as L from 'leaflet';
-import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-profile',
+
   standalone: false,
+
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-
 export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
-  showScrollButton = false;
-  days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-  sessionTypes = ['Séance unique', 'Double séance', 'Fermé'];
+  // Ajouter ces propriétés
   languages = ['Français', 'Arabe', 'Anglais', 'Allemand', 'Espagnol'];
   paymentMethods = ['Espèces', 'Carte bancaire', 'Chèque', 'Assurance'];
   consultationDurations = [15, 30, 45, 60];
+  sessionTypes = ['Séance unique', 'Double séance', 'Fermé'];
   governorates = [
     'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès',
     'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine', 'Kébili',
@@ -109,20 +109,44 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   editMode = false;
   tempLatitude?: number;
   tempLongitude?: number;
-  doctor!: Doctor;
+  doctor: Doctor = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    cin: '',
+    gender: 'MALE',
+    age: 0,
+    phoneNumber: '',
+    email: '',
+    billingAddress: '',
+    profilePhoto: '',
+    aptitudeCertificate: '',
+    education: [],
+    experience: [],
+    office: { 
+      address: '', 
+      governorate: '', 
+      latitude: 0, 
+      longitude: 0 
+    },
+    specializations: [],
+    languages: [],
+    paymentMethods: [],
+    consultationDuration: 30
+  };
+  days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-  constructor(private doctorService: DoctorService) { }
+  constructor(private doctorService: ProfileDoctorService) { }
 
   ngOnInit(): void {
     this.loadDoctorProfile();
-    console.log('Doctor data:', this.doctor);
-    localStorage.removeItem('currentDoctor');
   }
 
   ngAfterViewInit(): void {
     this.loadDoctorProfile();
+    // Délai pour la stabilisation du DOM
     setTimeout(() => {
-      if (this.doctor?.cabinet?.latitude && this.doctor?.cabinet?.longitude) {
+      if (this.doctor?.office?.latitude && this.doctor?.office?.longitude) {
         this.initMap(false);
       }
     }, 100);
@@ -134,120 +158,49 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  getGenderDisplay(gender: 'male' | 'female' | undefined): string {
-    return gender === 'male' ? 'Masculin' : gender === 'female' ? 'Féminin' : 'Non spécifié';
-  }
+  
 
-  getCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.tempLatitude = position.coords.latitude;
-          this.tempLongitude = position.coords.longitude;
-          if (this.marker) {
-            this.marker.setLatLng([this.tempLatitude, this.tempLongitude]);
-            this.map?.panTo([this.tempLatitude, this.tempLongitude]);
-          }
-          this.geolocationError = null;
-        },
-        (error) => {
-          this.handleGeolocationError(error);
-        }
-      );
-    } else {
-      this.geolocationError = 'La géolocalisation n\'est pas supportée par ce navigateur.';
-    }
+
+  getGenderDisplay(gender: 'MALE' | 'FEMALE' | undefined): string {
+    return gender === 'MALE' ? 'Masculin' :
+      gender === 'FEMALE' ? 'Féminin' :
+        'Non spécifié';
   }
 
   enableGlobalEdit() {
     this.editMode = true;
-    const clonedSchedule: any = {};
-    for (const day of this.days) {
-      clonedSchedule[day] = {
-        sessionType: this.doctor.practiceInfo.schedule[day].sessionType,
-        times: { ...this.doctor.practiceInfo.schedule[day].times }
-      };
-    }
 
     this.editedDoctor = {
-      ...this.doctor,
-      personalInfo: { ...this.doctor.personalInfo },
-      education: {
-        degrees: [...this.doctor.education?.degrees || []],
-        specialties: [...this.doctor.education?.specialties || []]
-      },
-      experience: {
-        positions: [...this.doctor.experience?.positions || []],
-        certification: this.doctor.experience?.certification
-          ? { ...this.doctor.experience.certification }
-          : undefined
-      },
-      cabinet: { ...this.doctor.cabinet },
-      practiceInfo: {
-        ...this.doctor.practiceInfo,
-        schedule: Object.keys(this.doctor.practiceInfo.schedule).reduce((acc, day) => {
-          acc[day] = {
-            sessionType: this.doctor.practiceInfo.schedule[day].sessionType,
-            times: { ...this.doctor.practiceInfo.schedule[day].times }
-          };
-          return acc;
-        }, {} as any)
-      }
+      id: this.doctor.id,
+      firstName: this.doctor.firstName || '',
+      lastName: this.doctor.lastName || '',
+      cin: this.doctor.cin || '',
+      gender: this.doctor.gender || 'MALE',
+      age: this.doctor.age || 0,
+      phoneNumber: this.doctor.phoneNumber || '',
+      email: this.doctor.email || '',
+      billingAddress: this.doctor.billingAddress || '',
+      profilePhoto: this.doctor.profilePhoto,
+      aptitudeCertificate: this.doctor.aptitudeCertificate,
+      education: [...this.doctor.education],
+      experience: [...this.doctor.experience],
+      office: { ...this.doctor.office },
+      specializations: [...this.doctor.specializations],
+      languages: [...this.doctor.languages || []],
+      paymentMethods: [...this.doctor.paymentMethods || []],
+      consultationDuration: this.doctor.consultationDuration || 30 // Valeur par défaut
     };
-
-    this.tempLatitude = this.editedDoctor.cabinet.latitude;
-    this.tempLongitude = this.editedDoctor.cabinet.longitude;
-
-    setTimeout(() => this.initMap(true), 100);
   }
 
-  async saveAllEdits() {
-    try {
-
-      if (!this.tempLatitude || !this.tempLongitude) {
-        this.geolocationError = 'Veuvez sélectionner une position valide sur la carte';
-        return;
-      }
-
-      this.editedDoctor.cabinet.latitude = this.tempLatitude;
-      this.editedDoctor.cabinet.longitude = this.tempLongitude;
-
-      await this.doctorService.updateDoctor(this.editedDoctor).toPromise();
-
-      this.loadDoctorProfile();
-      this.editMode = false;
-      this.geolocationError = null;
-
-      setTimeout(() => this.initMap(false), 100);
-    } catch (error) {
-      console.error('Erreur de sauvegarde', error);
-      this.geolocationError = 'Une erreur est survenue lors de la sauvegarde';
-    }
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      } else {
-        control.markAsTouched();
-      }
-    });
-  }
 
   addDegree() {
+    // Initialiser le tableau education si nécessaire
     if (!this.editedDoctor.education) {
-      this.editedDoctor.education = {
-        degrees: [],
-        specialties: []
-      };
+      this.editedDoctor.education = [];
     }
 
-    if (!this.editedDoctor.education.degrees) {
-      this.editedDoctor.education.degrees = [];
-    }
-
-    this.editedDoctor.education.degrees.push({
+    // Ajouter un nouvel objet Education
+    this.editedDoctor.education.push({
       degreeName: '',
       institution: '',
       year: new Date().getFullYear()
@@ -255,19 +208,22 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeDegree(index: number) {
-    if (this.editedDoctor.education?.degrees) {
-      this.editedDoctor.education.degrees.splice(index, 1);
+    // Utiliser directement le tableau education
+    if (this.editedDoctor.education) {
+      this.editedDoctor.education.splice(index, 1);
     }
   }
 
   private loadDoctorProfile(): void {
-    const doctor = this.doctorService.getCurrentDoctor();
-
-    // Debug: Vérifier la structure des données
-    console.log('Loaded Doctor:', JSON.parse(JSON.stringify(doctor)));
-
-
-    this.doctor = doctor || {};
+    this.doctorService.getCurrentDoctor().subscribe({
+      next: (doctor) => {
+        this.doctor = doctor;
+        if (this.doctor?.office?.latitude && this.doctor?.office?.longitude) {
+          this.initMap(false); // Appeler initMap avec le paramètre
+        }
+      },
+      error: (err) => console.error('Erreur de chargement', err)
+    });
   }
 
   private initMap(editable = false): void {
@@ -278,8 +234,8 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.map = null;
     }
 
-    const lat = this.tempLatitude || this.doctor?.cabinet?.latitude;
-    const lng = this.tempLongitude || this.doctor?.cabinet?.longitude;
+    const lat = this.tempLatitude || this.doctor?.office?.latitude;
+    const lng = this.tempLongitude || this.doctor?.office?.longitude;
 
     if (!lat || !lng) return;
 
@@ -303,17 +259,20 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private setupEditableMap(lat: number, lng: number): void {
     if (!this.map) return;
 
+    // Création d'un marker draggable
     this.marker = L.marker([lat, lng], {
       draggable: true,
       autoPan: true
     }).addTo(this.map);
 
+    // Gestion du déplacement du marker
     this.marker.on('dragend', (event) => {
       const position = event.target.getLatLng();
       this.tempLatitude = position.lat;
       this.tempLongitude = position.lng;
     });
 
+    // Gestion des clics sur la carte
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       this.tempLatitude = e.latlng.lat;
       this.tempLongitude = e.latlng.lng;
@@ -327,6 +286,7 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private setupViewMap(lat: number, lng: number): void {
     if (!this.map) return;
 
+    // Création d'un marker fixe
     L.marker([lat, lng], {
       icon: L.icon({
         iconUrl: 'assets/marker-icon.png',
@@ -337,14 +297,14 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     })
       .addTo(this.map)
-      .bindPopup(this.doctor?.cabinet?.address || 'Localisation du cabinet')
+      .bindPopup(this.doctor?.office?.address || 'Localisation du cabinet')
       .openPopup();
   }
 
   enableEditMode(): void {
     this.editMode = true;
-    this.tempLatitude = this.doctor?.cabinet?.latitude;
-    this.tempLongitude = this.doctor?.cabinet?.longitude;
+    this.tempLatitude = this.doctor?.office?.latitude;
+    this.tempLongitude = this.doctor?.office?.longitude;
 
     setTimeout(() => {
       this.initMap(true);
@@ -361,11 +321,11 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveLocation(): void {
-    if (this.tempLatitude && this.tempLongitude && this.doctor?.cabinet) {
-      this.doctor.cabinet.latitude = this.tempLatitude;
-      this.doctor.cabinet.longitude = this.tempLongitude;
+    if (this.tempLatitude && this.tempLongitude && this.doctor?.office && this.doctor.id) {
+      this.doctor.office.latitude = this.tempLatitude;
+      this.doctor.office.longitude = this.tempLongitude;
 
-      this.doctorService.updateCabinetInfo(this.doctor.cabinet).subscribe({
+      this.doctorService.updateCabinetInfo(this.doctor.id, this.doctor.office).subscribe({
         next: () => {
           this.editMode = false;
           this.initMap(false);
@@ -375,84 +335,171 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.doctorService.uploadProfilePhoto(file);
+  onFileSelected(event: any, type: 'profile' | 'aptitude'): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file && this.doctor?.id) {
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+
+      if (type === 'profile') {
+        this.doctorService.uploadProfilePhoto(this.doctor.id, formData).subscribe({
+          next: (updatedDoctor) => {
+            this.doctor = updatedDoctor;
+            if (this.editMode) this.editedDoctor.profilePhoto = updatedDoctor.profilePhoto;
+          },
+          error: (err) => console.error('Erreur upload photo', err)
+        });
+      } else {
+        this.doctorService.uploadAptitudeCertificate(this.doctor.id, formData).subscribe({
+          next: (updatedDoctor) => {
+            this.doctor = updatedDoctor;
+            if (this.editMode) this.editedDoctor.aptitudeCertificate = updatedDoctor.aptitudeCertificate;
+          },
+          error: (err) => console.error('Erreur upload certificat', err)
+        });
+      }
     }
   }
 
-  addSpecialty() {
+  addSpecialization() {
     if (this.selectedSpecialty) {
-      if (!this.editedDoctor.education) {
-        this.editedDoctor.education = {
-          degrees: [],
-          specialties: []
-        };
+      // Initialiser le tableau specializations si nécessaire
+      if (!this.editedDoctor.specializations) {
+        this.editedDoctor.specializations = [];
       }
 
-      this.editedDoctor.education.specialties.push({
-        name: this.selectedSpecialty.name,
-        aptitude: this.selectedSpecialty.aptitude
+      // Ajouter la nouvelle spécialisation
+      this.editedDoctor.specializations.push({
+        id: this.selectedSpecialty.id, // Supposant que votre modèle a un ID
+        name: this.selectedSpecialty.name
       });
+
       this.selectedSpecialty = null;
     }
   }
 
-  removeSpecialty(specialty: { name: string; aptitude: string }) {
-    if (this.editedDoctor.education?.specialties) {
-      this.editedDoctor.education.specialties =
-        this.editedDoctor.education.specialties.filter(s => s.name !== specialty.name);
+  removeSpecialization(specializationId: number) {
+    if (this.editedDoctor.specializations) {
+      this.editedDoctor.specializations =
+        this.editedDoctor.specializations.filter(s => s.id !== specializationId);
     }
   }
 
-  addPosition() {
+  addExperience() {
+    // Initialiser le tableau experience si nécessaire
     if (!this.editedDoctor.experience) {
-      this.editedDoctor.experience = { positions: [] };
+      this.editedDoctor.experience = [];
     }
-    this.editedDoctor.experience.positions.push({
+
+    // Ajouter une nouvelle expérience
+    this.editedDoctor.experience.push({
       position: '',
       hospital: '',
       duration: 0
     });
   }
 
-  removePosition(index: number) {
-    this.editedDoctor.experience?.positions?.splice(index, 1);
+  removeExperience(index: number) {
+    if (this.editedDoctor.experience) {
+      this.editedDoctor.experience.splice(index, 1);
+    }
   }
 
-  onCertificationUpload(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
+  onCertificationUpload(event: any, type: 'profile' | 'aptitude') {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file && this.doctor?.id) {
+      const field = type === 'profile' ? 'profilePhoto' : 'aptitudeCertificate';
+
+      this.handleFileUpload(file, field)
+        .then(() => {
+          const formData = new FormData();
+          formData.append('file', file, file.name);
+
+          if (type === 'profile') {
+            this.doctorService.uploadProfilePhoto(this.doctor.id, formData).subscribe({
+              next: (updatedDoctor) => {
+                this.doctor = updatedDoctor;
+                if (this.editMode) this.editedDoctor.profilePhoto = updatedDoctor.profilePhoto;
+              },
+              error: (err) => console.error('Erreur upload photo', err)
+            });
+          } else {
+            this.doctorService.uploadAptitudeCertificate(this.doctor.id, formData).subscribe({
+              next: (updatedDoctor) => {
+                this.doctor = updatedDoctor;
+                if (this.editMode) this.editedDoctor.aptitudeCertificate = updatedDoctor.aptitudeCertificate;
+              },
+              error: (err) => console.error('Erreur upload certificat', err)
+            });
+          }
+        })
+        .catch(error => console.error(error));
+    }
+  }
+
+  handleFileUpload(file: File, field: 'profilePhoto' | 'aptitudeCertificate'): Promise<void> {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+
       reader.onload = () => {
-        if (!this.editedDoctor.experience) {
-          this.editedDoctor.experience = { positions: [] };
+        if (!reader.result) {
+          reject(new Error('Échec de la lecture du fichier'));
+          return;
         }
 
-        this.editedDoctor.experience.certification = {
-          file: reader.result as string,
-          fileName: file.name,
-          fileSize: file.size
-        };
+        if (typeof reader.result === 'string') {
+          const base64 = reader.result.split(',')[1];
+          this.editedDoctor[field] = base64;
+          resolve();
+        } else {
+          reject(new Error('Format de fichier non supporté'));
+        }
       };
-    }
+
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
   }
 
   handleImageError(event: Event) {
     const img = event.target as HTMLImageElement;
     img.style.display = 'none';
+    // Vous pouvez ajouter une image de remplacement ici si nécessaire
   }
 
   get filteredSpecializations() {
     return this.specializations.filter(spec =>
-      !this.editedDoctor.education?.specialties?.some(s => s.name === spec.name)
+      !this.editedDoctor.specializations?.some((s: Specialization) => s.name === spec.name)
     );
   }
 
   isSpecialtyAdded(spec: any): boolean {
-    return this.editedDoctor.education?.specialties?.some(s => s.name === spec.name) || false;
+    return this.editedDoctor.specializations?.some((s: Specialization) => s.name === spec.name) || false;
+  }
+
+  getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.tempLatitude = position.coords.latitude;
+          this.tempLongitude = position.coords.longitude;
+          if (this.marker) {
+            this.marker.setLatLng([this.tempLatitude, this.tempLongitude]);
+            this.map?.panTo([this.tempLatitude, this.tempLongitude]);
+          }
+          this.geolocationError = null;
+        },
+        (error) => {
+          this.handleGeolocationError(error);
+        }
+      );
+    } else {
+      this.geolocationError = 'La géolocalisation n\'est pas supportée par ce navigateur.';
+    }
   }
 
   private handleGeolocationError(error: GeolocationPositionError) {
@@ -471,17 +518,26 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // Méthode pour le défilement
-scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
+  saveAllEdits() {
+    if (this.editedDoctor && this.doctor?.id) {
+      this.doctorService.updateDoctor(this.doctor.id, this.editedDoctor)
+        .subscribe({
+          next: (updatedDoctor) => {
+            this.doctor = updatedDoctor;
+            this.editMode = false;
+            this.initMap(false); // Recharger la carte si nécessaire
+            // Ajouter un feedback utilisateur si besoin
+            console.log('Modifications sauvegardées avec succès');
+          },
+          error: (err) => {
+            console.error('Erreur lors de la sauvegarde', err);
+            // Ajouter une gestion d'erreur utilisateur
+          }
+        });
+    }
+  }
+  get isGeolocationSupported(): boolean {
+    return !!navigator.geolocation;
+  }
 
-// Gestion de l'affichage du bouton
-@HostListener('window:scroll', [])
-onWindowScroll() {
-  this.showScrollButton = window.pageYOffset > 300;
-}
 }

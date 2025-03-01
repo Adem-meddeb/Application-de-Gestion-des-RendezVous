@@ -1,0 +1,43 @@
+<div class="home-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Prenez rendez-vous avec votre médecin en ligne</h1>
+        <p>Simplifiez votre santé avec notre plateforme de prise de rendez-vous médicale</p>
+    </section>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="Nom du médecin" [(ngModel)]="searchName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Spécialité</mat-label>
+            <mat-select [(ngModel)]="selectedSpecialty">
+                <mat-option *ngFor="let specialty of specialties" [value]="specialty">
+                    {{ specialty }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Gouvernorat</mat-label>
+            <mat-select [(ngModel)]="selectedLocation">
+                <mat-option *ngFor="let location of locations" [value]="location">
+                    {{ location }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="searchDoctors()">
+            <mat-icon>search</mat-icon>
+            Rechercher
+        </button>
+    </div>
+
+    <!-- Doctors List -->
+    <div class="doctors-grid">
+        <app-doctor-card *ngFor="let doctor of filteredDoctors" [doctor]="doctor">
+        </app-doctor-card>
+    </div>
+</div>

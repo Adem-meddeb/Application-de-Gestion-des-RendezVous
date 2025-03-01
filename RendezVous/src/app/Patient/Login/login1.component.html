@@ -1,0 +1,153 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <!-- Section Héro -->
+  <div class="hero-section">
+    <div class="hero-carousel">
+      <div class="carousel-item" *ngFor="let image of images; let i = index" [class.active]="i === currentImageIndex">
+        <img [src]="image" alt="Medical illustration" class="carousel-image">
+        <div class="carousel-overlay">
+          <h2 class="carousel-text">{{getCarouselText(i)}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Authentification -->
+  <div class="auth-section">
+    <div class="auth-card">
+
+      <!-- Sélecteur de mode -->
+      <div class="auth-switcher">
+        <button [class.active]="isLoginMode" (click)="switchMode(true)">
+          Connexion
+        </button>
+        <button [class.active]="!isLoginMode" (click)="switchMode(false)">
+          Inscription
+        </button>
+      </div>
+
+      <h1 class="auth-title">
+        <img src="assets/Logo.png" alt="Logo" class="logo">
+        <span>{{isLoginMode ? 'Vous avez déjà utilisé TabibNet ?' : 'Nouveau sur TabibNet ?'}}</span>
+      </h1>
+
+      <!-- Formulaire de Connexion -->
+      <form *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Adresse Email</label>
+          <input type="email" formControlName="email" placeholder="exemple@patient.com">
+          <i class="icon-user"></i>
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+            Veuillez entrer une adresse email valide
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" formControlName="password" placeholder="••••••••">
+          <i class="icon-lock"></i>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+            Le mot de passe doit contenir au moins 8 caractères
+          </div>
+        </div>
+
+        <div class="security-alert" *ngIf="loginAttempts > 2">
+          <i class="icon-shield"></i>
+          <span>Tentatives de connexion excessives - Veuillez patienter</span>
+        </div>
+
+        <button type="submit" class="auth-button">
+          <span>Connexion Sécurisée</span>
+          <i class="icon-arrow"></i>
+        </button>
+
+        <div class="auth-link">
+          <span>Nouveau patient ? </span>
+          <a (click)="switchMode(false)">Créer un compte</a>
+        </div>
+      </form>
+
+      <!-- Formulaire d'Inscription -->
+      <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        <div class="form-group">
+          <label>Nom Complet</label>
+          <input type="text" formControlName="fullName" placeholder="Adem Meddeb">
+          <i class="icon-user"></i>
+          <div *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched" class="error-message">
+            Le nom doit contenir au moins 3 caractères
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Adresse Email</label>
+          <input type="email" formControlName="email" placeholder="exemple@patient.com">
+          <i class="icon-mail"></i>
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
+            Veuillez entrer une adresse email valide
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" formControlName="phone" placeholder="12 345 678">
+          <i class="icon-phone"></i>
+          <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="error-message">
+            Numéro de téléphone invalide (8 chiffres)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" formControlName="password" placeholder="••••••••">
+          <i class="icon-lock"></i>
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+            Minimum 8 caractères avec majuscule et chiffre
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <input type="password" formControlName="confirmPassword" placeholder="••••••••">
+          <i class="icon-lock"></i>
+          <div *ngIf="registerForm.hasError('mismatch')" class="error-message">
+            Les mots de passe ne correspondent pas
+          </div>
+        </div>
+
+        <button type="submit" class="auth-button">
+          <span>Créer mon compte</span>
+          <i class="icon-arrow"></i>
+        </button>
+
+        <div class="auth-link">
+          <span>Déjà un compte ? </span>
+          <a (click)="switchMode(true)">Se connecter</a>
+        </div>
+      </form>
+
+      <!-- Social -->
+      <div class="social-auth">
+        <div class="separator">
+          <span>Ou continuer avec</span>
+        </div>
+      
+        <div class="social-buttons">
+          <button type="button" class="social-button google" (click)="loginWithGoogle()">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+              <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
+            </svg>
+            <span>Google</span>
+          </button>
+      
+          <button type="button" class="social-button facebook" (click)="loginWithFacebook()">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+              <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+            </svg>
+            <span>Facebook</span>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,65 +1,54 @@
 // doctor.model.ts
 export interface Doctor {
-    id?: string;
-    personalInfo: {
-      firstName: string;
-      lastName: string;
-      cin: string;
-      gender: 'male' | 'female';
-      age: number;
-      phone: string;
-      address: string;
-      email: string;
-      profilePhoto?: string;
+  id?: string;
+  firstName: string;
+  lastName: string;
+  cin: string;
+  gender: 'MALE' | 'FEMALE';
+  age: number;
+  phoneNumber: string;
+  email: string;
+  billingAddress: string;
+  password: string;
+  office: Office;
+  specializationIds: number[];
+  languages: string[];
+  paymentMethods: ('CASH' | 'CREDIT_CARD' | 'CHEQUE' | 'INSURANCE' | 'BANK_TRANSFER')[];
+  education: Education[];
+  experience: Experience[];
+  profilePhotoUrl?: string;
+  aptitudeCertificateUrl?: string;
+}
+
+export interface Office {
+  address: string;
+  governorate: string;
+  longitude: number;
+  latitude: number;
+}
+
+export interface Education {
+  name: string;
+  establishment: string;
+  year: number;
+}
+
+export interface Experience {
+  name: string;
+  establishment: string;
+  duration: string;
+}
+
+/* schedule: {
+  [day: string]: {
+    sessionType: string;
+    times: {
+      singleStart?: string;
+      singleEnd?: string;
+      firstStart?: string;
+      firstEnd?: string;
+      secondStart?: string;
+      secondEnd?: string;
     };
-    education?: {
-      degrees: Education[];
-      specialties: { name: string; aptitude: string }[];
-    };
-    experience?: {
-      positions: Experience[];
-      certification?: {
-        file: string;
-        fileName: string;
-        fileSize: number;
-      };
-    };
-    cabinet: Cabinet;
-    practiceInfo: {
-      languages: string[];
-      paymentMethods: string[];
-      consultationDuration: number;
-      schedule: {
-        [day: string]: {
-          sessionType: string;
-          times: {
-            singleStart?: string;
-            singleEnd?: string;
-            firstStart?: string;
-            firstEnd?: string;
-            secondStart?: string;
-            secondEnd?: string;
-          };
-        };
-      };
-    };
-  }
-  
-  export interface Education {
-    degreeName: string;
-    institution: string;
-    year: number;
-  }
-  
-  export interface Experience {
-    position: string;
-    hospital: string;
-    duration: number;
-  }
-  
-  export interface Cabinet {
-    address: string;
-    governorate: string;
-    latitude?: number;
-    longitude?: number;
-  }
+  };
+}; */

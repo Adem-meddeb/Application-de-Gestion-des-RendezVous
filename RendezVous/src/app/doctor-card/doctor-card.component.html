@@ -1,0 +1,35 @@
+<mat-card class="doctor-card">
+    <mat-card-header>
+      <div mat-card-avatar class="doctor-avatar"></div>
+      <mat-card-title>{{ doctor.name }}</mat-card-title>
+      <mat-card-subtitle>{{ doctor.specialty }}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-divider></mat-divider>
+  
+    <mat-card-content>
+      <div class="card-details">
+        <div class="detail-item">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ doctor.location }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>attach_money</mat-icon>
+          <span>{{ doctor.price }} DT</span>
+        </div>
+        <div class="detail-item">
+          <div class="rating">
+            <mat-icon *ngFor="let star of [1,2,3,4,5]">
+              {{ star <= doctor.rating ? 'star' : 'star_border' }}
+            </mat-icon>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="bookAppointment()">
+        Prendre Rendez-vous
+      </button>
+    </mat-card-actions>
+  </mat-card>

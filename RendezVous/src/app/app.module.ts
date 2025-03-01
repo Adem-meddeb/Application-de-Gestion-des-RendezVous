@@ -16,8 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider'; // Import manquant
 
 // Components
-import { Login1Component } from './Auth/Login/login1.component';
-import { RegisterComponent } from './Auth/register/register.component';
+import { Login1Component } from './Patient/Login/login1.component';
+import { RegisterComponent } from './Medécin/Auth/register/register.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { MatCardModule } from '@angular/material/card';
@@ -62,11 +62,17 @@ import { MedicalRecordComponent } from './Medécin/medical-record/medical-record
 import { DatePipe } from '@angular/common';
 import { TruncatePipe } from './Medécin/Pipes/truncate/truncate.pipe';
 import { MessageDetailComponent } from './Medécin/Notifs/message-detail/message-detail.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './Footers/footer/footer.component';
 import { QuiSommesNousComponent } from './Footers/qui-sommes-nous/qui-sommes-nous.component';
 import { MentionLegalesComponent } from './Footers/mention-legales/mention-legales.component';
 import { PolitiqueDeConfidentialiteComponent } from './Footers/politique-de-confidentialite/politique-de-confidentialite.component';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { LoginComponent } from './Medécin/Auth/login/login.component';
+import { HomeComponent } from './home/home.component';
+import { DoctorCardComponent } from './doctor-card/doctor-card.component';
+import { authGuard } from './Medécin/Auth/AuthGuard/auth.guard';
+import { authInterceptor } from './Medécin/Interceptor/auth.interceptor';
 
 
 
@@ -89,6 +95,9 @@ import { PolitiqueDeConfidentialiteComponent } from './Footers/politique-de-conf
     QuiSommesNousComponent,
     MentionLegalesComponent,
     PolitiqueDeConfidentialiteComponent,
+    LoginComponent,
+    HomeComponent,
+    DoctorCardComponent,
     
     
   ],
@@ -147,11 +156,38 @@ import { PolitiqueDeConfidentialiteComponent } from './Footers/politique-de-conf
     MatDividerModule,
     MatExpansionModule,
     MatListModule,
+
+    SocialLoginModule,
+
+    MatIconModule,
     
 
   ],
   providers: [
-    DatePipe // Ajoutez cette ligne
+    DatePipe,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              'YOUR_GOOGLE_CLIENT_ID' // Remplacez par votre ID client Google
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(
+              'YOUR_FACEBOOK_APP_ID' // Remplacez par votre ID d'application Facebook
+            )
+          },
+
+          { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true },
+          authGuard
+        ]
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

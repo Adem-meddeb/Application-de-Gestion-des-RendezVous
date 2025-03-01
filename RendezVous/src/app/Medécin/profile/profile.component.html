@@ -1,478 +1,475 @@
 <!-- profile.component.html -->
 <div class="dashboard-container">
-  <!-- Navbar -->
-  <nav class="navbar">
-    <h2 class="logo">
-      <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
-      TabibNet
-    </h2>
-    <ul class="nav-menu">
-      <li routerLink="/RendezVous" routerLinkActive="active">
-        <i class="fas fa-calendar-check"></i>
-        Mes RendezVous
-      </li>
-      <li routerLink="/Calendrier" routerLinkActive="active">
-        <i class="fas fa-calendar-alt"></i>
-        Calendrier
-      </li>
-      <li routerLink="/Messages" routerLinkActive="active">
-        <i class="fas fa-envelope"></i>
-        Messages
-      </li>
-      <li routerLink="/Profile" routerLinkActive="active">
-        <i class="fas fa-user-circle"></i>
-        Profile
-      </li>
-    </ul>
-  </nav>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2 class="logo">
+            <img src="assets/Logo.png" alt="TabibNet Logo" class="app-logo">
+            TabibNet
+        </h2>
+        <ul class="nav-menu">
+            <li routerLink="/RendezVous" routerLinkActive="active">
+                <i class="fas fa-calendar-check"></i>
+                Mes RendezVous
+            </li>
+            <li routerLink="/Calendrier" routerLinkActive="active">
+                <i class="fas fa-calendar-alt"></i>
+                Calendrier
+            </li>
+            <li routerLink="/Messages" routerLinkActive="active">
+                <i class="fas fa-envelope"></i>
+                Messages
+            </li>
+            <li routerLink="/Profile" routerLinkActive="active">
+                <i class="fas fa-user-circle"></i>
+                Profile
+            </li>
+        </ul>
+    </nav>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <div class="profile-container">
-      <!-- En-tête du profil -->
-      <mat-card class="profile-header">
-        <div class="header-content">
-          <img
-            [src]="(editMode ? editedDoctor.personalInfo.profilePhoto : doctor.personalInfo.profilePhoto) || 'assets/doc1.jpg'"
-            class="profile-photo">
-          <div class="header-info">
-            <div class="header-actions">
-              <button *ngIf="!editMode" mat-raised-button color="primary" (click)="enableGlobalEdit()">
-                <mat-icon>edit</mat-icon>
-                Modifier le profil
-              </button>
-              <div *ngIf="editMode" class="edit-actions">
-                <button mat-button (click)="cancelEdit()">
-                  <mat-icon>cancel</mat-icon>
-                  Annuler
-                </button>
-                <button mat-raised-button color="primary" (click)="saveAllEdits()">
-                  <mat-icon>save</mat-icon>
-                  Sauvegarder
-                </button>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="profile-container">
+
+            <!-- En-tête du profil -->
+            <mat-card class="profile-header">
+                <div class="header-content">
+                    <img [src]="(editMode ? editedDoctor?.profilePhoto : doctor?.profilePhoto) || 'assets/doc1.jpg'"
+                        class="profile-photo">
+                    <div class="header-info">
+                        <div class="header-actions">
+                            <button *ngIf="!editMode" mat-raised-button color="primary" (click)="enableGlobalEdit()">
+                                <mat-icon>edit</mat-icon>
+                                Modifier le profil
+                            </button>
+                            <div *ngIf="editMode" class="edit-actions">
+                                <button mat-button (click)="cancelEdit()">
+                                    <mat-icon>cancel</mat-icon>
+                                    Annuler
+                                </button>
+                                <button mat-raised-button color="primary" (click)="saveAllEdits()">
+                                    <mat-icon>save</mat-icon>
+                                    Sauvegarder
+                                </button>
+                            </div>
+                        </div>
+                        <h1>Dr. {{ (editMode ? editedDoctor?.firstName : doctor?.firstName) }}
+                            {{ (editMode ? editedDoctor?.lastName : doctor?.lastName) }}</h1>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- Informations Personnelles -->
+            <mat-card class="profile-section">
+                <h2><mat-icon>person</mat-icon> Informations Personnelles</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">CIN:</span>
+                        <span *ngIf="!editMode">{{ doctor?.cin }}</span>
+                        <mat-form-field *ngIf="editMode">
+                            <input matInput [(ngModel)]="editedDoctor.cin">
+                        </mat-form-field>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Genre:</span>
+                        <span *ngIf="!editMode">{{ getGenderDisplay(doctor.gender) }}</span>
+                        <mat-form-field *ngIf="editMode">
+                            <mat-select [(ngModel)]="editedDoctor.gender">
+                                <mat-option value="MALE">Masculin</mat-option>
+                                <mat-option value="FEMALE">Féminin</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Âge:</span>
+                        <span *ngIf="!editMode">{{ doctor?.age }} ans</span>
+                        <mat-form-field *ngIf="editMode">
+                            <input matInput [(ngModel)]="editedDoctor.age">
+                        </mat-form-field>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Téléphone:</span>
+                        <span *ngIf="!editMode">{{ doctor?.phoneNumber }}</span>
+                        <mat-form-field *ngIf="editMode">
+                            <input matInput [(ngModel)]="editedDoctor.phoneNumber">
+                        </mat-form-field>
+                    </div>
+                    <div class="info-item full-width">
+                        <span class="label">Adresse:</span>
+                        <span *ngIf="!editMode">{{ doctor?.billingAddress }}</span>
+                        <mat-form-field *ngIf="editMode">
+                            <textarea matInput [(ngModel)]="editedDoctor.billingAddress"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="info-item full-width">
+                        <span class="label">Email:</span>
+                        <span *ngIf="!editMode">{{ doctor?.email }}</span>
+                        <mat-form-field *ngIf="editMode">
+                            <textarea matInput [(ngModel)]="editedDoctor.email"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- Formation Académique -->
+            <mat-card class="profile-section">
+                <h2><mat-icon>school</mat-icon> Formation Académique</h2>
+                <mat-list>
+                    <div *ngFor="let degree of (editMode ? editedDoctor?.education : doctor?.education) || []; let i = index"
+                        class="degree-card">
+                        <mat-card>
+                            <div class="card-content">
+                                <div class="edit-controls" *ngIf="editMode">
+                                    <button mat-icon-button (click)="removeDegree(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="degree-header">
+                                    <mat-icon>library_books</mat-icon>
+                                    <div *ngIf="!editMode" class="degree-info">
+                                        <h3>{{ degree?.degreeName || 'Non renseigné' }}</h3>
+                                        <p>{{ degree?.institution || 'Établissement non précisé' }} - {{ degree?.year ||
+                                            'N/A' }}</p>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="editMode" class="edit-fields">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Diplôme" [(ngModel)]="degree.degreeName">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Établissement" [(ngModel)]="degree.institution">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput type="number" placeholder="Année" [(ngModel)]="degree.year">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <button *ngIf="editMode" mat-button (click)="addDegree()">
+                        <mat-icon>add</mat-icon>
+                        Ajouter un diplôme
+                    </button>
+                </mat-list>
+
+                <!-- Spécialités Médicales -->
+                <div class="specialties-section">
+                    <h3>Spécialités Médicales</h3>
+                    <div class="specialties-list">
+                        <mat-chip
+                            *ngFor="let specialty of (editMode ? editedDoctor?.specializations : doctor?.specializations) || []"
+                            (removed)="editMode && removeSpecialization(specialty.id)"> <!-- Retirer le '?' -->
+                            {{ specialty?.name || 'Spécialité sans nom' }}
+                            <mat-icon matChipRemove *ngIf="editMode">cancel</mat-icon>
+                        </mat-chip>
+
+                        <div *ngIf="editMode" class="add-specialty">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedSpecialty" placeholder="Sélectionner une spécialité">
+                                    <mat-option *ngFor="let spec of filteredSpecializations || []" [value]="spec"
+                                        [disabled]="isSpecialtyAdded(spec)">
+                                        {{ spec?.name || 'Nom non disponible' }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <button mat-raised-button color="primary" (click)="addSpecialization()"
+                                [disabled]="!selectedSpecialty">
+                                <mat-icon>add</mat-icon>
+                                Ajouter la spécialité
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- Expérience Professionnelle -->
+            <mat-card class="profile-section">
+                <h2><mat-icon>work</mat-icon> Expérience Professionnelle</h2>
+                <mat-list>
+                    <div *ngFor="let experience of (editMode ? editedDoctor?.experience : doctor?.experience) || []; let i = index"
+                        class="experience-card">
+                        <mat-card>
+                            <div class="card-content">
+                                <div class="edit-controls" *ngIf="editMode">
+                                    <button mat-icon-button (click)="removeExperience(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+
+                                <div class="experience-header">
+                                    <mat-icon>business</mat-icon>
+                                    <div *ngIf="!editMode" class="position-info">
+                                        <h3>{{ experience?.position || 'Poste non spécifié' }}</h3>
+                                        <div class="position-details">
+                                            <p class="hospital">{{ experience?.hospital || 'Établissement non précisé'
+                                                }}</p>
+                                            <p class="duration">{{ (experience?.duration || 0) }} ans</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="editMode" class="edit-fields">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Poste" [(ngModel)]="experience.position">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Hôpital" [(ngModel)]="experience.hospital">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput type="number" placeholder="Durée (ans)" [(ngModel)]="experience.duration">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <button *ngIf="editMode" mat-button (click)="addExperience()">
+                        <mat-icon>add</mat-icon>
+                        Ajouter une expérience
+                    </button>
+
+                    <!-- Certification Médicale -->
+                    <mat-divider></mat-divider>
+                    <div class="certification-section">
+                        <div class="certification-header">
+                            <mat-icon>verified</mat-icon>
+                            <h3>Certification Médicale</h3>
+                        </div>
+
+                        <div class="certification-body">
+                            <!-- Mode Visualisation -->
+                            <div *ngIf="!editMode" class="certification-view">
+                                <div class="certification-preview" *ngIf="doctor?.aptitudeCertificate">
+                                    <img [src]="'data:image/jpeg;base64,' + doctor?.aptitudeCertificate"
+                                        alt="Certification médicale" (error)="handleImageError($event)"
+                                        onerror="this.style.display='none'">
+                                </div>
+                                <p *ngIf="!doctor?.aptitudeCertificate" class="no-certification">
+                                    Aucun certificat uploadé
+                                </p>
+                            </div>
+
+                            <!-- Mode Édition -->
+                            <div *ngIf="editMode" class="certification-edit">
+                                <div class="upload-section">
+                                    <input type="file" hidden #certificationUpload
+                                        (change)="onCertificationUpload($event, 'aptitude')" accept="image/*, .pdf">
+                                    <button mat-raised-button (click)="certificationUpload.click()">
+                                        <mat-icon>upload</mat-icon>
+                                        Changer le fichier
+                                    </button>
+                                    <div *ngIf="editedDoctor?.aptitudeCertificate" class="file-meta">
+                                        <mat-icon>description</mat-icon>
+                                        <span>Certificat d'aptitude</span>
+                                    </div>
+                                </div>
+
+                                <div class="certification-preview" *ngIf="editedDoctor?.aptitudeCertificate">
+                                    <img [src]="'data:image/jpeg;base64,' + editedDoctor?.aptitudeCertificate"
+                                        alt="Aperçu certification" (error)="handleImageError($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-list>
+            </mat-card>
+
+            <!-- Cabinet Médical -->
+            <mat-card class="profile-section">
+                <h2><mat-icon>local_hospital</mat-icon> Cabinet Médical</h2>
+                <div class="info-grid">
+                    <div class="info-item full-width">
+                        <span class="label">Adresse:</span>
+                        <span *ngIf="!editMode">{{ doctor?.office?.address || 'Non renseignée' }}</span>
+                        <mat-form-field *ngIf="editMode" class="full-width">
+                            <textarea matInput [(ngModel)]="editedDoctor.office.address"
+                                placeholder="Adresse complète du cabinet"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Gouvernorat:</span>
+                        <span *ngIf="!editMode">{{ doctor?.office?.governorate || 'Non spécifié' }}</span>
+                        <mat-form-field *ngIf="editMode">
+                            <mat-select [(ngModel)]="editedDoctor.office.governorate"
+                                placeholder="Sélectionnez un gouvernorat">
+                                <mat-option *ngFor="let gov of governorates" [value]="gov" [disabled]="!gov">
+                                    {{ gov || 'Gouvernorat invalide' }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Section Géolocalisation -->
+                <div class="geo-section">
+                    <h4><mat-icon>location_on</mat-icon> Localisation</h4>
+
+                    <div *ngIf="editMode" class="edit-geo">
+                        <div class="form-row">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Latitude</mat-label>
+                                <input matInput type="number" [(ngModel)]="tempLatitude" min="-90" max="90"
+                                    step="0.0001">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Longitude</mat-label>
+                                <input matInput type="number" [(ngModel)]="tempLongitude" min="-180" max="180"
+                                    step="0.0001">
+                            </mat-form-field>
+                        </div>
+
+                        <div id="editMap" class="map-container"></div>
+
+                        <button mat-raised-button color="primary" (click)="getCurrentLocation()"
+                        [disabled]="!isGeolocationSupported">
+                            <mat-icon>my_location</mat-icon>
+                            Utiliser ma position actuelle
+                        </button>
+                        <mat-error *ngIf="geolocationError" class="geo-error">
+                            {{ geolocationError || 'Erreur de géolocalisation' }}
+                        </mat-error>
+                    </div>
+
+                    <div *ngIf="!editMode" class="view-geo">
+                        <div id="viewMap" class="map-container"></div>
+                        <div class="coordinates">
+                            <span>Latitude: {{ (doctor?.office?.latitude ?? 0) | number:'1.4-4' }}</span>
+                            <span>Longitude: {{ (doctor?.office?.longitude ?? 0) | number:'1.4-4' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- Pratique Médicale -->
+            <mat-card class="profile-section">
+                <h2><mat-icon>medical_services</mat-icon> Pratique Médicale</h2>
+                <div class="info-grid">
+                    <!-- Langues -->
+                    <div class="info-item full-width">
+                        <span class="label">Langues parlées:</span>
+                        <span *ngIf="!editMode">{{ doctor?.languages?.join(', ') || 'Non spécifié' }}</span>
+                        <mat-form-field *ngIf="editMode" class="full-width">
+                            <mat-select multiple [(ngModel)]="editedDoctor.languages"
+                                placeholder="Sélectionnez les langues">
+                                <mat-option *ngFor="let lang of languages || []" [value]="lang" [disabled]="!lang">
+                                    {{ lang || 'Langue non définie' }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Paiements -->
+                    <div class="info-item full-width">
+                        <span class="label">Modes de paiement:</span>
+                        <span *ngIf="!editMode">{{ doctor?.paymentMethods?.join(', ') || 'Non spécifié' }}</span>
+                        <mat-form-field *ngIf="editMode" class="full-width">
+                            <mat-select multiple [(ngModel)]="editedDoctor.paymentMethods"
+                                placeholder="Sélectionnez les modes de paiement">
+                                <mat-option *ngFor="let method of paymentMethods || []" [value]="method">
+                                    {{ method || 'Méthode inconnue' }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Durée consultation -->
+                    <div class="info-item">
+                        <span class="label">Durée de consultation:</span>
+                        <span *ngIf="!editMode">{{ doctor?.consultationDuration ?? 0 }} minutes</span>
+                        <mat-form-field *ngIf="editMode">
+                            <mat-select [(ngModel)]="editedDoctor.consultationDuration" placeholder="Durée par défaut">
+                                <mat-option *ngFor="let duration of consultationDurations" [value]="duration"
+                                    [disabled]="!duration">
+                                    {{ (duration ?? 0) }} minutes
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--
+
+ Disponibilités (version améliorée) 
+<mat-card class="profile-section">
+    <h2><mat-icon>schedule</mat-icon> Disponibilités</h2>
+    <div class="availability">
+      <div *ngFor="let day of days" class="day-schedule">
+        <h3>{{ day }}</h3>
+        <ng-container *ngIf="getDaySchedule(day.toLowerCase()) as schedule">
+          <div *ngIf="schedule">
+            <div *ngIf="!editMode">
+              <div *ngIf="schedule.sessionType === 'Fermé'" class="closed">
+                Fermé
+              </div>
+              <div *ngIf="schedule.sessionType === 'Séance unique'" class="time-slot">
+                <mat-icon>access_time</mat-icon>
+                {{ schedule.times.singleStart || '--:--' }} - {{ schedule.times.singleEnd || '--:--' }}
+              </div>
+              <div *ngIf="schedule.sessionType === 'Double séance'" class="time-slots">
+                <div class="time-slot">
+                  <mat-icon>brightness_5</mat-icon>
+                  {{ schedule.times.firstStart || '--:--' }} - {{ schedule.times.firstEnd || '--:--' }}
+                </div>
+                <div class="time-slot">
+                  <mat-icon>brightness_4</mat-icon>
+                  {{ schedule.times.secondStart || '--:--' }} - {{ schedule.times.secondEnd || '--:--' }}
+                </div>
               </div>
             </div>
-            <h1>Dr. {{ (editMode ? editedDoctor.personalInfo.firstName : doctor.personalInfo.firstName) }}
-              {{ (editMode ? editedDoctor.personalInfo.lastName : doctor.personalInfo.lastName) }}</h1>
-          </div>
-        </div>
-      </mat-card>
 
-      <!-- Informations Personnelles -->
-      <mat-card class="profile-section">
-        <h2><mat-icon>person</mat-icon> Informations Personnelles</h2>
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="label">CIN:</span>
-            <span *ngIf="!editMode">{{ doctor.personalInfo.cin }}</span>
-            <mat-form-field *ngIf="editMode">
-              <input matInput [(ngModel)]="editedDoctor.personalInfo.cin">
-            </mat-form-field>
-          </div>
-          <div class="info-item">
-            <span class="label">Genre:</span>
-            <span *ngIf="!editMode">{{ getGenderDisplay(doctor.personalInfo.gender) }}</span>
-            <mat-form-field *ngIf="editMode">
-              <mat-select [(ngModel)]="editedDoctor.personalInfo.gender">
-                <mat-option value="male">Masculin</mat-option>
-                <mat-option value="female">Féminin</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="info-item">
-            <span class="label">Âge:</span>
-            <span *ngIf="!editMode">{{ doctor.personalInfo.age }} ans</span>
-            <mat-form-field *ngIf="editMode">
-              <input matInput [(ngModel)]="editedDoctor.personalInfo.age">
-            </mat-form-field>
-          </div>
-          <div class="info-item">
-            <span class="label">Téléphone:</span>
-            <span *ngIf="!editMode">{{ doctor.personalInfo.phone }}</span>
-            <mat-form-field *ngIf="editMode">
-              <input matInput [(ngModel)]="editedDoctor.personalInfo.phone">
-            </mat-form-field>
-          </div>
-          <div class="info-item full-width">
-            <span class="label">Adresse:</span>
-            <span *ngIf="!editMode">{{ doctor.personalInfo.address }}</span>
-            <mat-form-field *ngIf="editMode">
-              <textarea matInput [(ngModel)]="editedDoctor.personalInfo.address"></textarea>
-            </mat-form-field>
-          </div>
-          <div class="info-item full-width">
-            <span class="label">Email:</span>
-            <span *ngIf="!editMode">{{ doctor.personalInfo.email }}</span>
-            <mat-form-field *ngIf="editMode">
-              <textarea matInput [(ngModel)]="editedDoctor.personalInfo.email"></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-      </mat-card>
-
-      <!-- Formation Académique -->
-      <mat-card class="profile-section">
-        <h2><mat-icon>school</mat-icon> Formation Académique</h2>
-        <mat-list>
-          <div
-            *ngFor="let degree of (editMode ? editedDoctor?.education?.degrees : doctor?.education?.degrees); let i = index"
-            class="degree-card">
-            <mat-card>
-              <div class="card-content">
-                <div class="edit-controls" *ngIf="editMode">
-                  <button mat-icon-button (click)="removeDegree(i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-
-                <div class="degree-header">
-                  <mat-icon>library_books</mat-icon>
-                  <div *ngIf="!editMode" class="degree-info">
-                    <h3>{{ degree?.degreeName }}</h3>
-                    <p>{{ degree?.institution }} - {{ degree?.year }}</p>
-                  </div>
-                </div>
-
-                <div *ngIf="editMode" class="edit-fields">
-                  <mat-form-field>
-                    <input matInput placeholder="Diplôme" [(ngModel)]="degree.degreeName">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Établissement" [(ngModel)]="degree.institution">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput type="number" placeholder="Année" [(ngModel)]="degree.year">
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-card>
-          </div>
-          <button *ngIf="editMode" mat-button (click)="addDegree()">
-            <mat-icon>add</mat-icon>
-            Ajouter un diplôme
-          </button>
-        </mat-list>
-        <!-- Ajouter cette section après la liste des diplômes -->
-        <div class="specialties-section">
-          <h3>Spécialités Médicales</h3>
-          <div class="specialties-list">
-            <mat-chip
-              *ngFor="let specialty of (editMode ? editedDoctor?.education?.specialties : doctor?.education?.specialties)"
-              (removed)="editMode && removeSpecialty(specialty)">
-              {{ specialty.name }}
-              <mat-icon matChipRemove *ngIf="editMode">cancel</mat-icon>
-            </mat-chip>
-
-            <div *ngIf="editMode" class="add-specialty">
+             Mode édition
+            <div *ngIf="editMode" class="edit-schedule">
               <mat-form-field>
-                <mat-select [(ngModel)]="selectedSpecialty" placeholder="Sélectionner une spécialité">
-                  <mat-option *ngFor="let spec of filteredSpecializations" [value]="spec"
-                    [disabled]="isSpecialtyAdded(spec)">
-                    {{ spec.name }}
-                  </mat-option>
+                <mat-select [(ngModel)]="schedule.sessionType"
+                  (selectionChange)="updateTimeValidation(day.toLowerCase(), schedule)">
+                  <mat-option *ngFor="let type of sessionTypes" [value]="type">{{ type }}</mat-option>
                 </mat-select>
               </mat-form-field>
 
-              <button mat-raised-button color="primary" (click)="addSpecialty()">
-                <mat-icon>add</mat-icon>
-                Ajouter la spécialité
-              </button>
-            </div>
-          </div>
-        </div>
-      </mat-card>
-
-      <!-- Expérience Professionnelle -->
-      <mat-card class="profile-section">
-        <h2><mat-icon>work</mat-icon> Expérience Professionnelle</h2>
-        <mat-list>
-          <div
-            *ngFor="let position of (editMode ? editedDoctor?.experience?.positions : doctor?.experience?.positions); let i = index"
-            class="experience-card">
-            <mat-card>
-              <div class="card-content">
-                <div class="edit-controls" *ngIf="editMode">
-                  <button mat-icon-button (click)="removePosition(i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-
-                <div class="experience-header">
-                  <mat-icon>business</mat-icon>
-                  <div *ngIf="!editMode" class="position-info">
-                    <h3>{{ position?.position }}</h3>
-                    <div class="position-details">
-                      <p class="hospital">{{ position?.hospital }}</p>
-                      <p class="duration">{{ position?.duration }} ans</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="editMode" class="edit-fields">
-                  <mat-form-field>
-                    <input matInput placeholder="Poste" [(ngModel)]="position.position">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Hôpital" [(ngModel)]="position.hospital">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput type="number" placeholder="Durée (ans)" [(ngModel)]="position.duration">
-                  </mat-form-field>
-                </div>
-              </div>
-
-            </mat-card>
-            <button *ngIf="editMode" mat-button (click)="addPosition()">
-              <mat-icon>add</mat-icon>
-              Ajouter une expérience
-            </button>
-          </div>
-
-          <!-- Certification -->
-          <mat-divider></mat-divider>
-          <!-- Certification Médicale -->
-          <div class="certification-section">
-            <div class="certification-header">
-              <mat-icon>verified</mat-icon>
-              <h3>Certification Médicale</h3>
-            </div>
-
-            <div class="certification-body">
-              <!-- Mode Visualisation -->
-              <div *ngIf="!editMode" class="certification-view">
-                <div class="certification-preview" *ngIf="doctor.experience?.certification?.file">
-                  <img [src]="doctor.experience?.certification?.file" alt="Certification médicale"
-                    (error)="handleImageError($event)">
-                </div>
-                <div class="certification-details">
-                  <div class="file-info">
-                    <span class="file-name">{{ doctor.experience?.certification?.fileName }}</span>
-                    <span class="file-size">
-                      ({{ ((doctor.experience?.certification?.fileSize ?? 0) / 4096).toFixed(2) }} Ko)
-                    </span>
-                  </div>
-                  <a mat-stroked-button color="primary" [href]="doctor.experience?.certification?.file" download
-                    target="_blank">
-                    <mat-icon>download</mat-icon>
-                    Télécharger
-                  </a>
-                </div>
-              </div>
-
-              <!-- Mode Édition -->
-              <div *ngIf="editMode" class="certification-edit">
-                <div class="upload-section">
-                  <input type="file" hidden #certificationUpload (change)="onCertificationUpload($event)"
-                    accept="image/*, .pdf">
-                  <button mat-raised-button (click)="certificationUpload.click()">
-                    <mat-icon>upload</mat-icon>
-                    Changer le fichier
-                  </button>
-                  <div *ngIf="editedDoctor.experience?.certification?.fileName" class="file-meta">
-                    <mat-icon>description</mat-icon>
-                    <span>{{ editedDoctor.experience?.certification?.fileName }}</span>
-                  </div>
-                </div>
-
-                <div class="certification-preview" *ngIf="editedDoctor.experience?.certification?.file">
-                  <img [src]="editedDoctor.experience?.certification?.file" alt="Aperçu certification">
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-        </mat-list>
-      </mat-card>
-
-      <!-- Cabinet Médical -->
-      <mat-card class="profile-section">
-        <h2><mat-icon>local_hospital</mat-icon> Cabinet Médical</h2>
-        <div class="info-grid">
-          <div class="info-item full-width">
-            <span class="label">Adresse:</span>
-            <span *ngIf="!editMode">{{ doctor.cabinet.address }}</span>
-            <mat-form-field *ngIf="editMode" class="full-width">
-              <textarea matInput [(ngModel)]="editedDoctor.cabinet.address"></textarea>
-            </mat-form-field>
-          </div>
-
-          <div class="info-item">
-            <span class="label">Gouvernorat:</span>
-            <span *ngIf="!editMode">{{ doctor.cabinet.governorate }}</span>
-            <mat-form-field *ngIf="editMode">
-              <mat-select [(ngModel)]="editedDoctor.cabinet.governorate">
-                <mat-option *ngFor="let gov of governorates" [value]="gov">
-                  {{ gov }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <!-- Section Géolocalisation -->
-        <div class="geo-section">
-          <h4><mat-icon>location_on</mat-icon> Localisation</h4>
-
-          <div *ngIf="editMode" class="edit-geo">
-            <div class="form-row">
-              <mat-form-field appearance="outline">
-                <mat-label>Latitude</mat-label>
-                <input matInput type="number" [(ngModel)]="tempLatitude">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Longitude</mat-label>
-                <input matInput type="number" [(ngModel)]="tempLongitude">
-              </mat-form-field>
-            </div>
-
-            <div id="editMap" class="map-container"></div>
-
-            <button mat-raised-button color="primary" (click)="getCurrentLocation()">
-              <mat-icon>my_location</mat-icon>
-              Utiliser ma position actuelle
-            </button>
-            <mat-error *ngIf="geolocationError" class="geo-error">
-              {{ geolocationError }}
-            </mat-error>
-          </div>
-
-          <div *ngIf="!editMode" class="view-geo">
-            <div id="viewMap" class="map-container"></div>
-            <div class="coordinates">
-              <span>Latitude: {{ doctor.cabinet.latitude | number:'1.4-4' }}</span>
-              <span>Longitude: {{ doctor.cabinet.longitude | number:'1.4-4' }}</span>
-            </div>
-          </div>
-        </div>
-      </mat-card>
-
-      <!-- Pratique Médicale -->
-      <mat-card class="profile-section">
-        <h2><mat-icon>medical_services</mat-icon> Pratique Médicale</h2>
-        <div class="info-grid">
-          <!-- Langues -->
-          <div class="info-item full-width">
-            <span class="label">Langues parlées:</span>
-            <span *ngIf="!editMode">{{ doctor.practiceInfo.languages.join(', ') }}</span>
-            <mat-form-field *ngIf="editMode" class="full-width">
-              <mat-select multiple [(ngModel)]="editedDoctor.practiceInfo.languages">
-                <mat-option *ngFor="let lang of languages" [value]="lang">{{ lang }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <!-- Paiements -->
-          <div class="info-item full-width">
-            <span class="label">Modes de paiement:</span>
-            <span *ngIf="!editMode">{{ doctor.practiceInfo.paymentMethods.join(', ') }}</span>
-            <mat-form-field *ngIf="editMode" class="full-width">
-              <mat-select multiple [(ngModel)]="editedDoctor.practiceInfo.paymentMethods">
-                <mat-option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <!-- Durée consultation -->
-          <div class="info-item">
-            <span class="label">Durée de consultation:</span>
-            <span *ngIf="!editMode">{{ doctor.practiceInfo.consultationDuration }} minutes</span>
-            <mat-form-field *ngIf="editMode">
-              <mat-select [(ngModel)]="editedDoctor.practiceInfo.consultationDuration">
-                <mat-option *ngFor="let duration of consultationDurations" [value]="duration">
-                  {{ duration }} minutes
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </mat-card>
-
-      <!-- Remplacer la section des horaires par -->
-      <mat-card class="profile-section">
-        <h2><mat-icon>schedule</mat-icon> Horaires de travail</h2>
-
-        <div *ngIf="doctor?.practiceInfo?.schedule">
-          <div *ngFor="let day of days" class="day-section">
-            <h3>{{ day | titlecase }}</h3>
-
-            <!-- Mode visualisation -->
-            <div *ngIf="!editMode">
-              <!-- Ajouter le point d'interrogation pour la navigation sécurisée -->
-              <p>Type de séance : {{ doctor.practiceInfo.schedule[day].sessionType || 'Non défini' }}</p>
-
-              <div *ngIf="doctor.practiceInfo.schedule[day]?.sessionType === 'Séance unique'">
-                {{ doctor.practiceInfo.schedule[day].times.singleStart || '--:--' }} -
-                {{ doctor.practiceInfo.schedule[day].times.singleEnd || '--:--' }}
-              </div>
-
-              <div *ngIf="doctor.practiceInfo.schedule[day]?.sessionType === 'Double séance'">
-                Séance 1: {{ doctor.practiceInfo.schedule[day].times.firstStart || '--:--' }}-{{
-                doctor.practiceInfo.schedule[day].times.firstEnd || '--:--' }}<br>
-                Séance 2: {{ doctor.practiceInfo.schedule[day].times.secondStart || '--:--' }}-{{
-                doctor.practiceInfo.schedule[day].times.secondEnd || '--:--' }}
-              </div>
-            </div>
-
-            <!-- Mode édition -->
-            <div *ngIf="editMode">
-              <mat-radio-group [(ngModel)]="editedDoctor.practiceInfo.schedule[day].sessionType">
-                <mat-radio-button *ngFor="let type of sessionTypes" [value]="type">
-                  {{ type }}
-                </mat-radio-button>
-              </mat-radio-group>
-
-              <!-- Séance unique -->
-              <div *ngIf="editedDoctor.practiceInfo.schedule[day].sessionType === 'Séance unique'" class="time-inputs">
+              <div *ngIf="schedule.sessionType === 'Séance unique'" class="time-fields">
                 <mat-form-field>
-                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.singleStart"
-                    required>
+                  <input matInput type="time" [(ngModel)]="schedule.times.singleStart" required>
                 </mat-form-field>
-                <span>à</span>
                 <mat-form-field>
-                  <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.singleEnd"
-                    required>
+                  <input matInput type="time" [(ngModel)]="schedule.times.singleEnd" required>
                 </mat-form-field>
               </div>
 
-              <!-- Double séance -->
-              <div *ngIf="editedDoctor.practiceInfo.schedule[day].sessionType === 'Double séance'" class="time-inputs">
-                <div class="session">
-                  <h4>Première séance</h4>
+              <div *ngIf="schedule.sessionType === 'Double séance'" class="time-fields">
+                <div class="session-group">
+                  <h4>Matin</h4>
                   <mat-form-field>
-                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.firstStart"
-                      required>
+                    <input matInput type="time" [(ngModel)]="schedule.times.firstStart" required>
                   </mat-form-field>
-                  <span>à</span>
                   <mat-form-field>
-                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.firstEnd"
-                      required>
+                    <input matInput type="time" [(ngModel)]="schedule.times.firstEnd" required>
                   </mat-form-field>
                 </div>
-                <div class="session">
-                  <h4>Deuxième séance</h4>
+                <div class="session-group">
+                  <h4>Après-midi</h4>
                   <mat-form-field>
-                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.secondStart"
-                      required>
+                    <input matInput type="time" [(ngModel)]="schedule.times.secondStart" required>
                   </mat-form-field>
-                  <span>à</span>
                   <mat-form-field>
-                    <input matInput type="time" [(ngModel)]="editedDoctor.practiceInfo.schedule[day].times.secondEnd"
-                      required>
+                    <input matInput type="time" [(ngModel)]="schedule.times.secondEnd" required>
                   </mat-form-field>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </mat-card>
-
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <!-- Bouton Scroll to Top -->
-  <button *ngIf="showScrollButton" mat-fab class="scroll-top-button" (click)="scrollToTop()"
-    aria-label="Retour en haut">
-    <mat-icon>keyboard_arrow_up</mat-icon>
-  </button>
-</div>
+  </mat-card>
+
+-->
