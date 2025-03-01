@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/doctors/a/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/appointments").hasRole("PATIENT")// new +3
                         .requestMatchers(HttpMethod.PATCH, "/api/appointments/*/status").hasAnyRole("DOCTOR", "ADMIN")

@@ -1,13 +1,11 @@
 package com.example.firstTry.services;
 
+import com.example.firstTry.Enums.NotificationType;
+import com.example.firstTry.dto.NotificationDto;
 import com.example.firstTry.model.*;
 import com.example.firstTry.repository.NotificationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -54,56 +52,9 @@ public class NotificationService {
                 notification.getTimestamp()
         );
     }
-    
-    
- // Ajouter la méthode de service
- // Dans NotificationService.java (Spring)
-    public Notification markAsRead(Long id) {
-        Notification notification = notificationRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Notification non trouvée"));
-        
-        if (!notification.getIsRead()) {
-            notification.setIsRead(true);
-            notification = notificationRepository.save(notification);
-            
-            NotificationDto dto = convertToDto(notification);
-            String topic = determineRecipientTopic(notification);
-            messagingTemplate.convertAndSend(topic, dto); // Doit envoyer la notification mise à jour
-        }
-        
-        return notification;
-    }
-
-    private String determineRecipientTopic(Notification notification) {
-        if (notification.getAdminRecipient() != null) {
-            return "/topic/admin/" + notification.getAdminRecipient().getId();
-        } else if (notification.getDoctorRecipient() != null) {
-            return "/topic/doctor/" + notification.getDoctorRecipient().getId();
-        } else {
-            return "/topic/patient/" + notification.getPatientRecipient().getId();
-        }
-    }
 
     // Should show in console when notifications are sent
 
-    public void notifyNewAppointment(Doctor doctor, Appointment appointment) {
-        String message = String.format(
-                "New appointment request from %s on %s",
-                appointment.getPatient().getFullname(),
-                formatDateTime(appointment.getConsultationDateTime())
-        );
-
-        Notification notification = new Notification();
-        notification.setDoctorRecipient(doctor);
-        notification.setMessage(message);
-        notification.setType(NotificationType.APPOINTMENT_REQUEST);
-        notificationRepository.save(notification);
-
-        messagingTemplate.convertAndSend(
-                "/topic/doctor/" + doctor.getId(),
-                convertToDto(notification)
-        );
-    }
 
     private String formatDateTime(LocalDateTime dateTime) {
         return dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' hh:mm a"));
@@ -119,7 +70,7 @@ public class NotificationService {
         notification.setType(type);
         notificationRepository.save(notification);
 
-        messagingTemplate.convertAndSend("/topic/doctor/" + doctor.getId(), notification);
+        messagingTemplate.convertAndSend("/topic/doctor/" + doctor.getId(), convertToDto(notification));
     }
 
 
@@ -134,7 +85,7 @@ public class NotificationService {
         notification.setType(type);
         notificationRepository.save(notification);
 
-        messagingTemplate.convertAndSend("/topic/patient/" + patient.getId(), notification);
+        messagingTemplate.convertAndSend("/topic/patient/" + patient.getId(), convertToDto(notification));
     }
 
     // Retrieve notifications

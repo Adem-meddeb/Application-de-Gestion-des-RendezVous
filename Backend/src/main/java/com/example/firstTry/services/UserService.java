@@ -1,11 +1,11 @@
 package com.example.firstTry.services;
 
+import com.example.firstTry.Enums.NotificationType;
 import com.example.firstTry.model.*;
 import com.example.firstTry.repository.AdminRepository;
 import com.example.firstTry.repository.DoctorRepository;
 import com.example.firstTry.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,10 +45,6 @@ public class UserService implements UserDetailsService {
         return adminRepository.save(admin);
     }
 
-//    public Doctor registerDoctor(Doctor doctor) {
-//        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-//        return doctorRepository.save(doctor);
-//    } old version without notification ---------------------------------
     public Doctor registerDoctor(Doctor doctor) {
         doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
         doctor.setEnabled(false); // Doctor needs admin approval
@@ -66,6 +62,8 @@ public class UserService implements UserDetailsService {
 
         return savedDoctor;
     }
+
+
 
 
     public Patient registerPatient(Patient patient) {

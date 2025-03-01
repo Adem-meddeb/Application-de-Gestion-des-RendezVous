@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,13 +27,6 @@ public class NotificationController {
     public ResponseEntity<List<Notification>> getAdminNotifications(Authentication authentication) {
         Admin admin = (Admin) authentication.getPrincipal();
         return ResponseEntity.ok(notificationService.getAdminNotifications(admin));
-    }
-    
- // Ajouter un nouveau endpoint dans NotificationController.java
-    @PutMapping("/{id}/read")
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
-    public ResponseEntity<Notification> markNotificationAsRead(@PathVariable Long id) {
-        return ResponseEntity.ok(notificationService.markAsRead(id));
     }
 
     @PreAuthorize("hasRole('DOCTOR')")

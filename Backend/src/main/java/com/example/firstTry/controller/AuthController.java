@@ -1,14 +1,19 @@
 package com.example.firstTry.controller;
 
 import com.example.firstTry.dto.AuthRequest;
+import com.example.firstTry.dto.DoctorRequestDTO;
+import com.example.firstTry.dto.DoctorResponseDTO;
 import com.example.firstTry.dto.UserResponse;
 import com.example.firstTry.model.Admin;
 import com.example.firstTry.model.Doctor;
 import com.example.firstTry.model.Patient;
 import com.example.firstTry.model.User;
 import com.example.firstTry.security.jwt.JwtService;
+import com.example.firstTry.services.DoctorService;
 import com.example.firstTry.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,6 +32,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final DoctorService doctorService;
 
     @PostMapping("/register/admin")
     public ResponseEntity<?> registerAdmin(@RequestBody Admin admin) {
@@ -34,13 +40,19 @@ public class AuthController {
         String token = jwtService.generateToken(savedAdmin);
         return ResponseEntity.ok(Map.of("token", token));
     }
-
+//
+//    @PostMapping("/register/doctor")
+//    public ResponseEntity<?> registerDoctor(@RequestBody Doctor doctor) {
+//        Doctor savedDoctor = userService.registerDoctor(doctor);
+//        return ResponseEntity.ok().body(
+//                Map.of("message", "Doctor registration pending approval")
+//        );
+//    }
     @PostMapping("/register/doctor")
-    public ResponseEntity<?> registerDoctor(@RequestBody Doctor doctor) {
-        Doctor savedDoctor = userService.registerDoctor(doctor);
-        return ResponseEntity.ok().body(
-                Map.of("message", "Doctor registration pending approval")
-        );
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<DoctorResponseDTO> createDoctor(
+            @Valid @RequestBody DoctorRequestDTO doctorRequest) {
+        return ResponseEntity.ok(doctorService.createDoctor(doctorRequest));
     }
 
     @PostMapping("/register/patient")
@@ -51,22 +63,7 @@ public class AuthController {
         return ResponseEntity.ok(new UserResponse(savedPatient, token));
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
-//        UserDetails userDetails = userService.loadUserByUsername(request.getEmail());
-//
-//        if (!userDetails.isEnabled()) {
-//            throw new DisabledException("Account not approved");
-//        }
-//        if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
-//            throw new BadCredentialsException("Invalid credentials");
-//        }
-//
-//        // Cast UserDetails to User
-//        User user = (User) userDetails;
-//        String token = jwtService.generateToken(user);
-//        return ResponseEntity.ok(new UserResponse(user, token));
-//    }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {

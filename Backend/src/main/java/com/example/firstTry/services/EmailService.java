@@ -26,7 +26,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             Context context = new Context();
-            context.setVariable("name", doctor.getFullname());
+            context.setVariable("name", doctor.getFirstName()+" "+doctor.getLastName());
             context.setVariable("loginUrl", "https://your-app.com/login");
 
             String htmlContent = templateEngine.process("doctor-approval-email", context);
@@ -55,7 +55,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             Context context = new Context();
-            context.setVariable("name", doctor.getFullname());
+            context.setVariable("name", doctor.getFirstName()+" "+doctor.getLastName());
             context.setVariable("loginUrl", "https://your-app.com/login");
 
             String htmlContent = templateEngine.process("doctor-declined-email", context);

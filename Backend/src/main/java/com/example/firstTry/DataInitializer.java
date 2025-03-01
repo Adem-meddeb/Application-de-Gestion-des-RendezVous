@@ -1,7 +1,7 @@
 package com.example.firstTry;
 
 import com.example.firstTry.model.Admin;
-import com.example.firstTry.model.Role;
+import com.example.firstTry.Enums.Role;
 import com.example.firstTry.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +21,8 @@ public class DataInitializer implements CommandLineRunner {
             admin.setEmail("admin@hospital.com");
             admin.setPassword(encoder.encode("admin123"));
             admin.setRole(Role.ROLE_ADMIN);
+            admin.setFirstName("ali");
+            admin.setLastName("yassin");
             adminRepository.save(admin);
         }
     }

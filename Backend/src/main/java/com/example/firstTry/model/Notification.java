@@ -1,5 +1,6 @@
 package com.example.firstTry.model;
 
+import com.example.firstTry.Enums.NotificationType;
 import jakarta.persistence.*;
 import lombok.Data;
 

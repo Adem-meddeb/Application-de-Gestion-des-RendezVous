@@ -27,7 +27,7 @@ public class AdminService {
         Doctor savedDoctor=doctorRepository.save(doctor);
         System.out.printf("Doctor approved: %s\n", savedDoctor);
         System.out.printf("==== SENDING DOCTOR APPROVED MAIL====\n");
-        emailService.sendDoctorApprovalEmail(savedDoctor);
+        //emailService.sendDoctorApprovalEmail(savedDoctor);
 
         return savedDoctor ;
     }
@@ -39,7 +39,7 @@ public class AdminService {
         doctor.setEnabled(false);
         System.out.printf("Doctor approved: %s\n", doctor);
         System.out.printf("==== SENDING DOCTOR DECLINED MAIL====\n");
-        emailService.sendDoctorDeclinedEmail(doctor);
+        //emailService.sendDoctorDeclinedEmail(doctor);
         doctorRepository.deleteById(doctorId); // Direct deletion (adjust if you need soft-delete)
     }
 

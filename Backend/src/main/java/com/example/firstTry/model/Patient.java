@@ -1,6 +1,6 @@
 package com.example.firstTry.model;
 
-import jakarta.persistence.DiscriminatorValue;
+import com.example.firstTry.Enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
